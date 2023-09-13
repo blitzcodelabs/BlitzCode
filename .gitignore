@@ -180,3 +180,10 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+frontend/generated/
+frontend/themes/hilla-react-app
+node_modules/
+vite.generated.ts
+.idea/
+.idea/misc.xml
+
