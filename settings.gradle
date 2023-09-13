@@ -1,0 +1,9 @@
+pluginManagement {
+  repositories {
+      maven { url = 'https://maven.vaadin.com/vaadin-prereleases' }
+      gradlePluginPortal()
+  }
+  plugins {
+    id 'dev.hilla' version "${hillaVersion}"
+  }
+}
