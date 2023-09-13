@@ -11,6 +11,8 @@ plugins {
 	id 'dev.hilla' version "$hillaVersion"
 }
 
+java.toolchain.languageVersion = JavaLanguageVersion.of(20)
+
 repositories {
 	mavenCentral()
 	maven { setUrl("https://maven.vaadin.com/vaadin-prereleases") }
