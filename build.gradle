@@ -1,24 +1,26 @@
 buildscript {
 	repositories {
    		mavenCentral()
-		maven { setUrl("https://maven.vaadin.com/vaadin-prereleases") }
+		maven { url "https://maven.vaadin.com/vaadin-prereleases" }
 	}
 }
+
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.0.6'
-	id 'io.spring.dependency-management' version '1.1.0'
-	id 'dev.hilla' version "$hillaVersion"
+	id 'org.springframework.boot' version '3.1.3'
+	id 'io.spring.dependency-management' version '1.1.3'
+	id 'dev.hilla' version "2.2.0"
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(20)
 
 repositories {
 	mavenCentral()
-	maven { setUrl("https://maven.vaadin.com/vaadin-prereleases") }
-
 	maven {
-		setUrl("https://maven.vaadin.com/vaadin-addons")
+		url "https://maven.vaadin.com/vaadin-prereleases"
+	}
+	maven {
+		url "https://maven.vaadin.com/vaadin-addons"
 	}
 }
 
@@ -30,6 +32,6 @@ dependencies {
 
 dependencyManagement {
 	imports {
-		mavenBom "dev.hilla:hilla-bom:$hillaVersion"
+		mavenBom "dev.hilla:hilla-bom:2.2.0"
 	}
 }
