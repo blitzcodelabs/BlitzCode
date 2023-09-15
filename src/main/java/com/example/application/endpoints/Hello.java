@@ -1,4 +1,4 @@
-package com.example.application.endpoints.helloreact;
+package com.example.application.endpoints;
 
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import dev.hilla.Endpoint;
@@ -6,7 +6,7 @@ import dev.hilla.Nonnull;
 
 @Endpoint
 @AnonymousAllowed
-public class HelloReactEndpoint {
+public class Hello {
 
     @Nonnull
     public String sayHello(@Nonnull String name) {
