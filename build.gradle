@@ -1,12 +1,10 @@
 plugins {
-	id 'java'
+	id 'dev.hilla' version '2.2.0'
 	id 'org.springframework.boot' version '3.1.3'
-	id 'io.spring.dependency-management' version '1.1.3'
-	id 'dev.hilla' version "2.2.0"
 	id 'com.github.ben-manes.versions' version '0.48.0'
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(20)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 repositories {
 	mavenCentral()
