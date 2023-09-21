@@ -1,4 +1,4 @@
-package com.example.application.endpoints;
+package org.blitzcode.app.endpoints;
 
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import dev.hilla.Endpoint;

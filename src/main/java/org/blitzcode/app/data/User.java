@@ -1,4 +1,4 @@
-package com.example.application.data;
+package org.blitzcode.app.data;
 
 import dev.hilla.Nonnull;
 import jakarta.persistence.*;

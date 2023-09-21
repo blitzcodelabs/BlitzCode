@@ -1,7 +1,6 @@
-# skeleton-starter-hilla-react-gradle
+# BlitzCode
 
-This project can be used as a starting point to create your own Hilla application with React, Spring Boot, and Gradle.
-It contains all the necessary configuration and some placeholder files to get you started.
+A learning platform for experienced developers.
 
 ## Running the application
 

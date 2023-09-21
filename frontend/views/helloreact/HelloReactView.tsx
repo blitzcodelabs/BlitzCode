@@ -1,7 +1,7 @@
 import { Button } from '@hilla/react-components/Button.js';
 import { Notification } from '@hilla/react-components/Notification.js';
 import { TextField } from '@hilla/react-components/TextField.js';
-import { HelloReactEndpoint } from 'Frontend/generated/endpoints.js';
+import { Hello } from 'Frontend/generated/endpoints.js';
 import { useState } from 'react';
 
 export default function HelloReactView() {
@@ -18,7 +18,7 @@ export default function HelloReactView() {
         />
         <Button
           onClick={async () => {
-            const serverResponse = await HelloReactEndpoint.sayHello(name);
+            const serverResponse = await Hello.sayHello(name);
             Notification.show(serverResponse);
           }}
         >
