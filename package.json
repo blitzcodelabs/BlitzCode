@@ -77,7 +77,12 @@
     "@hilla/generator-typescript-plugin-backbone": "$@hilla/generator-typescript-plugin-backbone",
     "@hilla/generator-typescript-cli": "$@hilla/generator-typescript-cli",
     "@vaadin/bundles": "$@vaadin/bundles",
-    "@hilla/react-form": "$@hilla/react-form"
+    "@hilla/react-form": "$@hilla/react-form",
+    "class-variance-authority": "$class-variance-authority",
+    "clsx": "$clsx",
+    "lucide-react": "$lucide-react",
+    "tailwind-merge": "$tailwind-merge",
+    "tailwindcss-animate": "$tailwindcss-animate"
   },
   "vaadin": {
     "dependencies": {
@@ -117,6 +122,6 @@
       "workbox-core": "7.0.0",
       "workbox-precaching": "7.0.0"
     },
-    "hash": "c8c393e567946ae9e80acf3934e884c049f153aa3b4bfa9fa2761a34bf67eede"
+    "hash": "0f4252a718f089553ab08fac4cae86ca1b49bbd4f653aa490353f2746addea71"
   }
 }
