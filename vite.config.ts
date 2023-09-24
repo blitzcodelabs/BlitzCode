@@ -1,3 +1,4 @@
+import path from "path";
 import react from '@vitejs/plugin-react';
 import type { UserConfigFn } from 'vite';
 import { overrideVaadinConfig } from './vite.generated';
@@ -10,6 +11,9 @@ const customConfig: UserConfigFn = (env) => ({
       include: '**/*.tsx',
     }),
   ],
+  alias: {
+    "@frontend": path.resolve(__dirname, "./frontend")
+  }
 });
 
 export default overrideVaadinConfig(customConfig);

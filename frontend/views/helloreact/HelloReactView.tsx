@@ -1,7 +1,7 @@
 import { Button } from '@hilla/react-components/Button.js';
 import { Notification } from '@hilla/react-components/Notification.js';
 import { TextField } from '@hilla/react-components/TextField.js';
-import { Hello } from 'Frontend/generated/endpoints.js';
+import { Hello } from '@frontend/generated/endpoints.js';
 import { useState } from 'react';
 
 export default function HelloReactView() {
