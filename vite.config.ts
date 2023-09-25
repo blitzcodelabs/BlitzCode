@@ -10,7 +10,12 @@ const customConfig: UserConfigFn = (env) => ({
     react({
       include: '**/*.tsx',
     }),
-  ]
+  ],
+  resolve: {
+    alias: {
+      "@frontend": path.resolve(__dirname, "./frontend"),
+    },
+  }
 });
 
 export default overrideVaadinConfig(customConfig);

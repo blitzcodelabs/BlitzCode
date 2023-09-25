@@ -1,6 +1,6 @@
-import router from 'Frontend/routes';
+import router from '@frontend/routes';
 import { RouterProvider } from 'react-router-dom';
-import "Frontend/globals.css"
+import "@frontend/globals.css"
 
 export default function App() {
   return <RouterProvider router={router} />;
