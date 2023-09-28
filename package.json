@@ -15,7 +15,6 @@
     "@hilla/react-components": "2.1.7",
     "@hilla/react-form": "2.2.0",
     "@polymer/polymer": "3.5.1",
-    "@vaadin-component-factory/vcf-nav": "1.1.0",
     "@vaadin/bundles": "24.1.7",
     "@vaadin/common-frontend": "0.0.18",
     "@vaadin/router": "1.7.5",
@@ -62,7 +61,6 @@
     "lit": "$lit",
     "@polymer/polymer": "$@polymer/polymer",
     "@hilla/react-components": "$@hilla/react-components",
-    "@vaadin-component-factory/vcf-nav": "$@vaadin-component-factory/vcf-nav",
     "classnames": "$classnames",
     "react": "$react",
     "react-dom": "$react-dom",
@@ -122,6 +120,6 @@
       "workbox-core": "7.0.0",
       "workbox-precaching": "7.0.0"
     },
-    "hash": "0f4252a718f089553ab08fac4cae86ca1b49bbd4f653aa490353f2746addea71"
+    "hash": "721603ca82ef5e16b15acc43658b5c8bb9c0f78df1644a728c7db812a2ce1568"
   }
 }
