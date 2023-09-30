@@ -22,6 +22,8 @@
     "classnames": "^2.3.2",
     "clsx": "^2.0.0",
     "construct-style-sheets-polyfill": "3.1.0",
+    "firebase": "^10.4.0",
+    "formik": "^2.4.5",
     "lit": "2.7.6",
     "lucide-react": "^0.279.0",
     "react": "^18.2.0",
@@ -80,7 +82,9 @@
     "clsx": "$clsx",
     "lucide-react": "$lucide-react",
     "tailwind-merge": "$tailwind-merge",
-    "tailwindcss-animate": "$tailwindcss-animate"
+    "tailwindcss-animate": "$tailwindcss-animate",
+    "firebase": "$firebase",
+    "formik": "$formik"
   },
   "vaadin": {
     "dependencies": {
@@ -120,6 +124,6 @@
       "workbox-core": "7.0.0",
       "workbox-precaching": "7.0.0"
     },
-    "hash": "721603ca82ef5e16b15acc43658b5c8bb9c0f78df1644a728c7db812a2ce1568"
+    "hash": "01f7d7fe78ce4ff93504ef58fd160cdbfb7718afeb8ac75d04c4b14795febddc"
   }
 }

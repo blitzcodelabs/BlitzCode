@@ -34,7 +34,42 @@
  
     --radius: 0.5rem;
   }
- 
+
+  .input-field {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+
+  .submit-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .input-field:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+
+  /* Style for input validation error */
+  .input-field:invalid {
+    border-color: red;
+  }
+
+  /* Style for error message (if you have one) */
+  .error-message {
+    color: red;
+    font-size: 12px;
+  }
+
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
