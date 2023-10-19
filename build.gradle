@@ -1,8 +1,8 @@
 plugins {
-	id 'dev.hilla' version '2.2.0'
-	id 'org.springframework.boot' version '3.1.4'
-	id 'com.github.ben-manes.versions' version '0.48.0'
-	id 'io.freefair.lombok' version '8.3'
+	id 'dev.hilla' version '2.2.2'
+	id 'org.springframework.boot' version '3.1.5'
+	id 'com.github.ben-manes.versions' version '0.49.0'
+	id 'io.freefair.lombok' version '8.4'
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
@@ -12,15 +12,14 @@ repositories {
 }
 
 dependencies {
-	implementation 'dev.hilla:hilla-react-spring-boot-starter:2.2.0'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.1.4'
-	implementation 'org.springframework.boot:spring-boot-starter-security:3.1.4'
+	implementation 'dev.hilla:hilla-react-spring-boot-starter:2.2.2'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.1.5'
+	implementation 'org.springframework.boot:spring-boot-starter-security:3.1.5'
 	implementation 'org.postgresql:postgresql:42.6.0'
 
-	developmentOnly 'org.springframework.boot:spring-boot-devtools:3.1.4'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.4'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools:3.1.5'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.5'
 }
-lombok.version = '1.18.30'
 
 if (hasProperty('buildScan')) {
 	buildScan {
