@@ -1,19 +1,6 @@
-import { VariantProps, cva } from "class-variance-authority";
-import Link from "next/link";
-import React, { ComponentPropsWithRef } from "react";
-
-type ButtonOrLinkProps = ComponentPropsWithRef<"button"> &
-  ComponentPropsWithRef<"a">;
-
-interface Props extends ButtonOrLinkProps, VariantProps<typeof styles> {}
-
-const ButtonOrLink = ({ href, ...props }: Props) => {
-  return href !== undefined ? (
-    <Link href={href} {...props}></Link>
-  ) : (
-    <button {...props}></button>
-  );
-};
+import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
+import { ButtonHTMLAttributes, ComponentPropsWithRef, forwardRef } from "react";
 
 const styles = cva(
   "rounded py-8 w-512 text-background text-center uppercase transition-colors duration-300 hover:bg-secondary",
@@ -30,8 +17,19 @@ const styles = cva(
   }
 );
 
-const Button = ({ intent, ...props }: Props) => {
-  return <ButtonOrLink className={styles({ intent })} {...props} />;
-};
+export interface Props
+  extends ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof styles> {
+  asChild?: boolean;
+}
 
+const Button = forwardRef<HTMLButtonElement, Props>(
+  ({ className, intent, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button";
+    return (
+      <Comp className={styles({ intent, className })} ref={ref} {...props} />
+    );
+  }
+);
+Button.displayName = "Button";
 export default Button;

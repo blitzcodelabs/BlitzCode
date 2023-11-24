@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "@/components/ui/Button";
+import Link from "next/link";
 
 const Home = () => {
   return (
@@ -16,8 +17,12 @@ const Home = () => {
 
       {/* Buttons */}
       <div className="flex flex-col justify-center items-center gap-16">
-        <Button intent={"accent"} href="get-started">get started</Button>
-        <Button href="login"><span className="text-sm">i alrady have an account</span></Button>
+        <Button intent={"accent"} asChild>
+          <Link href="get-started">get started</Link>
+        </Button>
+        <Button className="text-sm" asChild>
+          <Link href="login">i alrady have an account</Link>
+        </Button>
       </div>
     </main>
   );

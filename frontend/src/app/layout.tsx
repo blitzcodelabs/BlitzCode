@@ -24,7 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${rubik.variable} ${jetbrains_mono.variable} font-sans`}>
+      <body className={`${rubik.variable} ${jetbrains_mono.variable}`}>
         {children}
       </body>
     </html>

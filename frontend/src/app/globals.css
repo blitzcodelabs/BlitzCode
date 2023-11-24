@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply mx-auto w-2/3 max-w-[1024px];
+    @apply mx-auto w-2/3 max-w-[1024px] font-sans;
   }
   h1 {
     @apply font-mono text-2xl text-secondary;
