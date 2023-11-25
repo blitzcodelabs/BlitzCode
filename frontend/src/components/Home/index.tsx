@@ -20,7 +20,7 @@ const Home = () => {
         <Button intent={"accent"} asChild>
           <Link href="get-started">get started</Link>
         </Button>
-        <Button className="text-sm" asChild>
+        <Button className="text-base" asChild>
           <Link href="login">i alrady have an account</Link>
         </Button>
       </div>

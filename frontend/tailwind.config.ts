@@ -14,8 +14,8 @@ const config: Config = {
       primary: "#B784FF",
       secondary: "#4F3E98",
       accent: "#5DDEE8",
-      success: "5FBD48",
-      fail: "FE6D74"
+      success: "#5FBD48",
+      fail: "#FE6D74"
     },
     borderRadius: {
       DEFAULT: "0.5rem"
@@ -28,6 +28,7 @@ const config: Config = {
       mono: ['var(--font-jetbrains-mono)'],
     },
     spacing: {
+      0: "0px",
       4: "0.25rem",
       8: "0.5rem",
       16: "1rem",
