@@ -12,7 +12,9 @@ const Home = () => {
           src="logo.svg"
           alt="logo"
         />
-        <h1 className="heading">Become fluent in a programming language.</h1>
+        <h1 className="text-center text-2xl">
+          Become fluent in a new programming language.
+        </h1>
       </div>
 
       {/* Buttons */}

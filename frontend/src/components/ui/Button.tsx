@@ -12,8 +12,8 @@ const styles = cva(
         accent: "bg-accent ",
       },
       size: {
-        full: "w-256",
-        half: "w-128",
+        full: "w-512",
+        half: "w-256",
       },
     },
     defaultVariants: {
@@ -30,11 +30,11 @@ interface Props
 }
 
 const Button = forwardRef<HTMLButtonElement, Props>(
-  ({ className, intent, asChild = false, ...props }, ref) => {
+  ({ className, intent, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
-        className={twMerge(styles({ intent, className }))}
+        className={twMerge(styles({ intent, size, className }))}
         ref={ref}
         {...props}
       />

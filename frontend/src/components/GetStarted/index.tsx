@@ -3,12 +3,7 @@
 import Button from "../ui/Button";
 import LanguageGroup from "../ui/LanguageGroup";
 import Link from "next/link";
-import {
-  type Control,
-  Controller,
-  SubmitHandler,
-  useForm,
-} from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 interface Inputs {
   baseLanguage: string;
@@ -45,9 +40,7 @@ const GetStarted = () => {
               validate: (v) => v !== getValues("languageToLearn"),
             }}
             render={({ field }) => (
-              <LanguageGroup
-                onValueChange={field.onChange}
-              ></LanguageGroup>
+              <LanguageGroup onValueChange={field.onChange}></LanguageGroup>
             )}
           ></Controller>
         </div>
@@ -63,15 +56,15 @@ const GetStarted = () => {
               validate: (v) => v !== getValues("baseLanguage"),
             }}
             render={({ field }) => (
-              <LanguageGroup
-                onValueChange={field.onChange}
-              ></LanguageGroup>
+              <LanguageGroup onValueChange={field.onChange}></LanguageGroup>
             )}
           ></Controller>
         </div>
 
-        <Button type="submit" disabled={!isDirty || !isValid}>
-          next
+        <Button type="submit" disabled={!isDirty || !isValid} size="half">
+          <Link href={"get-started/tutorial"} className="block">
+            next
+          </Link>
         </Button>
       </form>
     </main>
