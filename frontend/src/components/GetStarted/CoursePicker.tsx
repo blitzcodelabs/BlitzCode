@@ -21,7 +21,9 @@ const CoursePicker = () => {
     defaultValues: { baseLanguage: "", languageToLearn: "" },
   });
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    console.log(data);
+  };
 
   return (
     <form

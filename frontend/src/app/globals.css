@@ -6,7 +6,9 @@
   body {
     @apply mx-auto w-1024 font-sans;
   }
-  h1, label {
+
+  h1,
+  label {
     @apply font-mono text-3xl text-secondary;
   }
 }
