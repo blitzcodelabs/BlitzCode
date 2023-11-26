@@ -6,7 +6,7 @@ import Button from "../ui/Button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import TextField from "../ui/TextField";
-import ErrorText from "../ui/ErrorText";
+import ErrorSlot from "../ui/ErrorSlot";
 import { useRouter } from "next/navigation";
 
 const signUpSchema = z
@@ -26,20 +26,16 @@ const SignUp = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors, isSubmitting },
     reset,
   } = useForm<SignUpSchema>({ resolver: zodResolver(signUpSchema) });
 
   const { push } = useRouter();
   const onSubmit = async (data: SignUpSchema) => {
-    reset();
     await new Promise((resolve) => setTimeout(resolve, 1000));
+    reset();
     push("/dashboard");
   };
-
-  useEffect(() => {
-    reset();
-  }, [isSubmitSuccessful, reset]);
 
   return (
     <main className="flex justify-center">
@@ -64,13 +60,13 @@ const SignUp = () => {
         </div>
 
         {Object.values(errors).length !== 0 && (
-          <ErrorText className="self-start">
+          <ErrorSlot className="self-start">
             <ul className="list-disc list-inside">
               {Object.values(errors).map((error, index) => (
                 <li key={index}>{error.message}</li>
               ))}
             </ul>
-          </ErrorText>
+          </ErrorSlot>
         )}
 
         <Button disabled={isSubmitting} type="submit">

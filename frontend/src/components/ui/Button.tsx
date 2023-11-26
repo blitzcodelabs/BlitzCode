@@ -1,6 +1,6 @@
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
-import { ButtonHTMLAttributes, forwardRef } from "react";
+import { ButtonHTMLAttributes, ComponentPropsWithoutRef, forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 const styles = cva(
@@ -10,10 +10,12 @@ const styles = cva(
       intent: {
         primary: "bg-primary",
         accent: "bg-accent ",
+        secondary: "bg-secondary hover:bg-background hover:text-secondary"
       },
       size: {
         full: "w-512",
         half: "w-256",
+        quarter: "w-128"
       },
     },
     defaultVariants: {
@@ -24,7 +26,7 @@ const styles = cva(
 );
 
 interface Props
-  extends ButtonHTMLAttributes<HTMLButtonElement>,
+  extends ComponentPropsWithoutRef<"button">,
     VariantProps<typeof styles> {
   asChild?: boolean;
 }
