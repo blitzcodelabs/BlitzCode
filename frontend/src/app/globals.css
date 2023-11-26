@@ -4,9 +4,9 @@
 
 @layer base {
   body {
-    @apply mx-auto w-2/3 max-w-[1024px] font-sans;
+    @apply mx-auto w-1024 font-sans;
   }
-  h1 {
+  h1, label {
     @apply font-mono text-3xl text-secondary;
   }
 }

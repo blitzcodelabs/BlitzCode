@@ -36,7 +36,8 @@ const config: Config = {
       64: "4rem",
       128: "8rem",
       256: "16rem",
-      512: "32rem"
+      512: "32rem",
+      1024: "64rem"
     }
   },
   plugins: [],
