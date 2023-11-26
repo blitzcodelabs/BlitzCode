@@ -16,7 +16,7 @@ const signUpSchema = z
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords must match.",
+    message: "Passwords must match",
     path: ["confirmPassword"],
   });
 

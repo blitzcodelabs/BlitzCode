@@ -15,7 +15,7 @@ const styles = cva(
       size: {
         full: "w-512",
         half: "w-256",
-        quarter: "w-128"
+        quarter: "w-128 text-base"
       },
     },
     defaultVariants: {
