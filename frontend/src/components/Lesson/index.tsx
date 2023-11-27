@@ -35,7 +35,7 @@ const Lesson = () => {
 
   return (
     <>
-      <header className="w-full p-128 flex items-center">
+      <nav className="w-full p-128 flex items-center">
         <Link href="dashboard" className="absolute -translate-x-64">
           <Cross1Icon className="w-32 h-32 hover:stroke-secondary text-secondary"></Cross1Icon>
         </Link>
@@ -50,8 +50,8 @@ const Lesson = () => {
             }}
           ></Progress.Indicator>
         </Progress.Root>
-      </header>
-      <main className="h-screen flex flex-col items-center">
+      </nav>
+      <main className="flex flex-col items-center">
         {questionIndex < questions.length ? (
           <div className="flex flex-col justify-center items-center gap-64">
             <div className="flex flex-col gap-32">
