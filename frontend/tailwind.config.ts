@@ -18,7 +18,8 @@ const config: Config = {
       fail: "#FE6D74"
     },
     borderRadius: {
-      DEFAULT: "0.5rem"
+      DEFAULT: "0.5rem",
+      full: "9999px"
     },
     borderWidth: {
       DEFAULT: "2px"

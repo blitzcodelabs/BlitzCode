@@ -1,25 +1,15 @@
 "use client";
 
-import Nav from "./Nav";
+import Header from "./Header";
 import { modules } from "@/placeholders/modules.json";
-import { Module } from "@/lib/types";
-import {
-  Content,
-  Header,
-  Item,
-  Root,
-  Trigger,
-} from "@radix-ui/react-accordion";
+import { Content, Item, Root, Trigger } from "@radix-ui/react-accordion";
 import Button from "../ui/Button";
+import Link from "next/link";
 
 const Dashboard = () => {
-  // const res = modules.at(0)?.lessons.at(0)?.name;
-  // console.log(res);
-  const moduleList = modules as Module[];
-
   return (
     <>
-      <Nav></Nav>
+      <Header></Header>
       <main className="mb-32">
         <Root type="single" className="flex flex-col gap-16" collapsible>
           {modules.map((module) => (
@@ -44,9 +34,12 @@ const Dashboard = () => {
                         key={lesson.name}
                         intent="secondary"
                         className="p-16 w-full text-lg flex justify-between font-mono normal-case"
+                        asChild
                       >
-                        <p>{lesson.name}</p>
-                        <p>{`${lesson.progress}%`}</p>
+                        <Link href="lesson">
+                          <p>{lesson.name}</p>
+                          <p>{`${lesson.progress}%`}</p>
+                        </Link>
                       </Button>
                     ))}
                   </div>
