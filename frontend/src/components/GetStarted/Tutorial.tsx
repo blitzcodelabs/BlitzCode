@@ -7,7 +7,7 @@ const Tutorial = () => {
     <div className="h-screen flex flex-col justify-center items-center gap-64">
       <img src="tutorial.svg" alt="tutorial" />
       <Button size="half" asChild>
-        <Link href={"sign-up"}>next</Link>
+        <Link href={"sign-up"}>sign up</Link>
       </Button>
     </div>
   );
