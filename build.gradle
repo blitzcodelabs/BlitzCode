@@ -14,15 +14,10 @@ repositories {
 }
 
 dependencies {
-//    implementation 'com.okta.spring:okta-spring-boot-starter:3.0.5'
     implementation 'org.springframework.boot:spring-boot-starter-data-neo4j'
-    implementation 'org.springframework.boot:spring-boot-starter-graphql'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    testImplementation 'org.springframework.boot:spring-boot-starter-webflux'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.graphql:spring-graphql-test'
 }
 
 test {
