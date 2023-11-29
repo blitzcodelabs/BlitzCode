@@ -1,5 +1,6 @@
 package org.blitzcode.api.rest;
 
+import org.springframework.boot.json.JsonParserFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +31,7 @@ public class NoAuthController {
 
     public record UserInfo(String email, String password) {}
 
-    // firebase sign in
+    // not sure if this is safe?
     @PostMapping("/signin")
     public String signIn(@RequestBody UserInfo userInfo) throws IOException, InterruptedException {
         try (var client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build()) {
@@ -40,8 +41,8 @@ public class NoAuthController {
                     .setHeader("content-type", "application/json")
                     .build();
 
-            var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return response.body();
+            var response = client.send(request, HttpResponse.BodyHandlers.ofString()).body();
+            return (String) JsonParserFactory.getJsonParser().parseMap(response).get("idToken");
         }
     }
 
