@@ -1,0 +1,35 @@
+type Query {
+    companyList(page: Int): [Company!]!
+    companyCount: Int
+}
+
+type Company {
+    id: ID
+    SIC: String
+    category: String
+    companyNumber: String
+    countryOfOrigin: String
+    incorporationDate: String
+    mortgagesOutstanding: Int
+    name: String
+    status: String
+    controlledBy: [Person!]!
+    owns: [Property!]!
+}
+
+type Person {
+    id: ID
+    birthMonth: String
+    birthYear: String
+    nationality: String
+    name: String
+    countryOfResidence: String
+}
+
+type Property {
+    id: ID
+    address: String
+    county: String
+    district: String
+    titleNumber: String
+}

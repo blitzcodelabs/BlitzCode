@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.okta.spring:okta-spring-boot-starter:3.0.5'
+//    implementation 'com.okta.spring:okta-spring-boot-starter:3.0.5'
     implementation 'org.springframework.boot:spring-boot-starter-data-neo4j'
     implementation 'org.springframework.boot:spring-boot-starter-graphql'
     implementation 'org.springframework.boot:spring-boot-starter-web'

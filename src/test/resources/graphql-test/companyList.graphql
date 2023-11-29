@@ -1,0 +1,11 @@
+query companyList($page: Int) {
+    companyList(page: $page) {
+        id
+        SIC
+        name
+        status
+        category
+        companyNumber
+        countryOfOrigin
+    }
+}
