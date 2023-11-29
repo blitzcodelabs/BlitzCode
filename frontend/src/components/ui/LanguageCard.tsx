@@ -4,11 +4,15 @@ import clsx from "clsx";
 import { Item } from "@radix-ui/react-radio-group";
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
 
+interface Props {
+  imageFile: string;
+}
+
 const LanguageCard = forwardRef<
   ElementRef<typeof Item>,
-  ComponentPropsWithoutRef<typeof Item>
->((props, forwardedRef) => (
-  <Item {...props} ref={forwardedRef} asChild>
+  ComponentPropsWithoutRef<typeof Item> & Props
+>(({imageFile, value, ...props}, forwardedRef) => (
+  <Item value={value} {...props} ref={forwardedRef} asChild>
     <Button
       className={clsx(
         "data-[state=checked]:bg-accent",
@@ -19,12 +23,12 @@ const LanguageCard = forwardRef<
       <div className="flex flex-col justify-center items-center gap-8">
         <Image
           className="rounded"
-          src={`/${props.value}.png`}
-          alt={`${props.value} icon`}
+          src={`/${imageFile}`}
+          alt={`${value} icon`}
           width={128}
           height={128}
         ></Image>
-        <h2>{props.value}</h2>
+        <h2>{value}</h2>
       </div>
     </Button>
   </Item>

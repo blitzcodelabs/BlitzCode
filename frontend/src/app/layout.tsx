@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Rubik, JetBrains_Mono } from "next/font/google";
+import ReactQueryProvider from "@/providers/ReactQueryProvider";
+
 import "./globals.css";
 
 const rubik = Rubik({
@@ -23,10 +25,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${rubik.variable} ${jetbrains_mono.variable}`}>
-        {children}
-      </body>
-    </html>
+      <html lang="en">
+        <body className={`${rubik.variable} ${jetbrains_mono.variable}`}>
+          <ReactQueryProvider>{children}</ReactQueryProvider>
+        </body>
+      </html>
   );
 }

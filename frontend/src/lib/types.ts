@@ -18,4 +18,9 @@ interface Choice {
     isCorrect: boolean;
 }
 
-export type { Module, Lesson, Question, Choice }
+interface Language {
+    name: string;
+    imageFile: string;
+}
+
+export type { Module, Lesson, Question, Choice, Language }
