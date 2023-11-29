@@ -18,12 +18,8 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @PostMapping("/createUser")
-    public User createUser(String email, String password) {
-        User newUser = new User();
-        newUser.setEmail(email);
-        newUser.setPassword(password); // Ideally, you should encrypt the password
-        newUser.setAdmin(Boolean.FALSE);
-        return userRepository.save(newUser);
+    @PostMapping(value = "/createUser")
+    public User createUser(@RequestBody User user) {
+        return userRepository.save(user);
     }
 }
