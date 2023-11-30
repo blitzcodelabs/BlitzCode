@@ -25,9 +25,22 @@ const Login = () => {
 
   const { push } = useRouter();
   const onSubmit = async (data: SignUpSchema) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    reset();
-    push("/dashboard");
+    const res = await fetch("http://localhost:8080/signin", {
+      method: "POST",
+      body: JSON.stringify({
+        email: data.email,
+        password: data.password
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+    if (res.ok) {
+      console.log("got token: " + await res.text());
+      push("/dashboard");
+    } else {
+      console.log(res);
+    }
   };
 
   return (

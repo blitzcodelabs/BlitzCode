@@ -1,5 +1,6 @@
 package org.blitzcode.api.rest;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.Cleanup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JsonParserFactory;
@@ -41,7 +42,7 @@ public class PublicController {
     public record IdentityToolKitRequest(String email, String password, boolean returnSecureToken) {}
 
     @PostMapping("/signin")
-    public String signIn(@RequestBody LoginInfo userInfo) throws IOException, InterruptedException {
+    public String signIn(@RequestBody LoginInfo userInfo, HttpServletResponse response) throws IOException, InterruptedException {
         @Cleanup var client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build();
         var req = new IdentityToolKitRequest(userInfo.email(), userInfo.password(), true);
         var request = HttpRequest.newBuilder()
@@ -50,12 +51,13 @@ public class PublicController {
                 .setHeader("content-type", "application/json")
                 .build();
 
-        var response = client.send(request, HttpResponse.BodyHandlers.ofString()).body();
-        return (String) JsonParserFactory.getJsonParser().parseMap(response).get("idToken");
+        var googleResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+        response.setStatus(googleResponse.statusCode());
+        return (String) JsonParserFactory.getJsonParser().parseMap(googleResponse.body()).get("idToken");
     }
 
     @PostMapping("/signup")
-    public String signUp(@RequestBody LoginInfo userInfo) throws IOException, InterruptedException {
+    public String signUp(@RequestBody LoginInfo userInfo, HttpServletResponse response) throws IOException, InterruptedException {
         // TODO validation, error handling
         @Cleanup var client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build();
         var req = new IdentityToolKitRequest(userInfo.email(), userInfo.password(), true);
@@ -65,8 +67,9 @@ public class PublicController {
                 .setHeader("content-type", "application/json")
                 .build();
 
-        var response = client.send(request, HttpResponse.BodyHandlers.ofString()).body();
-        return (String) JsonParserFactory.getJsonParser().parseMap(response).get("idToken");
+        var googleResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+        response.setStatus(googleResponse.statusCode());
+        return (String) JsonParserFactory.getJsonParser().parseMap(googleResponse.body()).get("idToken");
     }
 
 }
