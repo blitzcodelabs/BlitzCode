@@ -9,8 +9,8 @@ const LanguageGroup = forwardRef<
   ComponentPropsWithoutRef<typeof Root>
 >((props, forwardedRef) => {
   const { data } = useQuery<Language[]>(["languages"], async () => {
-    const res = await fetch("api/languages");
-    const { data } = await res.json();
+    const res = await fetch("http://localhost:8080/languages");
+    const data  = await res.json();
     return data;
   });
 
