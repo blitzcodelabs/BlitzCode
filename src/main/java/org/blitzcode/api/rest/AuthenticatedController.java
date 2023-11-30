@@ -1,21 +1,44 @@
 package org.blitzcode.api.rest;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.Cleanup;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.security.Principal;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthenticatedController {
 
     @GetMapping(path = "/test")
-    public String test(Principal principal) {
-        return principal.getName();
+    public Map<String, String> test(JwtAuthenticationToken token) {
+        return Map.of("user id", token.getName(), "token", token.getToken().getTokenValue());
+    }
+
+    @DeleteMapping(path = "/account")
+    public String deleteAccount(JwtAuthenticationToken token, HttpServletResponse response) throws IOException, InterruptedException {
+        // TODO should it verify password?
+        var params = Map.of("idToken", token.getToken().getTokenValue());
+        var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:delete", params);
+        return Firebase.passThrough(googleResponse, response);
+    }
+
+    public record ResetPasswordRequest(String oldPassword, String newPassword) {}
+
+    @PutMapping(path = "/account/resetpassword")
+    public String resetPassword(@RequestBody ResetPasswordRequest request, JwtAuthenticationToken token, HttpServletResponse response) throws IOException, InterruptedException {
+        // TODO verify old password
+        var params = Map.of("idToken", token.getToken().getTokenValue(), "password", request.newPassword, "returnSecureToken", "true");
+        var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:update", params);
+        return Firebase.passThrough(googleResponse, response);
+    }
+
+    // sign out
+    @GetMapping(path = "/signout")
+    public String signOut() {
+        throw new UnsupportedOperationException();
     }
 
     @GetMapping(path = "/modules")
@@ -28,13 +51,6 @@ public class AuthenticatedController {
     public String getLessons() throws IOException {
         @Cleanup var is =  getClass().getResource("/placeholders/lessons.json").openStream();
         return new String(is.readAllBytes());
-    }
-
-    public record ResetPasswordRequest(String oldPassword, String newPassword) {}
-
-    @PostMapping(path = "/account/resetpassword")
-    public String resetPassword(ResetPasswordRequest request) {
-        throw new UnsupportedOperationException();
     }
 
     @PostMapping(path = "/account/resetemail")

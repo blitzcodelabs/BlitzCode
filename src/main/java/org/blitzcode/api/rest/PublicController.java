@@ -1,30 +1,17 @@
 package org.blitzcode.api.rest;
 
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.Cleanup;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.json.JsonParserFactory;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpRequest.BodyPublishers;
-import java.net.http.HttpResponse;
+import java.util.Map;
 
 // TODO: rate limit this endpoint
 @RestController
 public class PublicController {
-
-    private static final String FIREBASE_API_KEY = System.getenv("FIREBASE_API_KEY");
-
-    @Autowired
-    private MappingJackson2HttpMessageConverter springMvcJacksonConverter;
 
     public record Language(String name, String imageFile) {}
 
@@ -37,39 +24,43 @@ public class PublicController {
         };
     }
 
-    public record LoginInfo(String email, String password) {}
-
-    public record IdentityToolKitRequest(String email, String password, boolean returnSecureToken) {}
+    public record LoginInfo(String email, String password) {
+        public Map<String, String> identityToolkitParams() {
+            return Map.of("email", email, "password", password, "returnSecureToken", "true");
+        }
+    }
 
     @PostMapping("/signin")
     public String signIn(@RequestBody LoginInfo userInfo, HttpServletResponse response) throws IOException, InterruptedException {
-        @Cleanup var client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build();
-        var req = new IdentityToolKitRequest(userInfo.email(), userInfo.password(), true);
-        var request = HttpRequest.newBuilder()
-                .uri(URI.create("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" + FIREBASE_API_KEY))
-                .POST(BodyPublishers.ofString(springMvcJacksonConverter.getObjectMapper().writeValueAsString(req)))
-                .setHeader("content-type", "application/json")
-                .build();
-
-        var googleResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-        response.setStatus(googleResponse.statusCode());
-        return (String) JsonParserFactory.getJsonParser().parseMap(googleResponse.body()).get("idToken");
+        var params = userInfo.identityToolkitParams();
+        var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:signInWithPassword", params);
+        return Firebase.passThrough(googleResponse, response);
     }
 
     @PostMapping("/signup")
     public String signUp(@RequestBody LoginInfo userInfo, HttpServletResponse response) throws IOException, InterruptedException {
         // TODO validation, error handling
-        @Cleanup var client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build();
-        var req = new IdentityToolKitRequest(userInfo.email(), userInfo.password(), true);
-        var request = HttpRequest.newBuilder()
-                .uri(URI.create("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=" + FIREBASE_API_KEY))
-                .POST(BodyPublishers.ofString(springMvcJacksonConverter.getObjectMapper().writeValueAsString(req)))
-                .setHeader("content-type", "application/json")
-                .build();
-
-        var googleResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-        response.setStatus(googleResponse.statusCode());
-        return (String) JsonParserFactory.getJsonParser().parseMap(googleResponse.body()).get("idToken");
+        var params = userInfo.identityToolkitParams();
+        var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:signUp", params);
+        return Firebase.passThrough(googleResponse, response);
     }
+
+    // refresh token
+    @PostMapping("/refresh-token")
+    public String refreshToken(@RequestBody String refreshToken, HttpServletResponse response) throws IOException, InterruptedException {
+        var params = Map.of("grant_type", "refresh_token", "refresh_token", refreshToken);
+        var googleResponse = Firebase.send("securetoken.googleapis.com/v1/token", params);
+        return Firebase.passThrough(googleResponse, response);
+    }
+
+    // send reset email
+    @PostMapping("/send-reset-password-email")
+    public String sendResetPasswordEmail(@RequestBody String email, HttpServletResponse response) throws IOException, InterruptedException {
+        var params = Map.of("requestType", "PASSWORD_RESET", "email", email);
+        var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:sendOobCode", params);
+        return Firebase.passThrough(googleResponse, response);
+    }
+
+
 
 }
