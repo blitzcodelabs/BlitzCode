@@ -14,7 +14,7 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 
 @RestController
-public class NoAuthController {
+public class PublicController {
 
     private static final String FIREBASE_API_KEY = System.getenv("FIREBASE_API_KEY");
 
@@ -29,11 +29,11 @@ public class NoAuthController {
         };
     }
 
-    public record UserInfo(String email, String password) {}
+    public record LoginInfo(String email, String password) {}
 
     // not sure if this is safe?
     @PostMapping("/signin")
-    public String signIn(@RequestBody UserInfo userInfo) throws IOException, InterruptedException {
+    public String signIn(@RequestBody LoginInfo userInfo) throws IOException, InterruptedException {
         try (var client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build()) {
             var request = HttpRequest.newBuilder()
                     .uri(URI.create("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" + FIREBASE_API_KEY))

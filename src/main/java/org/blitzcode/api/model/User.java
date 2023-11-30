@@ -17,14 +17,11 @@ import jakarta.persistence.*;
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//    @GeneratedValue(strategy = GenerationType.IDENTITY) // I don't think this is supposed to be here, if firebase generates ID
+    private String id;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
-
-    @Column(name = "password", nullable = false)
-    private String password;
 
     private Boolean admin;
 }
