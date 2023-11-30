@@ -27,7 +27,7 @@ public class AuthenticatedController {
 
     public record ResetPasswordRequest(String oldPassword, String newPassword) {}
 
-    @PutMapping(path = "/account/resetpassword")
+    @PutMapping(path = "/account/reset-password")
     public String resetPassword(@RequestBody ResetPasswordRequest request, JwtAuthenticationToken token, HttpServletResponse response) throws IOException, InterruptedException {
         // TODO verify old password
         var params = Map.of("idToken", token.getToken().getTokenValue(), "password", request.newPassword, "returnSecureToken", "true");
@@ -35,9 +35,9 @@ public class AuthenticatedController {
         return Firebase.passThrough(googleResponse, response);
     }
 
-    // sign out
-    @GetMapping(path = "/signout")
-    public String signOut() {
+    @DeleteMapping(path = "/invalidate-token")
+    public String invalidateTokens(JwtAuthenticationToken token, HttpServletResponse response) {
+        // needs firebase admin SDK library
         throw new UnsupportedOperationException();
     }
 
