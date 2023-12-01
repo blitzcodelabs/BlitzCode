@@ -1,9 +1,12 @@
 package org.blitzcode.api.rest;
 
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 import lombok.Cleanup;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -26,10 +29,10 @@ public class AuthenticatedController {
         return Firebase.passThrough(googleResponse, response);
     }
 
-    public record ResetPasswordRequest(String oldPassword, String newPassword) {}
+    public record ResetPasswordRequest(String oldPassword, @Size(min = 8) String newPassword) {}
 
     @PutMapping(path = "/account/reset-password")
-    public String resetPassword(@RequestBody ResetPasswordRequest request, JwtAuthenticationToken token, HttpServletResponse response) throws IOException, InterruptedException {
+    public String resetPassword(@RequestBody @Validated ResetPasswordRequest request, JwtAuthenticationToken token, HttpServletResponse response) throws IOException, InterruptedException {
         // TODO verify old password
         var params = Map.of("idToken", token.getToken().getTokenValue(), "password", request.newPassword, "returnSecureToken", "true");
         var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:update", params);
@@ -55,7 +58,7 @@ public class AuthenticatedController {
     }
 
     @PostMapping(path = "/account/resetemail")
-    public String resetEmail(String newEmail) {
+    public String resetEmail(@Email String newEmail) {
         throw new UnsupportedOperationException();
     }
 
