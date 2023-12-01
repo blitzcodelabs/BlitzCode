@@ -14,7 +14,7 @@ import Link from "next/link";
 const signUpSchema = z
   .object({
     email: z.string().email(),
-    password: z.string().min(10, "Password must be at least 10 characters"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {

@@ -6,12 +6,14 @@ import ErrorSlot from "../ui/ErrorSlot";
 import TextField from "../ui/TextField";
 import Button from "../ui/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { logout } from "@/lib/auth";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const changePasswordSchema = z
   .object({
-    oldPassword: z.string().min(10),
-    newPassword: z.string().min(10),
+    oldPassword: z.string().min(8),
+    newPassword: z.string().min(8),
   })
   .refine((data) => data.oldPassword === data.newPassword, {
     message: "Passwords must match",
@@ -41,6 +43,12 @@ const Settings = () => {
   const onSubmitChangeEmail = async () => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     changeEmailForm.reset();
+  };
+
+  const { push } = useRouter();
+  const onLogout = async () => {
+    logout();
+    push("/")
   };
 
   return (
@@ -110,8 +118,7 @@ const Settings = () => {
               </div>
               <Button
                 disabled={changeEmailForm.formState.isSubmitting}
-                type="submit"
-              >
+                type="submit">
                 save
               </Button>
             </form>
@@ -123,6 +130,9 @@ const Settings = () => {
                 <Link href="core-language">java</Link>
               </Button>
             </div>
+            <Button className="my-128" onClick={() => {onLogout()}}>
+              Logout
+            </Button>
           </div>
         </div>
         <div className="w-full py-128 flex justify-center">

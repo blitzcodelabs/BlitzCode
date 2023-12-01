@@ -27,6 +27,10 @@ export const signUp = async (credentials: SignUpSchema) => {
     return res.ok;
 }
 
+export const logout = () => {
+    localStorage.clear();
+}
+
 const updateTokens = (idToken: string, refreshToken: string) => {
     localStorage.setItem("idToken", idToken);
     localStorage.setItem("refreshToken", refreshToken);
