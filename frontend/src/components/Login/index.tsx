@@ -7,40 +7,27 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import TextField from "../ui/TextField";
 import ErrorSlot from "../ui/ErrorSlot";
 import { useRouter } from "next/navigation";
+import { login } from "@/lib/auth";
 
-const signUpSchema = z.object({
+const loginSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(1),
+  password: z.string().min(1, "Please enter a password"),
 });
 
-type SignUpSchema = z.infer<typeof signUpSchema>;
+export type LoginSchema = z.infer<typeof loginSchema>;
 
 const Login = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
-    reset,
-  } = useForm<SignUpSchema>({ resolver: zodResolver(signUpSchema) });
+  } = useForm<LoginSchema>({ resolver: zodResolver(loginSchema) });
 
   const { push } = useRouter();
-  const onSubmit = async (data: SignUpSchema) => {
-    const res = await fetch("http://localhost:8080/signin", {
-      method: "POST",
-      body: JSON.stringify({
-        email: data.email,
-        password: data.password
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      }
-    });
-    if (res.ok) {
-      console.log("got token: " + await res.text());
-      push("/dashboard");
-    } else {
-      console.log(res);
-    }
+  const onSubmit = async (data: LoginSchema) => {
+    if (await login(data)) push("dashboard");
+    else setError("root", { message: "Incorrect email or password" });
   };
 
   return (
@@ -59,9 +46,13 @@ const Login = () => {
             placeholder="Password"
           />
         </div>
-        {Object.values(errors).length > 0 && (
-          <ErrorSlot className="text-center">
-            <p>Your email or password is incorrect</p>
+        {Object.values(errors).length !== 0 && (
+          <ErrorSlot className="self-start">
+            <ul className="list-disc list-inside">
+              {Object.values(errors).map((error, index) => (
+                <li key={index}>{error.message}</li>
+              ))}
+            </ul>
           </ErrorSlot>
         )}
         <Button disabled={isSubmitting} type="submit">

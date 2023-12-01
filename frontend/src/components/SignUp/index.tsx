@@ -8,6 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import TextField from "../ui/TextField";
 import ErrorSlot from "../ui/ErrorSlot";
 import { useRouter } from "next/navigation";
+import { signUp } from "@/lib/auth";
+import Link from "next/link";
 
 const signUpSchema = z
   .object({
@@ -20,34 +22,20 @@ const signUpSchema = z
     path: ["confirmPassword"],
   });
 
-type SignUpSchema = z.infer<typeof signUpSchema>;
+export type SignUpSchema = z.infer<typeof signUpSchema>;
 
 const SignUp = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
-    reset,
   } = useForm<SignUpSchema>({ resolver: zodResolver(signUpSchema) });
 
   const { push } = useRouter();
   const onSubmit = async (data: SignUpSchema) => {
-    const res = await fetch("http://localhost:8080/signup", {
-        method: "POST",
-        body: JSON.stringify({
-            email: data.email,
-            password: data.password
-        }),
-        headers: {
-            "Content-Type": "application/json",
-        }
-    });
-    if (res.ok) {
-        console.log("got token: " + await res.text());
-        push("/dashboard");
-    } else {
-        console.log(res);
-    }
+    if (await signUp(data)) push("dashboard");
+    else setError("root", { message: "Account already exists" });
   };
 
   return (
@@ -82,9 +70,14 @@ const SignUp = () => {
           </ErrorSlot>
         )}
 
-        <Button disabled={isSubmitting} type="submit">
-          create account
-        </Button>
+        <div className="flex flex-col justify-center items-center gap-16">
+          <Button intent={"accent"} disabled={isSubmitting} type="submit">
+            create account
+          </Button>
+          <Button className="text-base" asChild>
+            <Link href="login">i alrady have an account</Link>
+          </Button>
+        </div>
       </form>
     </main>
   );
