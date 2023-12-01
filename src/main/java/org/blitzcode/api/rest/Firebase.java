@@ -2,9 +2,10 @@ package org.blitzcode.api.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.Cleanup;
 import lombok.experimental.UtilityClass;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import java.io.IOException;
@@ -19,10 +20,21 @@ public class Firebase {
     public final String FIREBASE_API_KEY = System.getenv("FIREBASE_API_KEY");
     private final ObjectMapper jsonMapper = Jackson2ObjectMapperBuilder.json().build();
 
-    public String passThrough(HttpResponse<String> response, HttpServletResponse servletResponse) {
-        servletResponse.setStatus(response.statusCode());
-        servletResponse.setContentType(response.headers().map().get("content-type").getFirst());
-        return response.body();
+    public void initialize() {
+//        FirebaseApp.initializeApp(FirebaseOptions.builder()
+//                .setCredentials(ServiceAccountCredentials.fromStream()));
+        throw new UnsupportedOperationException();
+    }
+
+//    public FirebaseAuth auth() {
+//        return FirebaseAuth.getInstance();
+//        throw new UnsupportedOperationException();
+//    }
+
+    public ResponseEntity<String> passThrough(HttpResponse<String> response) {
+        return ResponseEntity.status(response.statusCode())
+                .contentType(MediaType.valueOf(response.headers().map().get("content-type").getFirst()))
+                .body(response.body());
     }
 
     public HttpRequest request(String url, Object jsonBody) throws JsonProcessingException {

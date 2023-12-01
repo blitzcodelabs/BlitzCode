@@ -1,10 +1,10 @@
 package org.blitzcode.api.rest;
 
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.Cleanup;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -22,26 +22,26 @@ public class AuthenticatedController {
     }
 
     @DeleteMapping(path = "/account")
-    public String deleteAccount(JwtAuthenticationToken token, HttpServletResponse response) throws IOException, InterruptedException {
+    public ResponseEntity<String> deleteAccount(JwtAuthenticationToken token) throws IOException, InterruptedException {
         // TODO should it verify password?
         var params = Map.of("idToken", token.getToken().getTokenValue());
         var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:delete", params);
-        return Firebase.passThrough(googleResponse, response);
+        return Firebase.passThrough(googleResponse);
     }
 
     public record ResetPasswordRequest(String oldPassword, @Size(min = 8) String newPassword) {}
 
     @PutMapping(path = "/account/reset-password")
-    public String resetPassword(@RequestBody @Validated ResetPasswordRequest request, JwtAuthenticationToken token, HttpServletResponse response) throws IOException, InterruptedException {
+    public ResponseEntity<String> resetPassword(@RequestBody @Validated ResetPasswordRequest request, JwtAuthenticationToken token) throws IOException, InterruptedException {
         // TODO verify old password
         var params = Map.of("idToken", token.getToken().getTokenValue(), "password", request.newPassword, "returnSecureToken", "true");
         var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:update", params);
-        return Firebase.passThrough(googleResponse, response);
+        return Firebase.passThrough(googleResponse);
     }
 
     @DeleteMapping(path = "/invalidate-token")
-    public String invalidateTokens(JwtAuthenticationToken token, HttpServletResponse response) {
-        // needs firebase admin SDK library
+    public void invalidateTokens(JwtAuthenticationToken token) {
+//        Firebase.auth().revokeRefreshTokens(token.getToken().getTokenValue());
         throw new UnsupportedOperationException();
     }
 
