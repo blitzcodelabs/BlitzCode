@@ -2,6 +2,7 @@ package org.blitzcode.api.rest;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Cleanup;
+import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,13 +42,13 @@ public class AuthenticatedController {
         throw new UnsupportedOperationException();
     }
 
-    @GetMapping(path = "/modules")
+    @GetMapping(path = "/modules", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getModules() throws IOException {
         @Cleanup var is =  getClass().getResource("/placeholders/modules.json").openStream();
         return new String(is.readAllBytes());
     }
 
-    @GetMapping(path = "/lessons")
+    @GetMapping(path = "/lessons", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getLessons() throws IOException {
         @Cleanup var is =  getClass().getResource("/placeholders/lessons.json").openStream();
         return new String(is.readAllBytes());

@@ -17,6 +17,11 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: build --no-daemon --scan
+        env:
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_URL: ${{ secrets.DB_URL }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
       - name: Upload reports on failure
         if: ${{ failure() }}
         uses: actions/upload-artifact@v3
