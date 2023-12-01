@@ -3,7 +3,7 @@
 import { LoginSchema } from "@/components/Login";
 import { cookies } from "next/headers"
 import { SignUpSchema } from "@/components/SignUp";
-import { post } from "../request";
+import { post } from "./request";
 
 interface User {
     idToken: string;
