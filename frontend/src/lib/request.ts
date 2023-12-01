@@ -1,4 +1,4 @@
-import {refreshIfNeeded, getUser} from "@/lib/auth";
+import { getidToken } from "@/lib/auth";
 
 const url = "http://localhost:8080"
 
@@ -22,35 +22,28 @@ export const post = async (path: PostPath, data: BodyInit) => {
 }
 
 export const getWithAuth = async (path: GetPath) => {
-    const user = getUser();
-    if (user) {
-        if (!await refreshIfNeeded(user)) {
-            return undefined; // TODO: redirect to login page
-        }
+    const idToken = await getidToken();
+    if (idToken) {
         return await fetch(url + path, {
             headers: {
-                "Authorization": "Bearer " + user.idToken
+                "Authorization": "Bearer " + idToken
             }
         });
     }
-    // TODO: redirect to login page
-    return undefined;
+    return null; // TODO: redirect to login page
 }
 
 export const postWithAuth = async (path: PostPath, data: BodyInit) => {
-    const user = getUser();
-    if (user) {
-        if (!await refreshIfNeeded(user)) {
-            return undefined; // TODO: redirect to login page
-        }
+    const idToken = await getidToken();
+    if (idToken) {
         return await fetch(url + path, {
             method: "POST",
             body: data,
             headers: {
-                "Authorization": "Bearer " + user.idToken,
+                "Authorization": "Bearer " + idToken,
                 "Content-Type": "application/json"
             }
         });
     }
-    return undefined; // TODO: redirect to login page
+    return null; // TODO: redirect to login page
 }
