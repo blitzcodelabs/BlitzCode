@@ -1,31 +1,18 @@
-import { tryGetIDToken } from "@/lib/auth";
+import { getidToken } from "@/lib/auth";
 
 const url = "http://localhost:8080"
 
 const publicGetPaths = ["/languages"] as const;
-const authGetPaths = ["/test", "/modules", "/questions", "/account/baseLanguage", "/account/targetLanguage"] as const;
-type PublicGetPath = typeof publicGetPaths[number];
-type AuthGetPath = typeof authGetPaths[number];
-
 const publicPostPaths = ["/signin", "/signup", "/refresh-token", "/send-reset-password-email"] as const;
+const authGetPaths = ["/test", "/modules", "/questions", "/account/baseLanguage", "/account/targetLanguage"] as const;
 const authPostPaths = ["/account/baseLanguage", "/account/targetLanguage"] as const;
+type PublicGetPath = typeof publicGetPaths[number];
 type PublicPostPath = typeof publicPostPaths[number]
+type AuthGetPath = typeof authGetPaths[number];
 type AuthPostPath = typeof authPostPaths[number];
 
-
-export const get = async <T>(path: PublicGetPath) => {
-    return await (await fetch(url + path)).json() as T;
-}
-
-export const getWithAuth = async <T>(path: AuthGetPath) => {
-    const idToken = tryGetIDToken();
-    if (!idToken) return false;
-
-    return await (await fetch(url + "/auth" + path, {
-        headers: {
-            "Authorization": "Bearer " + idToken
-        }
-    })).json() as T;
+export const get = async (path: PublicGetPath) => {
+    return await (await fetch(url + path)).json();
 }
 
 export const post = async (path: PublicPostPath, data: BodyInit) => {
@@ -38,16 +25,29 @@ export const post = async (path: PublicPostPath, data: BodyInit) => {
     });
 }
 
-export const postWithAuth = async (path: AuthPostPath, data: BodyInit) => {
-    const idToken = await tryGetIDToken();
-    if (!idToken) return false;
+export const getWithAuth = async (path: AuthGetPath) => {
+    const idToken = await getidToken();
+    if (idToken) {
+        return await fetch(url + "/auth" + path, {
+            headers: {
+                "Authorization": "Bearer " + idToken
+            }
+        });
+    }
+    return null; // TODO: redirect to login page
+}
 
-    return await fetch(url + "/auth" + path, {
-        method: "POST",
-        body: data,
-        headers: {
-            "Authorization": "Bearer " + idToken,
-            "Content-Type": "application/json"
-        }
-    });
+export const postWithAuth = async (path: AuthPostPath, data: BodyInit) => {
+    const idToken = await getidToken();
+    if (idToken) {
+        return await fetch(url + "/auth" + path, {
+            method: "POST",
+            body: data,
+            headers: {
+                "Authorization": "Bearer " + idToken,
+                "Content-Type": "application/json"
+            }
+        });
+    }
+    return null; // TODO: redirect to login page
 }
