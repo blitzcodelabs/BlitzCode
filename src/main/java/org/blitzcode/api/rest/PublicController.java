@@ -1,7 +1,7 @@
 package org.blitzcode.api.rest;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Size;
+import org.blitzcode.api.rest.ResponseTypes.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +14,6 @@ import java.util.Map;
 @RequestMapping
 public class PublicController {
 
-    public record Language(String name, String imageFile) {}
-
     @GetMapping("/languages")
     public Language[] getSupportedBaseLanguages() {
         return new Language[]{
@@ -23,12 +21,6 @@ public class PublicController {
                 new Language("Python", "python.png"),
                 new Language("JavaScript", "javascript.png")
         };
-    }
-
-    public record LoginInfo(@Email String email, @Size(min = 8) String password) {
-        public Map<String, String> identityToolkitParams() {
-            return Map.of("email", email, "password", password, "returnSecureToken", "true");
-        }
     }
 
     @PostMapping("/signin")

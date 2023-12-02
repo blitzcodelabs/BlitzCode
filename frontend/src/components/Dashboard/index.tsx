@@ -39,8 +39,8 @@ const Dashboard = () => {
                 <Trigger className="w-1024 p-32 text-2xl hover:cursor-pointer flex justify-between">
                   <p>{module.name}</p>
                   <p>{`${module.lessons.reduce(
-                    (count, { progress }) =>
-                      progress === 100 ? count + 1 : count,
+                    (count, { sectionsCompleted, sectionsTotal }) =>
+                      sectionsCompleted === sectionsTotal ? count + 1 : count,
                     0
                   )}/${module.lessons.length}`}</p>
                 </Trigger>
@@ -55,7 +55,7 @@ const Dashboard = () => {
                       >
                         <Link href="lesson">
                           <p>{lesson.name}</p>
-                          <p>{`${lesson.progress}%`}</p>
+                          <p>{`${100 * lesson.sectionsCompleted / lesson.sectionsTotal}%`}</p>
                         </Link>
                       </Button>
                     ))}

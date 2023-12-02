@@ -5,7 +5,8 @@ interface Module {
 
 interface Lesson {
     name: string;
-    progress: number;
+    sectionsCompleted: number;
+    sectionsTotal: number;
 }
 
 interface Question {

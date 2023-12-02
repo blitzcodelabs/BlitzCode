@@ -1,8 +1,7 @@
 package org.blitzcode.api.rest;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Size;
-import lombok.Cleanup;
+import org.blitzcode.api.rest.ResponseTypes.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -29,12 +28,10 @@ public class AuthenticatedController {
         return Firebase.passThrough(googleResponse);
     }
 
-    public record ResetPasswordRequest(String oldPassword, @Size(min = 8) String newPassword) {}
-
     @PutMapping(path = "/account/reset-password")
     public ResponseEntity<String> resetPassword(@RequestBody @Validated ResetPasswordRequest request, JwtAuthenticationToken token) throws IOException, InterruptedException {
         // TODO verify old password
-        var params = Map.of("idToken", token.getToken().getTokenValue(), "password", request.newPassword, "returnSecureToken", "true");
+        var params = Map.of("idToken", token.getToken().getTokenValue(), "password", request.newPassword(), "returnSecureToken", "true");
         var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:update", params);
         return Firebase.passThrough(googleResponse);
     }
@@ -46,16 +43,13 @@ public class AuthenticatedController {
     }
 
     @GetMapping(path = "/modules", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getModules() throws IOException {
-        @Cleanup var is =  getClass().getResource("/placeholders/modules.json").openStream();
-        return new String(is.readAllBytes());
+    public ModuleEntry[] getModules() {
+        return ModuleEntry.sample;
     }
 
-    public record Question(String prompt, int answerIndex, String... choices) {}
-
-    @GetMapping(path = "/questions", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/questions")
     public Question[] getQuestions() {
-        return new Question[] {
+        return new Question[]{
                 new Question("int x = 5;", 2, "const x = 5;", "int x = 5;", "let x = 5;"),
                 new Question("String message = \"Hello\";", 1, "String message = \"Hello\";", "let message = \"Hello\";", "var message = \"Hello\";"),
                 new Question("double price = 19.99;", 0, "let price = 19.99;", "const price = 19.99;", "double price = 19.99;"),
