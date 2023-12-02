@@ -10,12 +10,8 @@ interface Lesson {
 
 interface Question {
     prompt: string;
-    choices: Choice[];
-}
-
-interface Choice {
-    text: string;
-    isCorrect: boolean;
+    answerIndex: number;
+    choices: string[];
 }
 
 interface Language {
@@ -23,4 +19,4 @@ interface Language {
     imageFile: string;
 }
 
-export type { Module, Lesson, Question, Choice, Language }
+export type { Module, Lesson, Question, Language }

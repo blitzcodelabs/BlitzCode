@@ -18,7 +18,7 @@ const Dashboard = () => {
                 push("/");
                 return;
             }
-            setModules(data.modules);
+            setModules(data);
         })
     }, []);
     if (!modules) {

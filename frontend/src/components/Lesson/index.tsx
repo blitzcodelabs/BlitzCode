@@ -33,7 +33,7 @@ const Lesson = () => {
         push("/");
         return;
       }
-      setQuestions(data.questions);
+      setQuestions(data);
     })
   }, []);
   if (!questions) {
@@ -82,13 +82,12 @@ const Lesson = () => {
             >
               {questions[questionIndex].choices.map((choice, index) => (
                 <Button
-                  key={index}
                   onClick={() => setValue("selectedIndex", index)}
                   type="submit"
                   disabled={isSubmitted}
                   className={clsx(
                     isSubmitted &&
-                      (choice.isCorrect
+                      (questions[questionIndex].answerIndex === index
                         ? "bg-success"
                         : index === getValues().selectedIndex && "bg-fail"),
                     isSubmitted &&
@@ -99,7 +98,7 @@ const Lesson = () => {
                 >
                   <div className="flex gap-16">
                     <p>{index + 1}</p>
-                    <code className="text-lg normal-case">{choice.text}</code>
+                    <code className="text-lg normal-case">{choice}</code>
                   </div>
                   <code className="text-lg">js</code>
                 </Button>
