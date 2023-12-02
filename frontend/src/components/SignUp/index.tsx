@@ -70,7 +70,7 @@ const SignUp = () => {
           </ErrorSlot>
         )}
 
-        <div className="flex flex-col justify-center items-center gap-16">
+        <div className="flex flex-col justify-center items-center gap-8">
           <Button intent={"accent"} disabled={isSubmitting} type="submit">
             create account
           </Button>
