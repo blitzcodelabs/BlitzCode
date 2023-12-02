@@ -1,10 +1,12 @@
 interface Module {
     name: string;
+    id: string;
     lessons: Lesson[]
 }
 
 interface Lesson {
     name: string;
+    id: string;
     sectionsCompleted: number;
     sectionsTotal: number;
 }

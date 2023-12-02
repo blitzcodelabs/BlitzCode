@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import java.util.Map;
 
 public class ResponseTypes {
-    public record ModuleEntry(String name, LessonEntry... lessons) {
+    public record ModuleEntry(String name, String id, LessonEntry... lessons) {
         public static final ModuleEntry[] sample = new ModuleEntry[]{
                 m("Essentials", l("Entry Point", 2, 2), l("Printing", 2, 2)),
                 m("Variables", l("Creation", 2, 2), l("Types", 1, 2), l("Operations", 0, 2)),
@@ -17,14 +17,14 @@ public class ResponseTypes {
                 m("Data Structures II", l("Maps", 0, 1), l("Trees", 0, 1), l("Graphs", 0, 1))
         };
         private static ModuleEntry m(String name, LessonEntry... lessons) {
-            return new ModuleEntry(name, lessons);
+            return new ModuleEntry(name, "TBD", lessons);
         }
         private static LessonEntry l(String name, int sectionsCompleted, int sectionsTotal) {
-            return new LessonEntry(name, sectionsCompleted, sectionsTotal);
+            return new LessonEntry(name, "TBD", sectionsCompleted, sectionsTotal);
         }
     }
 
-    public record LessonEntry(String name, int sectionsCompleted, int sectionsTotal) {}
+    public record LessonEntry(String name, String id, int sectionsCompleted, int sectionsTotal) {}
 
     public record Question(String prompt, int answerIndex, String... choices) {}
 

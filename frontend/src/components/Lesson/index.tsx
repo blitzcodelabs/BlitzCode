@@ -28,7 +28,7 @@ const Lesson = () => {
   const [questions, setQuestions] = useState<Question[] | null>(null)
   const { push } = useRouter();
   useEffect( () => {
-    getWithAuth("/questions").then(res => res?.json()).then(data => {
+    getWithAuth("/questions/LESSON_ID_GOES_HERE").then(res => res?.json()).then(data => {
       if (!data) {
         push("/");
         return;

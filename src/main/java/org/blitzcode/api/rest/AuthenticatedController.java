@@ -47,8 +47,8 @@ public class AuthenticatedController {
         return ModuleEntry.sample;
     }
 
-    @GetMapping(path = "/questions")
-    public Question[] getQuestions() {
+    @GetMapping(path = "/questions/{lessonID}")
+    public Question[] getQuestions(@PathVariable String lessonID) {
         return new Question[]{
                 new Question("int x = 5;", 2, "const x = 5;", "int x = 5;", "let x = 5;"),
                 new Question("String message = \"Hello\";", 1, "String message = \"Hello\";", "let message = \"Hello\";", "var message = \"Hello\";"),

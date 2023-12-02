@@ -4,7 +4,7 @@ const url = "http://localhost:8080"
 
 const publicGetPaths = ["/languages"] as const;
 const publicPostPaths = ["/signin", "/signup", "/refresh-token", "/send-reset-password-email"] as const;
-const authGetPaths = ["/test", "/modules", "/questions", "/account/baseLanguage", "/account/targetLanguage"] as const;
+const authGetPaths = ["/test", "/modules", "/questions", "/questions/LESSON_ID_GOES_HERE", "/account/baseLanguage", "/account/targetLanguage"] as const;
 const authPostPaths = ["/account/baseLanguage", "/account/targetLanguage"] as const;
 type PublicGetPath = typeof publicGetPaths[number];
 type PublicPostPath = typeof publicPostPaths[number]
