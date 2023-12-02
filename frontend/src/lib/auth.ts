@@ -1,3 +1,5 @@
+"use client"
+
 import { LoginSchema } from "@/components/Login";
 import { SignUpSchema } from "@/components/SignUp";
 import { post } from "./request";

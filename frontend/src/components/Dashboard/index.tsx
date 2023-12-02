@@ -1,12 +1,29 @@
 "use client";
 
 import Header from "./Header";
-import { modules } from "@/placeholders/modules.json";
 import { Content, Item, Root, Trigger } from "@radix-ui/react-accordion";
 import Button from "../ui/Button";
 import Link from "next/link";
+import {useRouter} from "next/navigation";
+import {useEffect, useState} from "react";
+import {getWithAuth} from "@/lib/request";
+import {Module} from "@/lib/types";
 
 const Dashboard = () => {
+    const [modules, setModules] = useState<Module[] | null>(null)
+    const { push } = useRouter();
+    useEffect( () => {
+        getWithAuth("/modules").then(res => res?.json()).then(data => {
+            if (!data) {
+                push("/");
+                return;
+            }
+            setModules(data.modules);
+        })
+    }, []);
+    if (!modules) {
+        return <div>Loading...</div>
+    }
   return (
     <>
       <Header></Header>

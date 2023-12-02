@@ -1,13 +1,15 @@
 "use client";
 
-import { questions } from "@/placeholders/lesson.json";
 import Button from "../ui/Button";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as Progress from "@radix-ui/react-progress";
 import Link from "next/link";
 import { Cross1Icon } from "@radix-ui/react-icons";
+import {getWithAuth} from "@/lib/request";
+import {Question} from "@/lib/types";
+import {useRouter} from "next/navigation";
 
 interface Inputs {
   selectedIndex: number;
@@ -23,6 +25,20 @@ const Lesson = () => {
   } = useForm<Inputs>();
 
   const [questionIndex, setQuestionIndex] = useState(0);
+  const [questions, setQuestions] = useState<Question[] | null>(null)
+  const { push } = useRouter();
+  useEffect( () => {
+    getWithAuth("/questions").then(res => res?.json()).then(data => {
+      if (!data) {
+        push("/");
+        return;
+      }
+      setQuestions(data.questions);
+    })
+  }, []);
+  if (!questions) {
+    return <div>Loading...</div>
+  }
   const progress = Math.floor((questionIndex / questions.length) * 100);
 
   const onSubmit: SubmitHandler<Inputs> = () => {

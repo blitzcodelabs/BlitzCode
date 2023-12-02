@@ -51,9 +51,9 @@ public class AuthenticatedController {
         return new String(is.readAllBytes());
     }
 
-    @GetMapping(path = "/lessons", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/questions", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getLessons() throws IOException {
-        @Cleanup var is =  getClass().getResource("/placeholders/lessons.json").openStream();
+        @Cleanup var is =  getClass().getResource("/placeholders/questions.json").openStream();
         return new String(is.readAllBytes());
     }
 
