@@ -30,7 +30,6 @@ const Course = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="h-screen flex flex-col justify-center items-center gap-64"
     >
-      {/* I want to learn... */}
       <div className="w-fit flex flex-col gap-32">
         <label htmlFor="I want to learn...">I want to learn...</label>
         <Controller

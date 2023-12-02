@@ -1,8 +1,20 @@
-import React from "react";
+"use client"
+
+import React, {useEffect} from "react";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
+import {getidToken} from "@/lib/auth";
+import {useRouter} from "next/navigation";
 
 const Home = () => {
+    const { push } = useRouter();
+    useEffect(() => {
+        getidToken().then(token => {
+            if (token) {
+                push("/dashboard");
+            }
+        })
+    }, []);
   return (
     <main className="h-screen flex flex-col justify-center items-center gap-64">
       {/* Logo and tagline */}

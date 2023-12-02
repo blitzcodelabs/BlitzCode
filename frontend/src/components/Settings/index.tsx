@@ -155,8 +155,6 @@ const Settings = () => {
               <Button asChild>
                 <Link href="core-language">{baseLanguage ? baseLanguage : "Loading..."}</Link>
               </Button>
-            </div>
-            <div className="flex flex-col gap-32">
               <h1>Change target language</h1>
               <Button asChild>
                 <Link href="course">{targetLanguage ? targetLanguage : "Loading..."}</Link>

@@ -30,11 +30,8 @@ const CoreLanguage = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="h-screen flex flex-col justify-center items-center gap-64"
     >
-      {/* I am most comfortable with... */}
       <div className="w-fit flex flex-col gap-32">
-        <label htmlFor="I am most comfortable with...">
-          I am most comfortable with...
-        </label>
+        <label htmlFor="I am most comfortable with...">I am most comfortable with...</label>
         <Controller
           control={control}
           name="coreLanguage"
