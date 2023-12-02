@@ -6,9 +6,11 @@ import ErrorSlot from "../ui/ErrorSlot";
 import TextField from "../ui/TextField";
 import Button from "../ui/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { logout } from "@/lib/auth";
+import {getidToken, logout} from "@/lib/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import {useEffect, useState} from "react";
+import {getWithAuth} from "@/lib/request";
 
 const changePasswordSchema = z
   .object({
@@ -44,6 +46,30 @@ const Settings = () => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     changeEmailForm.reset();
   };
+
+  const [baseLanguage, setBaseLanguage] = useState<string | null>(null);
+  useEffect( () => {
+    getWithAuth("/account/baseLanguage").then(res => res?.text()).then(data => {
+      if (data) {
+        setBaseLanguage(data);
+      }
+    })
+  }, []);
+  const [targetLanguage, setTargetLanguage] = useState<string | null>(null);
+  useEffect( () => {
+    getWithAuth("/account/targetLanguage").then(res => res?.text()).then(data => {
+      if (data) {
+        setTargetLanguage(data);
+      }
+    })
+  }, []);
+  useEffect(() => {
+    getidToken().then(token => {
+      if (!token) {
+        push("/");
+      }
+    })
+  }, []);
 
   const { push } = useRouter();
   const onLogout = async () => {
@@ -127,7 +153,13 @@ const Settings = () => {
             <div className="flex flex-col gap-32">
               <h1>Change core language</h1>
               <Button asChild>
-                <Link href="core-language">java</Link>
+                <Link href="core-language">{baseLanguage ? baseLanguage : "Loading..."}</Link>
+              </Button>
+            </div>
+            <div className="flex flex-col gap-32">
+              <h1>Change target language</h1>
+              <Button asChild>
+                <Link href="course">{targetLanguage ? targetLanguage : "Loading..."}</Link>
               </Button>
             </div>
             <Button className="my-128" onClick={() => {onLogout()}}>

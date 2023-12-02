@@ -58,28 +58,32 @@ public class AuthenticatedController {
     }
 
     @PostMapping(path = "/account/resetemail")
-    public String resetEmail(@Email String newEmail) {
+    public String resetEmail(@RequestBody @Email String newEmail) {
         throw new UnsupportedOperationException();
     }
 
+    private String baseLanguage = "Java";
+
     @PostMapping(path = "/account/baseLanguage")
-    public String setBaseLanguage(String newBaseLanguage) {
-        throw new UnsupportedOperationException();
+    public void setBaseLanguage(@RequestBody String baseLanguage) {
+        this.baseLanguage = baseLanguage;
     }
 
     @GetMapping(path = "/account/baseLanguage")
     public String getBaseLanguage() {
-        throw new UnsupportedOperationException();
+        return baseLanguage;
     }
 
+    private String targetLanguage = "Python";
+
     @PostMapping(path = "/account/targetLanguage")
-    public String setTargetLanguage(String newTargetLanguage) {
-        throw new UnsupportedOperationException();
+    public void setTargetLanguage(@RequestBody String targetLanguage) {
+        this.targetLanguage = targetLanguage;
     }
 
     @GetMapping(path = "/account/targetLanguage")
     public String getTargetLanguage() {
-        throw new UnsupportedOperationException();
+        return targetLanguage;
     }
 
 }

@@ -4,6 +4,7 @@ import Button from "../ui/Button";
 import LanguageGroup from "../ui/LanguageGroup";
 import Link from "next/link";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import {postWithAuth} from "@/lib/request";
 
 interface Inputs {
   languageToLearn: string;
@@ -20,6 +21,7 @@ const Course = () => {
   });
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
+    postWithAuth("/account/targetLanguage", data.languageToLearn);
     console.log(data);
   };
 
