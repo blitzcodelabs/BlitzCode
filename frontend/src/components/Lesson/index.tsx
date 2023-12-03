@@ -6,16 +6,16 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import * as Progress from "@radix-ui/react-progress";
 import Link from "next/link";
-import { Cross1Icon } from "@radix-ui/react-icons";
-import {getWithAuth} from "@/lib/request";
-import {Question} from "@/lib/types";
-import {useRouter} from "next/navigation";
+import { getWithAuth } from "@/lib/request";
+import { Question } from "@/lib/types";
+import { useRouter } from "next/navigation";
+import { X } from "@phosphor-icons/react";
 
 interface Inputs {
   selectedIndex: number;
 }
 
-const Lesson = () => {
+const Lesson = ({ params }: { params: { id: string } }) => {
   const {
     handleSubmit,
     getValues,
@@ -25,19 +25,22 @@ const Lesson = () => {
   } = useForm<Inputs>();
 
   const [questionIndex, setQuestionIndex] = useState(0);
-  const [questions, setQuestions] = useState<Question[] | null>(null)
+  const [questions, setQuestions] = useState<Question[] | null>(null);
+
   const { push } = useRouter();
-  useEffect( () => {
-    getWithAuth("/questions/LESSON_ID_GOES_HERE").then(res => res?.json()).then(data => {
-      if (!data) {
-        push("/");
-        return;
-      }
-      setQuestions(data);
-    })
-  }, []);
+  useEffect(() => {
+    getWithAuth("/questions", params.id)
+      .then((res) => res?.json())
+      .then((data) => {
+        if (!data) {
+          push("/");
+          return;
+        }
+        setQuestions(data);
+      });
+  }, [params.id, push]);
   if (!questions) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
   const progress = Math.floor((questionIndex / questions.length) * 100);
 
@@ -52,8 +55,8 @@ const Lesson = () => {
   return (
     <>
       <nav className="w-full p-128 flex items-center">
-        <Link href="dashboard" className="absolute -translate-x-64">
-          <Cross1Icon className="w-32 h-32 hover:stroke-secondary text-secondary"></Cross1Icon>
+        <Link href="/dashboard" className="absolute -translate-x-64">
+          <X size="32px" className="text-secondary hover:text-primary" />
         </Link>
         <Progress.Root
           value={progress}
@@ -82,6 +85,7 @@ const Lesson = () => {
             >
               {questions[questionIndex].choices.map((choice, index) => (
                 <Button
+                  key={index}
                   onClick={() => setValue("selectedIndex", index)}
                   type="submit"
                   disabled={isSubmitted}

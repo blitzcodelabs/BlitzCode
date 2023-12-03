@@ -4,26 +4,27 @@ import Header from "./Header";
 import { Content, Item, Root, Trigger } from "@radix-ui/react-accordion";
 import Button from "../ui/Button";
 import Link from "next/link";
-import {useRouter} from "next/navigation";
-import {useEffect, useState} from "react";
-import {getWithAuth} from "@/lib/request";
-import {Module} from "@/lib/types";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { getWithAuth } from "@/lib/request";
+import { Module } from "@/lib/types";
+import LoadingScreen from "../ui/LoadingScreen";
 
 const Dashboard = () => {
-    const [modules, setModules] = useState<Module[] | null>(null)
-    const { push } = useRouter();
-    useEffect( () => {
-        getWithAuth("/modules").then(res => res?.json()).then(data => {
-            if (!data) {
-                push("/");
-                return;
-            }
-            setModules(data);
-        })
-    }, []);
-    if (!modules) {
-        return <div>Loading...</div>
-    }
+  const [modules, setModules] = useState<Module[] | null>(null);
+  const { push } = useRouter();
+  useEffect(() => {
+    getWithAuth("/modules")
+      .then((res) => res?.json())
+      .then((data) => {
+        if (!data) {
+          push("");
+          return;
+        }
+        setModules(data);
+      });
+  }, [push]);
+  if (!modules) return <LoadingScreen />;
   return (
     <>
       <Header></Header>
@@ -53,9 +54,12 @@ const Dashboard = () => {
                         className="p-16 w-full text-lg flex justify-between font-mono normal-case"
                         asChild
                       >
-                        <Link href="lesson">
+                        <Link href={`lesson/${lesson.id}`}>
                           <p>{lesson.name}</p>
-                          <p>{`${100 * lesson.sectionsCompleted / lesson.sectionsTotal}%`}</p>
+                          <p>{`${
+                            (100 * lesson.sectionsCompleted) /
+                            lesson.sectionsTotal
+                          }%`}</p>
                         </Link>
                       </Button>
                     ))}
