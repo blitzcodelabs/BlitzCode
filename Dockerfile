@@ -5,10 +5,10 @@ FROM openjdk:21
 WORKDIR /app
 
 RUN microdnf install findutils
-ENV DB_PASSWORD=TDISBku2RDKXGNed0SKs
-ENV DB_URL=jdbc:postgresql://containers-us-west-131.railway.app:6924/railway
-ENV DB_USERNAME=postgres
-ENV FIREBASE_API_KEY=AIzaSyDpvdTLV_poyLoqzJltr1IfmjSFP79ns2s
+ENV DB_PASSWORD=${DB_PASSWORD}
+ENV DB_URL=${DB_URL}
+ENV DB_USERNAME=${DB_USERNAME}
+ENV FIREBASE_API_KEY=${FIREBASE_API_KEY}
 
 # Copy the Gradle configuration files and wrapper
 COPY gradlew .
