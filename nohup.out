@@ -1,0 +1,7 @@
+nohup: gradlew: No such file or directory
+Path for java installation '/Users/ahmet/Library/Java/JavaVirtualMachines/liberica-1.8.0_345' (IntelliJ IDEA) does not contain a java executable
+> Task :generateEffectiveLombokConfig UP-TO-DATE
+> Task :compileJava UP-TO-DATE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
+> Task :resolveMainClassName UP-TO-DATE
