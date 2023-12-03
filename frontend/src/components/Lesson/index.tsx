@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import * as Progress from "@radix-ui/react-progress";
 import Link from "next/link";
-import { getWithAuth } from "@/lib/request";
+import {getWithAuth, postWithAuth} from "@/lib/request";
 import { Question } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { X } from "@phosphor-icons/react";
@@ -27,6 +27,7 @@ const Lesson = ({ params }: { params: { id: string } }) => {
 
   const [questionIndex, setQuestionIndex] = useState(0);
   const [questions, setQuestions] = useState<Question[] | null>(null);
+  const [lessonCompletion, setLessonCompletion] = useState<number>();
 
   const { push } = useRouter();
   useEffect(() => {
@@ -46,6 +47,14 @@ const Lesson = ({ params }: { params: { id: string } }) => {
   const progress = Math.floor((questionIndex / questions.length) * 100);
 
   const onSubmit: SubmitHandler<Inputs> = () => {
+    if (questionIndex + 1 === questions.length) {
+      postWithAuth("/questions/completed", JSON.stringify(questions), params.id)
+          .then((res) => res?.json())
+          .then(({ sectionsCompleted, sectionsTotal }) => {
+            setLessonCompletion((100 * sectionsCompleted) / sectionsTotal);
+          });
+    } // TODO: it may go to the "Nice Work" screen if lessonCompletion hasn't been set yet
+      // so will have to find a way to make it wait for the response
     const timer = setTimeout(() => {
       setQuestionIndex(questionIndex + 1);
       reset();
@@ -115,7 +124,7 @@ const Lesson = ({ params }: { params: { id: string } }) => {
             <h1 className="text-center leading-loose">
               Nice Work!
               <br />
-              <span className="font-sans text-9xl">50%</span>
+              <span className="font-sans text-9xl">{lessonCompletion}%</span>
               <br />
               of lesson completed.
             </h1>

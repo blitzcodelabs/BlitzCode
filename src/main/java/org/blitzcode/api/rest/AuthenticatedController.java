@@ -52,8 +52,9 @@ public class AuthenticatedController {
     }
 
     @PostMapping(path = "/questions/completed/{lessonID}")
-    public void sectionCompleted(@PathVariable String lessonID, @RequestBody Question[] questions) {
-        // TODO: save to database
+    public Map<String, Integer> sectionCompleted(@PathVariable String lessonID, @RequestBody Question[] questions) {
+        // TODO: save to database and fetch # of sections completed
+        return Map.of("sectionsCompleted", (int) (Math.random() * 100), "sectionsTotal", 100);
     }
 
     @PostMapping(path = "/account/resetemail")

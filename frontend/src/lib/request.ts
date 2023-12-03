@@ -5,7 +5,7 @@ const url = "http://localhost:8080"
 const publicGetPaths = ["/languages"] as const;
 const publicPostPaths = ["/signin", "/signup", "/refresh-token", "/send-reset-password-email"] as const;
 const authGetPaths = ["/test", "/modules", "/questions", "/account/baseLanguage", "/account/targetLanguage"] as const;
-const authPostPaths = ["/account/baseLanguage", "/account/targetLanguage"] as const;
+const authPostPaths = ["/questions/completed", "/account/baseLanguage", "/account/targetLanguage"] as const;
 type PublicGetPath = typeof publicGetPaths[number];
 type PublicPostPath = typeof publicPostPaths[number]
 type AuthGetPath = typeof authGetPaths[number];
@@ -37,10 +37,10 @@ export const getWithAuth = async (path: AuthGetPath, query?: string) => {
     return null; // TODO: redirect to login page
 }
 
-export const postWithAuth = async (path: AuthPostPath, data: BodyInit) => {
+export const postWithAuth = async (path: AuthPostPath, data: BodyInit, query?: string) => {
     const idToken = await getidToken();
     if (idToken) {
-        return await fetch(url + "/auth" + path, {
+        return await fetch(`${url}/auth${path}${query ? `/${query}` : ""}`, {
             method: "POST",
             body: data,
             headers: {
