@@ -36,12 +36,6 @@ public class AuthenticatedController {
         return Firebase.passThrough(googleResponse);
     }
 
-    @DeleteMapping(path = "/invalidate-token")
-    public void invalidateTokens(JwtAuthenticationToken token) {
-//        Firebase.auth().revokeRefreshTokens(token.getToken().getTokenValue());
-        throw new UnsupportedOperationException();
-    }
-
     @GetMapping(path = "/modules", produces = MediaType.APPLICATION_JSON_VALUE)
     public ModuleEntry[] getModules() {
         return ModuleEntry.sample;
@@ -55,6 +49,11 @@ public class AuthenticatedController {
                 new Question("double price = 19.99;", 0, "let price = 19.99;", "const price = 19.99;", "double price = 19.99;"),
                 new Question("boolean isValid = true;", 2, "const isValid = true;", "boolean isValid = true;", "let isValid = true;")
         };
+    }
+
+    @PostMapping(path = "/questions/completed/{lessonID}")
+    public void sectionCompleted(@PathVariable String lessonID, @RequestBody Question[] questions) {
+        // TODO: save to database
     }
 
     @PostMapping(path = "/account/resetemail")
