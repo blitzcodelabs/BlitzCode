@@ -22,6 +22,11 @@ jobs:
           DB_URL: ${{ secrets.DB_URL }}
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+      - name: Upload boot jar
+        uses: actions/upload-artifact@v3
+        with:
+          name: BlitzCode.jar
+          path: build/libs/BlitzCode.jar
       - name: Upload reports on failure
         if: ${{ failure() }}
         uses: actions/upload-artifact@v3
