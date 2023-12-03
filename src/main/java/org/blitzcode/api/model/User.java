@@ -17,11 +17,18 @@ import jakarta.persistence.*;
 public class User implements Serializable {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY) // I don't think this is supposed to be here, if firebase generates ID
     private String id;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    private Boolean admin;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Language baseLanguage;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Language targetLanguage;
+
 }
+
