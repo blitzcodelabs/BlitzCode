@@ -10,6 +10,7 @@ import { getWithAuth } from "@/lib/request";
 import { Question } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { X } from "@phosphor-icons/react";
+import LoadingScreen from "@/components/ui/LoadingScreen";
 
 interface Inputs {
   selectedIndex: number;
@@ -40,7 +41,7 @@ const Lesson = ({ params }: { params: { id: string } }) => {
       });
   }, [params.id, push]);
   if (!questions) {
-    return <div>Loading...</div>;
+    return <LoadingScreen />;
   }
   const progress = Math.floor((questionIndex / questions.length) * 100);
 

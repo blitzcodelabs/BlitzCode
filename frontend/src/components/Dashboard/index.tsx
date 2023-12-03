@@ -24,10 +24,10 @@ const Dashboard = () => {
         setModules(data);
       });
   }, [push]);
-  if (!modules) return <LoadingScreen />;
+  if (!modules) return <><Header/><LoadingScreen/></>;
   return (
     <>
-      <Header></Header>
+      <Header/>
       <main className="mb-32">
         <Root type="single" className="flex flex-col gap-16" collapsible>
           {modules.map((module) => (
