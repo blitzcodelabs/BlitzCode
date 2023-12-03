@@ -1,5 +1,0 @@
-# nixpacks.toml
-[build]
-# Specify the package or environment variable for Java 21
-# This is a placeholder and might need to be adjusted based on Nixpacks documentation
-java_version = "21"
