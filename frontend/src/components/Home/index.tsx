@@ -35,7 +35,7 @@ const Home = () => {
           <Link href="get-started">get started</Link>
         </Button>
         <Button className="text-base" asChild>
-          <Link href="login">i alrady have an account</Link>
+          <Link href="login">i already have an account</Link>
         </Button>
       </div>
     </main>
