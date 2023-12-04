@@ -53,8 +53,7 @@ const Lesson = ({ params }: { params: { id: string } }) => {
           .then(({ sectionsCompleted, sectionsTotal }) => {
             setLessonCompletion((100 * sectionsCompleted) / sectionsTotal);
           });
-    } // TODO: it may go to the "Nice Work" screen if lessonCompletion hasn't been set yet
-      // so will have to find a way to make it wait for the response
+    }
     const timer = setTimeout(() => {
       setQuestionIndex(questionIndex + 1);
       reset();
@@ -119,7 +118,7 @@ const Lesson = ({ params }: { params: { id: string } }) => {
               ))}
             </form>
           </div>
-        ) : (
+        ) : lessonCompletion ? (
           <div className="h-full flex flex-col justify-center items-center gap-32">
             <h1 className="text-center leading-loose">
               Nice Work!
@@ -137,7 +136,7 @@ const Lesson = ({ params }: { params: { id: string } }) => {
               <Link href="dashboard">back</Link>
             </Button>
           </div>
-        )}
+        ) : <LoadingScreen />}
       </main>
     </>
   );
