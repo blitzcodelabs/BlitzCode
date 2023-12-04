@@ -6,7 +6,10 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import java.io.Serializable;
+import java.util.List;
+
 import jakarta.persistence.*;
+import org.blitzcode.api.model.UserLessonProgress;
 
 @Entity
 @Table(name = "users")
@@ -29,6 +32,9 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Language targetLanguage;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserLessonProgress> progressList;
 
 }
 

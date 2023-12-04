@@ -25,7 +25,7 @@ const Home = () => {
           alt="logo"
         />
         <h1 className="text-center text-2xl">
-          Become fluent in a new programming language.
+          Become fluent in a new programming language
         </h1>
       </div>
 

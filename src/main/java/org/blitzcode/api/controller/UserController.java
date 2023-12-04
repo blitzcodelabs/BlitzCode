@@ -1,17 +1,26 @@
 package org.blitzcode.api.controller;
 
 import org.blitzcode.api.model.Language;
+import org.blitzcode.api.model.Lesson;
 import org.blitzcode.api.model.User;
+import org.blitzcode.api.model.UserLessonProgress;
+import org.blitzcode.api.repository.LessonRepository;
+import org.blitzcode.api.repository.UserLessonProgressRepo;
 import org.blitzcode.api.repository.UserRepository;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class UserController {
     private final UserRepository userRepository;
+    private final UserLessonProgressRepo userLessonProgressRepo;
+    private final LessonRepository lessonRepository;
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, UserLessonProgressRepo userLessonProgressRepo, LessonRepository lessonRepository) {
         this.userRepository = userRepository;
+        this.userLessonProgressRepo = userLessonProgressRepo;
+        this.lessonRepository = lessonRepository;
     }
 
     public List<User> getAllUsers() {
@@ -19,6 +28,9 @@ public class UserController {
     }
 
     public User createUser(User user) {
+        if(userRepository.findById(user.getId()) != null ){
+            throw new RuntimeException("User already exists in database!");
+        }
         return userRepository.save(user);
     }
 
@@ -38,5 +50,36 @@ public class UserController {
             return userRepository.save(user.get());
         }
         throw new RuntimeException("User not found");
+    }
+
+    public UserLessonProgress incrementUserProgress(long lessonID, String userID){
+        Optional<Lesson> lesson = lessonRepository.findById(lessonID);
+        if(lesson.isEmpty()){
+            throw new RuntimeException("Could not find lesson by id " + lessonID);
+        }
+        User user = userRepository.findById(userID);
+        if(user == null){
+            throw new RuntimeException("Could not find user by id " + userID);
+        }
+
+        ArrayList<UserLessonProgress> userProgress = (ArrayList<UserLessonProgress>) userRepository.findById(userID).getProgressList();
+        for(UserLessonProgress i: userProgress){
+            if(i.getId() == lessonID){
+                if (!i.getCompletedPoints().equals(lesson.get().getPoints())){
+                    i.setCompletedPoints(i.getCompletedPoints() + 1);
+                    return userLessonProgressRepo.save(i);
+                }
+            }
+        }
+        UserLessonProgress newProgress = new UserLessonProgress();
+        newProgress.setUser(user);
+        newProgress.setLesson(lesson.get());
+        newProgress.setCompletedPoints(1);
+        return addUserProgress(newProgress);
+    }
+
+    public UserLessonProgress addUserProgress(UserLessonProgress newProgress){
+        newProgress.getUser().getProgressList().add(newProgress);
+        return userLessonProgressRepo.save(newProgress);
     }
 }
