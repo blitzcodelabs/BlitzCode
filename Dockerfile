@@ -22,7 +22,7 @@ COPY src src
 # Give execute permission to Gradlew
 RUN chmod +x ./gradlew
 
-EXPOSE 8080
+EXPOSE 8080:8080
 
 # Run the application
 CMD ["./gradlew", "bootRun"]
