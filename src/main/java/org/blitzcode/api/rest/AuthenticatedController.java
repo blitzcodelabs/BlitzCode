@@ -63,8 +63,7 @@ public class AuthenticatedController {
     }
 
     @PostMapping(path = "/questions/completed/{lessonID}")
-    public Map<String, Integer> sectionCompleted(@PathVariable String lessonID,
-                                                 @RequestBody Question[] questions,
+    public Map<String, Integer> sectionCompleted(@PathVariable String lessonID, @RequestBody Question[] questions,
                                                  JwtAuthenticationToken token) {
         // TODO: save to database and fetch # of sections completed
         return Map.of("sectionsCompleted", (int) (Math.random() * 100), "sectionsTotal", 100);
@@ -98,13 +97,13 @@ public class AuthenticatedController {
     }
 
     @GetMapping(path = "/account/targetLanguage")
-    public ResponseEntity<String> getTargetLanguage(JwtAuthenticationToken token) {
-        return ResponseEntity.status(HttpStatus.OK).body(userController.getUserByID(token).getTargetLanguage().toString());
+    public String getTargetLanguage(JwtAuthenticationToken token) {
+        return userController.getUserByID(token).getTargetLanguage().toString();
     }
 
     @GetMapping(path = "/account/baseLanguage")
-    public ResponseEntity<String> getBaseLanguage(JwtAuthenticationToken token) {
-        return ResponseEntity.status(HttpStatus.OK).body(userController.getUserByID(token).getBaseLanguage().toString());
+    public String getBaseLanguage(JwtAuthenticationToken token) {
+        return userController.getUserByID(token).getBaseLanguage().toString();
     }
 
     private static String getUserID(JwtAuthenticationToken token) {

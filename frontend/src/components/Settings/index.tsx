@@ -57,16 +57,6 @@ const Settings = () => {
         }
       });
   }, []);
-  const [targetLanguage, setTargetLanguage] = useState<string | null>(null);
-  useEffect(() => {
-    getWithAuth("/account/targetLanguage")
-      .then((res) => res?.text())
-      .then((data) => {
-        if (data) {
-          setTargetLanguage(data);
-        }
-      });
-  }, []);
   useEffect(() => {
     getidToken().then((token) => {
       if (!token) {
@@ -99,11 +89,13 @@ const Settings = () => {
                   {...changePasswordForm.register("oldPassword")}
                   type="password"
                   placeholder="Password"
+                  autoComplete="new-password" // TODO: is this right?
                 />
                 <TextField
                   {...changePasswordForm.register("newPassword")}
                   type="password"
                   placeholder="Confirm Password"
+                  autoComplete="new-password"
                 />
                 {Object.values(changePasswordError).length !== 0 && (
                   <ErrorSlot>
