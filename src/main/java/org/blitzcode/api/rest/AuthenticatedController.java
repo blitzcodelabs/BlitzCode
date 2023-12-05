@@ -82,7 +82,7 @@ public class AuthenticatedController {
             userController.updateUserTargetLanguage(getUserID(token), Language.valueOf(targetLanguage.toUpperCase()));
             return ResponseEntity.status(HttpStatus.OK).body(lang.name());
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Target Language did not match a valid language");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Target Language did not match a valid language " + targetLanguage);
         }
     }
 
@@ -93,7 +93,7 @@ public class AuthenticatedController {
             userController.updateUserBaseLanguage(getUserID(token), Language.valueOf(targetLanguage.toUpperCase()));
             return ResponseEntity.status(HttpStatus.OK).body(lang.name());
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Target Language did not match a valid language");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Target Language did not match a valid language " + targetLanguage);
         }
     }
 
