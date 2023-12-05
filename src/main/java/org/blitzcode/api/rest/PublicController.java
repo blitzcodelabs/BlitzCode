@@ -1,15 +1,17 @@
 package org.blitzcode.api.rest;
 
 import jakarta.validation.constraints.Email;
+import org.blitzcode.api.controller.ModuleController;
 import org.blitzcode.api.controller.UserController;
 import org.blitzcode.api.model.User;
 import org.blitzcode.api.rest.ResponseTypes.Language;
 import org.blitzcode.api.rest.ResponseTypes.LoginInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
+import org.blitzcode.api.model.Module;
 import java.io.IOException;
 import java.util.Map;
 
@@ -20,6 +22,8 @@ public class PublicController {
 
     @Autowired
     private UserController userController;
+    @Autowired
+    private ModuleController moduleController;
 
     @GetMapping("/languages")
     public Language[] getSupportedBaseLanguages() {
@@ -72,6 +76,15 @@ public class PublicController {
         return Firebase.passThrough(googleResponse);
     }
 
+    @PutMapping("/createModule")
+    public ResponseEntity<String> createModule(@RequestBody Module module){
+        try{
+            moduleController.createModule(module);
+            return ResponseEntity.status(HttpStatus.OK).body(module.toString());
+        }catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
 
+    }
 
 }

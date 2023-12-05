@@ -85,4 +85,18 @@ public class UserController {
         newProgress.getUser().getProgressList().add(newProgress);
         return userLessonProgressRepo.save(newProgress);
     }
+
+    public void deleteUser(User user){
+        for(UserLessonProgress usp: user.getProgressList()){
+            deleteUserLessonProgress(usp);
+        }
+        userRepository.delete(user);
+    }
+
+    public void deleteUserLessonProgress(UserLessonProgress usp){
+        usp.getUser().getProgressList().remove(usp);
+        usp.getLesson().getUserProgressList().remove(usp);
+        userLessonProgressRepo.delete(usp);
+
+    }
 }
