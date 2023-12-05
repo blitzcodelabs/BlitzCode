@@ -97,6 +97,5 @@ public class UserController {
         usp.getUser().getProgressList().remove(usp);
         usp.getLesson().getUserProgressList().remove(usp);
         userLessonProgressRepo.delete(usp);
-
     }
 }
