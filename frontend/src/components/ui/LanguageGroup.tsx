@@ -20,7 +20,7 @@ const LanguageGroup = forwardRef<
         <LanguageCard
           key={lang.name}
           value={lang.name}
-          imageFile={lang.imageFile}
+          imageFile={lang.name.toLowerCase() + ".png"}
         ></LanguageCard>
       ))}
     </Root>

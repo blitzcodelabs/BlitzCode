@@ -21,9 +21,9 @@ public class PublicController {
     public Language[] getSupportedBaseLanguages() {
 
         return new Language[]{
-                new Language("Java", "java.png"),
-                new Language("Python", "python.png"),
-                new Language("JavaScript", "javascript.png")
+                new Language("Java"),
+                new Language("Python"),
+                new Language("JavaScript")
         };
     }
 
