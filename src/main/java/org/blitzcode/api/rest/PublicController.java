@@ -1,7 +1,9 @@
 package org.blitzcode.api.rest;
 
 import jakarta.validation.constraints.Email;
+import org.blitzcode.api.controller.ModuleController;
 import org.blitzcode.api.rest.ResponseTypes.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +16,10 @@ import java.util.Map;
 @RequestMapping
 public class PublicController {
 
+
     @GetMapping("/languages")
     public Language[] getSupportedBaseLanguages() {
+
         return new Language[]{
                 new Language("Java", "java.png"),
                 new Language("Python", "python.png"),

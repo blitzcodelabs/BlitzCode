@@ -7,21 +7,21 @@ import org.blitzcode.api.model.UserLessonProgress;
 import org.blitzcode.api.repository.LessonRepository;
 import org.blitzcode.api.repository.UserLessonProgressRepo;
 import org.blitzcode.api.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
 
+@Service
 public class UserController {
-    private final UserRepository userRepository;
-    private final UserLessonProgressRepo userLessonProgressRepo;
-    private final LessonRepository lessonRepository;
-
-    public UserController(UserRepository userRepository, UserLessonProgressRepo userLessonProgressRepo, LessonRepository lessonRepository) {
-        this.userRepository = userRepository;
-        this.userLessonProgressRepo = userLessonProgressRepo;
-        this.lessonRepository = lessonRepository;
-    }
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private UserLessonProgressRepo userLessonProgressRepo;
+    @Autowired
+    private LessonRepository lessonRepository;
 
     public List<User> getAllUsers() {
         return userRepository.findAll();

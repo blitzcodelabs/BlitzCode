@@ -4,15 +4,14 @@ import org.blitzcode.api.model.Lesson;
 import org.blitzcode.api.model.Module;
 import org.blitzcode.api.model.Question;
 import org.blitzcode.api.repository.ModuleRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
+@Service
 public class ModuleController {
-    private final ModuleRepository moduleRepository;
-
-    public ModuleController(ModuleRepository moduleRepository) {
-        this.moduleRepository = moduleRepository;
-    }
+    private ModuleRepository moduleRepository;
 
     public List<Module> getAllModules() {
         return moduleRepository.findAll();
@@ -35,5 +34,14 @@ public class ModuleController {
             }
         }
         return moduleRepository.save(module);
+    }
+
+    public List<Lesson> getLessonsFromModuleID(long moduleID){
+        Optional<Module> moduleOptional = moduleRepository.findById(moduleID);
+        if(moduleOptional.isEmpty()){
+            throw new RuntimeException("");
+        }
+
+        return moduleOptional.get().getLessons();
     }
 }
