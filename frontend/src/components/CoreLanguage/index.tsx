@@ -4,7 +4,8 @@ import Button from "../ui/Button";
 import LanguageGroup from "../ui/LanguageGroup";
 import Link from "next/link";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import {postWithAuth} from "@/lib/request";
+import { postWithAuth } from "@/lib/request";
+import { useRouter } from "next/navigation";
 
 interface Inputs {
   coreLanguage: string;
@@ -20,9 +21,11 @@ const CoreLanguage = () => {
     defaultValues: { coreLanguage: "" },
   });
 
+  const router = useRouter();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     postWithAuth("/account/baseLanguage", data.coreLanguage);
     console.log(data);
+    router.push("settings");
   };
 
   return (
@@ -31,7 +34,9 @@ const CoreLanguage = () => {
       className="h-screen flex flex-col justify-center items-center gap-64"
     >
       <div className="w-fit flex flex-col gap-32">
-        <label htmlFor="I am most comfortable with...">I am most comfortable with...</label>
+        <label htmlFor="I am most comfortable with...">
+          I am most comfortable with...
+        </label>
         <Controller
           control={control}
           name="coreLanguage"
@@ -45,9 +50,7 @@ const CoreLanguage = () => {
       </div>
 
       <Button type="submit" disabled={!isDirty} size="half">
-        <Link href="settings" className="block">
-          save
-        </Link>
+        save
       </Button>
     </form>
   );

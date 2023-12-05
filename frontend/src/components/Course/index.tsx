@@ -4,7 +4,8 @@ import Button from "../ui/Button";
 import LanguageGroup from "../ui/LanguageGroup";
 import Link from "next/link";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import {postWithAuth} from "@/lib/request";
+import { postWithAuth } from "@/lib/request";
+import { useRouter } from "next/navigation";
 
 interface Inputs {
   languageToLearn: string;
@@ -20,9 +21,11 @@ const Course = () => {
     defaultValues: { languageToLearn: "" },
   });
 
+  const router = useRouter();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     postWithAuth("/account/targetLanguage", data.languageToLearn);
     console.log(data);
+    router.push("dashboard");
   };
 
   return (
@@ -45,9 +48,7 @@ const Course = () => {
       </div>
 
       <Button type="submit" disabled={!isDirty} size="half">
-        <Link href="dashboard" className="block">
-          next
-        </Link>
+        save
       </Button>
     </form>
   );

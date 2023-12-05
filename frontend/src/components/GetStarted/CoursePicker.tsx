@@ -4,7 +4,8 @@ import Button from "../ui/Button";
 import LanguageGroup from "../ui/LanguageGroup";
 import Link from "next/link";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import {postWithAuth} from "@/lib/request";
+import { postWithAuth } from "@/lib/request";
+import { useRouter } from "next/navigation";
 
 interface Inputs {
   baseLanguage: string;
@@ -22,10 +23,12 @@ const CoursePicker = () => {
     defaultValues: { baseLanguage: "", languageToLearn: "" },
   });
 
+  const router = useRouter();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     postWithAuth("/account/baseLanguage", data.baseLanguage);
     postWithAuth("/account/targetLanguage", data.languageToLearn);
     console.log(data);
+    router.push("get-started/?step=tutorial");
   };
 
   return (
@@ -67,12 +70,7 @@ const CoursePicker = () => {
       </div>
 
       <Button type="submit" disabled={!isDirty || !isValid} size="half">
-        <Link
-          href={{ pathname: "get-started", query: { step: "tutorial" } }}
-          className="block"
-        >
-          next
-        </Link>
+        next
       </Button>
     </form>
   );
