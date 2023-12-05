@@ -8,6 +8,7 @@ import org.blitzcode.api.repository.LessonRepository;
 import org.blitzcode.api.repository.UserLessonProgressRepo;
 import org.blitzcode.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,13 +29,17 @@ public class UserController {
     }
 
     public User createUser(User user) {
-        if(userRepository.findById(user.getId()) != null ){
+        if (userRepository.findById(user.getId()) != null) {
             throw new RuntimeException("User already exists in database!");
         }
         return userRepository.save(user);
     }
 
-    public User getUserByID(String id){
+    public User getUserByID(JwtAuthenticationToken token) {
+        return userRepository.findById(token.getName());
+    }
+
+    public User getUserByID(String id) {
         return userRepository.findById(id);
     }
 
@@ -50,20 +55,20 @@ public class UserController {
         return userRepository.save(user);
     }
 
-    public UserLessonProgress incrementUserProgress(long lessonID, String userID){
+    public UserLessonProgress incrementUserProgress(long lessonID, String userID) {
         Optional<Lesson> lesson = lessonRepository.findById(lessonID);
-        if(lesson.isEmpty()){
+        if (lesson.isEmpty()) {
             throw new RuntimeException("Could not find lesson by id " + lessonID);
         }
         User user = userRepository.findById(userID);
-        if(user == null){
+        if (user == null) {
             throw new RuntimeException("Could not find user by id " + userID);
         }
 
         ArrayList<UserLessonProgress> userProgress = (ArrayList<UserLessonProgress>) userRepository.findById(userID).getProgressList();
-        for(UserLessonProgress i: userProgress){
-            if(i.getId() == lessonID){
-                if (!i.getCompletedPoints().equals(lesson.get().getPoints())){
+        for (UserLessonProgress i : userProgress) {
+            if (i.getId() == lessonID) {
+                if (!i.getCompletedPoints().equals(lesson.get().getPoints())) {
                     i.setCompletedPoints(i.getCompletedPoints() + 1);
                     return userLessonProgressRepo.save(i);
                 }
@@ -76,7 +81,7 @@ public class UserController {
         return addUserProgress(newProgress);
     }
 
-    public UserLessonProgress addUserProgress(UserLessonProgress newProgress){
+    public UserLessonProgress addUserProgress(UserLessonProgress newProgress) {
         newProgress.getUser().getProgressList().add(newProgress);
         return userLessonProgressRepo.save(newProgress);
     }

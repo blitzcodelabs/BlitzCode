@@ -26,7 +26,7 @@ public class AuthenticatedController {
 
     @GetMapping(path = "/test")
     public Map<String, String> test(JwtAuthenticationToken token) {
-        return Map.of("user id", token.getName(), "token", token.getToken().getTokenValue());
+        return Map.of("user id", getUserID(token), "token", token.getToken().getTokenValue());
     }
 
     @DeleteMapping(path = "/account")
@@ -38,7 +38,8 @@ public class AuthenticatedController {
     }
 
     @PutMapping(path = "/account/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestBody @Validated ResetPasswordRequest request, JwtAuthenticationToken token) throws IOException, InterruptedException {
+    public ResponseEntity<String> resetPassword(@RequestBody @Validated ResetPasswordRequest request,
+                                                JwtAuthenticationToken token) throws IOException, InterruptedException {
         // TODO verify old password
         var params = Map.of("idToken", token.getToken().getTokenValue(), "password", request.newPassword(), "returnSecureToken", "true");
         var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:update", params);
@@ -46,12 +47,12 @@ public class AuthenticatedController {
     }
 
     @GetMapping(path = "/modules", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ModuleEntry[] getModules() {
+    public ModuleEntry[] getModules(JwtAuthenticationToken token) {
         return ModuleEntry.sample;
     }
 
     @GetMapping(path = "/questions/{lessonID}")
-    public Question[] getQuestions(@PathVariable String lessonID) {
+    public Question[] getQuestions(@PathVariable String lessonID, JwtAuthenticationToken token) {
         return new Question[]{
                 new Question("int x = 5;", 2, "const x = 5;", "int x = 5;", "let x = 5;"),
                 new Question("String message = \"Hello\";", 1, "String message = \"Hello\";", "let message = \"Hello\";", "var message = \"Hello\";"),
@@ -61,48 +62,52 @@ public class AuthenticatedController {
     }
 
     @PostMapping(path = "/questions/completed/{lessonID}")
-    public Map<String, Integer> sectionCompleted(@PathVariable String lessonID, @RequestBody Question[] questions) {
+    public Map<String, Integer> sectionCompleted(@PathVariable String lessonID,
+                                                 @RequestBody Question[] questions,
+                                                 JwtAuthenticationToken token) {
         // TODO: save to database and fetch # of sections completed
         return Map.of("sectionsCompleted", (int) (Math.random() * 100), "sectionsTotal", 100);
     }
 
     @PostMapping(path = "/account/resetemail")
-    public String resetEmail(@RequestBody @Email String newEmail) {
+    public String resetEmail(@RequestBody @Email String newEmail, JwtAuthenticationToken token) {
         throw new UnsupportedOperationException();
     }
 
     @PostMapping(path = "/account/targetLanguage")
-    public ResponseEntity<String> setTargetLanguage(@RequestBody String targetLanguage, @RequestBody String userID)
-    {
-        try{
+    public ResponseEntity<String> setTargetLanguage(@RequestBody String targetLanguage, JwtAuthenticationToken token) {
+        try {
             Language lang = Language.valueOf(targetLanguage.toUpperCase());
-            userController.updateUserTargetLanguage("", Language.valueOf(targetLanguage.toUpperCase()));
+            userController.updateUserTargetLanguage(getUserID(token), Language.valueOf(targetLanguage.toUpperCase()));
             return ResponseEntity.status(HttpStatus.OK).body(lang.name());
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Target Language did not match a valid language");
         }
     }
 
     @PostMapping(path = "/account/baseLanguage")
-    public ResponseEntity<String> setBaseLanguage(@RequestBody String targetLanguage, @RequestBody String userID)
-    {
-        try{
+    public ResponseEntity<String> setBaseLanguage(@RequestBody String targetLanguage, JwtAuthenticationToken token) {
+        try {
             Language lang = Language.valueOf(targetLanguage.toUpperCase());
-            userController.updateUserBaseLanguage("", Language.valueOf(targetLanguage.toUpperCase()));
+            userController.updateUserBaseLanguage(getUserID(token), Language.valueOf(targetLanguage.toUpperCase()));
             return ResponseEntity.status(HttpStatus.OK).body(lang.name());
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Target Language did not match a valid language");
         }
     }
 
     @GetMapping(path = "/account/targetLanguage")
-    public ResponseEntity<String> getTargetLanguage(@RequestBody String userID) {
-        return ResponseEntity.status(HttpStatus.OK).body(userController.getUserByID(userID).getTargetLanguage().toString());
+    public ResponseEntity<String> getTargetLanguage(JwtAuthenticationToken token) {
+        return ResponseEntity.status(HttpStatus.OK).body(userController.getUserByID(token).getTargetLanguage().toString());
     }
 
     @GetMapping(path = "/account/baseLanguage")
-    public ResponseEntity<String> getBaseLanguage(@RequestBody String userID) {
-        return ResponseEntity.status(HttpStatus.OK).body(userController.getUserByID(userID).getBaseLanguage().toString());
+    public ResponseEntity<String> getBaseLanguage(JwtAuthenticationToken token) {
+        return ResponseEntity.status(HttpStatus.OK).body(userController.getUserByID(token).getBaseLanguage().toString());
+    }
+
+    private static String getUserID(JwtAuthenticationToken token) {
+        return token.getName();
     }
 
 }
