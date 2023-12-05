@@ -78,7 +78,7 @@ public class AuthenticatedController {
         try {
             Language lang = Language.valueOf(targetLanguage.toUpperCase());
             userController.updateUserTargetLanguage(getUserID(token), Language.valueOf(targetLanguage.toUpperCase()));
-            return ResponseEntity.ok().body(lang.name());
+            return ResponseEntity.ok(lang.name());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("Target Language did not match a valid language " + targetLanguage);
         }
@@ -89,7 +89,7 @@ public class AuthenticatedController {
         try {
             Language lang = Language.valueOf(targetLanguage.toUpperCase());
             userController.updateUserBaseLanguage(getUserID(token), Language.valueOf(targetLanguage.toUpperCase()));
-            return ResponseEntity.ok().body(lang.name());
+            return ResponseEntity.ok(lang.name());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("Target Language did not match a valid language " + targetLanguage);
         }

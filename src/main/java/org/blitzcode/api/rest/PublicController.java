@@ -80,7 +80,7 @@ public class PublicController {
     public ResponseEntity<String> createModule(@RequestBody Module module){
         try{
             moduleController.createModule(module);
-            return ResponseEntity.ok().body(module.toString());
+            return ResponseEntity.ok(module.toString());
         }catch (RuntimeException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
