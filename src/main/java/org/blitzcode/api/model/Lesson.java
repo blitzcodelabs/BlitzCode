@@ -27,4 +27,10 @@ public class Lesson implements Serializable {
 
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questions;
+
+    @Column(name = "points", nullable = false)
+    private Integer points;
+
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserLessonProgress> userProgressList;
 }

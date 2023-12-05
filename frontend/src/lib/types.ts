@@ -19,7 +19,6 @@ interface Question {
 
 interface Language {
     name: string;
-    imageFile: string;
 }
 
 export type { Module, Lesson, Question, Language }

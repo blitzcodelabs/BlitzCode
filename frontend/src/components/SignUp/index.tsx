@@ -47,16 +47,18 @@ const SignUp = () => {
       >
         <h1>Sign Up</h1>
         <div className="flex flex-col gap-8">
-          <TextField {...register("email")} placeholder="Email" />
+          <TextField {...register("email")} placeholder="Email" autoComplete="username"/>
           <TextField
             {...register("password")}
             type="password"
             placeholder="Password"
+            autoComplete="new-password"
           />
           <TextField
             {...register("confirmPassword")}
             type="password"
             placeholder="Confirm Password"
+            autoComplete="new-password"
           />
         </div>
 

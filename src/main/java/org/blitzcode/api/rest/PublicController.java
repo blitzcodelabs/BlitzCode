@@ -1,11 +1,17 @@
 package org.blitzcode.api.rest;
 
 import jakarta.validation.constraints.Email;
-import org.blitzcode.api.rest.ResponseTypes.*;
+import org.blitzcode.api.controller.ModuleController;
+import org.blitzcode.api.controller.UserController;
+import org.blitzcode.api.model.User;
+import org.blitzcode.api.rest.ResponseTypes.Language;
+import org.blitzcode.api.rest.ResponseTypes.LoginInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
+import org.blitzcode.api.model.Module;
 import java.io.IOException;
 import java.util.Map;
 
@@ -14,12 +20,17 @@ import java.util.Map;
 @RequestMapping
 public class PublicController {
 
+    @Autowired
+    private UserController userController;
+    @Autowired
+    private ModuleController moduleController;
+
     @GetMapping("/languages")
     public Language[] getSupportedBaseLanguages() {
         return new Language[]{
-                new Language("Java", "java.png"),
-                new Language("Python", "python.png"),
-                new Language("JavaScript", "javascript.png")
+                new Language("Java"),
+                new Language("Python"),
+                new Language("JavaScript")
         };
     }
 
@@ -27,6 +38,13 @@ public class PublicController {
     public ResponseEntity<String> signIn(@RequestBody @Validated LoginInfo userInfo) throws IOException, InterruptedException {
         var params = userInfo.identityToolkitParams();
         var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:signInWithPassword", params);
+        if (userController.getUserByID(Firebase.getUserID(googleResponse)) == null) {
+            var user = new User();
+            user.setId(Firebase.getUserID(googleResponse));
+            user.setEmail(userInfo.email());
+            user.setBaseLanguage(org.blitzcode.api.model.Language.JAVA);
+            userController.createUser(user);
+        }
         return Firebase.passThrough(googleResponse);
     }
 
@@ -35,6 +53,10 @@ public class PublicController {
         // TODO validation, error handling
         var params = userInfo.identityToolkitParams();
         var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:signUp", params);
+        var user = new User();
+        user.setId(Firebase.getUserID(googleResponse));
+        user.setEmail(userInfo.email());
+        userController.createUser(user);
         return Firebase.passThrough(googleResponse);
     }
 
@@ -54,6 +76,14 @@ public class PublicController {
         return Firebase.passThrough(googleResponse);
     }
 
-
+    @PutMapping("/createModule")
+    public ResponseEntity<String> createModule(@RequestBody Module module){
+        try{
+            moduleController.createModule(module);
+            return ResponseEntity.status(HttpStatus.OK).body(module.toString());
+        }catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 
 }

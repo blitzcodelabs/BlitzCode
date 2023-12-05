@@ -6,7 +6,10 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import java.io.Serializable;
+import java.util.List;
+
 import jakarta.persistence.*;
+import org.blitzcode.api.model.UserLessonProgress;
 
 @Entity
 @Table(name = "users")
@@ -17,11 +20,21 @@ import jakarta.persistence.*;
 public class User implements Serializable {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY) // I don't think this is supposed to be here, if firebase generates ID
     private String id;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    private Boolean admin;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = true)
+    private Language baseLanguage;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = true)
+    private Language targetLanguage;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserLessonProgress> progressList;
+
 }
+

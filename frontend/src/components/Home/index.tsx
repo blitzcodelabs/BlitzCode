@@ -25,7 +25,7 @@ const Home = () => {
           alt="logo"
         />
         <h1 className="text-center text-2xl">
-          Become fluent in a new programming language.
+          Become fluent in a new programming language
         </h1>
       </div>
 
@@ -35,7 +35,7 @@ const Home = () => {
           <Link href="get-started">get started</Link>
         </Button>
         <Button className="text-base" asChild>
-          <Link href="login">i alrady have an account</Link>
+          <Link href="login">i already have an account</Link>
         </Button>
       </div>
     </main>

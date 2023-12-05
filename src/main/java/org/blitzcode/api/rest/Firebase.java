@@ -20,15 +20,13 @@ public class Firebase {
     public final String FIREBASE_API_KEY = System.getenv("FIREBASE_API_KEY");
     private final ObjectMapper jsonMapper = Jackson2ObjectMapperBuilder.json().build();
 
-    public void initialize() {
+//    public void initialize() {
 //        FirebaseApp.initializeApp(FirebaseOptions.builder()
 //                .setCredentials(ServiceAccountCredentials.fromStream()));
-        throw new UnsupportedOperationException();
-    }
+//    }
 
 //    public FirebaseAuth auth() {
 //        return FirebaseAuth.getInstance();
-//        throw new UnsupportedOperationException();
 //    }
 
     public ResponseEntity<String> passThrough(HttpResponse<String> response) {
@@ -42,6 +40,10 @@ public class Firebase {
                 .POST(HttpRequest.BodyPublishers.ofString(jsonMapper.writeValueAsString(jsonBody)))
                 .setHeader("content-type", "application/json")
                 .build();
+    }
+
+    public String getUserID(HttpResponse<String> response) throws IOException {
+        return jsonMapper.readTree(response.body()).get("localId").asText();
     }
 
     public HttpResponse<String> send(String url, Object jsonBody) throws IOException, InterruptedException {

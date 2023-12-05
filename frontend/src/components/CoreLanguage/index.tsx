@@ -23,6 +23,7 @@ const CoreLanguage = () => {
 
   const router = useRouter();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
+    // TODO why is this not working 😭
     postWithAuth("/account/baseLanguage", data.coreLanguage);
     console.log(data);
     router.push("settings");

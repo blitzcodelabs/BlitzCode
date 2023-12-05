@@ -39,11 +39,12 @@ const Login = () => {
       >
         <h1>Sign In</h1>
         <div className="flex flex-col gap-8">
-          <TextField {...register("email")} placeholder="Email" />
+          <TextField {...register("email")} placeholder="Email" autoComplete="username"/>
           <TextField
             {...register("password")}
             type="password"
             placeholder="Password"
+            autoComplete="current-password"
           />
         </div>
         {Object.values(errors).length !== 0 && (
