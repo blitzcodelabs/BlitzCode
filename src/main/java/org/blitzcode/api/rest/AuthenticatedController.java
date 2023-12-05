@@ -1,7 +1,13 @@
 package org.blitzcode.api.rest;
 
 import jakarta.validation.constraints.Email;
-import org.blitzcode.api.rest.ResponseTypes.*;
+import org.blitzcode.api.controller.UserController;
+import org.blitzcode.api.model.Language;
+import org.blitzcode.api.rest.ResponseTypes.ModuleEntry;
+import org.blitzcode.api.rest.ResponseTypes.Question;
+import org.blitzcode.api.rest.ResponseTypes.ResetPasswordRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -14,6 +20,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/auth")
 public class AuthenticatedController {
+
+    @Autowired
+    private UserController userController;
 
     @GetMapping(path = "/test")
     public Map<String, String> test(JwtAuthenticationToken token) {
@@ -62,28 +71,38 @@ public class AuthenticatedController {
         throw new UnsupportedOperationException();
     }
 
-    private String baseLanguage = "Java";
+    @PostMapping(path = "/account/targetLanguage")
+    public ResponseEntity<String> setTargetLanguage(@RequestBody String targetLanguage, @RequestBody String userID)
+    {
+        try{
+            Language lang = Language.valueOf(targetLanguage.toUpperCase());
+            userController.updateUserTargetLanguage("", Language.valueOf(targetLanguage.toUpperCase()));
+            return ResponseEntity.status(HttpStatus.OK).body(lang.name());
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Target Language did not match a valid language");
+        }
+    }
 
     @PostMapping(path = "/account/baseLanguage")
-    public void setBaseLanguage(@RequestBody String baseLanguage) {
-        this.baseLanguage = baseLanguage;
-    }
-
-    @GetMapping(path = "/account/baseLanguage")
-    public String getBaseLanguage() {
-        return baseLanguage;
-    }
-
-    private String targetLanguage = "Python";
-
-    @PostMapping(path = "/account/targetLanguage")
-    public void setTargetLanguage(@RequestBody String targetLanguage) {
-        this.targetLanguage = targetLanguage;
+    public ResponseEntity<String> setBaseLanguage(@RequestBody String targetLanguage, @RequestBody String userID)
+    {
+        try{
+            Language lang = Language.valueOf(targetLanguage.toUpperCase());
+            userController.updateUserBaseLanguage("", Language.valueOf(targetLanguage.toUpperCase()));
+            return ResponseEntity.status(HttpStatus.OK).body(lang.name());
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Target Language did not match a valid language");
+        }
     }
 
     @GetMapping(path = "/account/targetLanguage")
-    public String getTargetLanguage() {
-        return targetLanguage;
+    public ResponseEntity<String> getTargetLanguage(@RequestBody String userID) {
+        return ResponseEntity.status(HttpStatus.OK).body(userController.getUserByID(userID).getTargetLanguage().toString());
+    }
+
+    @GetMapping(path = "/account/baseLanguage")
+    public ResponseEntity<String> getBaseLanguage(@RequestBody String userID) {
+        return ResponseEntity.status(HttpStatus.OK).body(userController.getUserByID(userID).getBaseLanguage().toString());
     }
 
 }

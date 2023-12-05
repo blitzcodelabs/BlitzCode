@@ -34,6 +34,10 @@ public class UserController {
         return userRepository.save(user);
     }
 
+    public User getUserByID(String id){
+        return userRepository.findById(id);
+    }
+
     public User updateUserBaseLanguage(String id, Language language) {
         User user = userRepository.findById(id);
         user.setBaseLanguage(language);
