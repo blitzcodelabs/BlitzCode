@@ -7,7 +7,6 @@ import org.blitzcode.api.rest.ResponseTypes.ModuleEntry;
 import org.blitzcode.api.rest.ResponseTypes.Question;
 import org.blitzcode.api.rest.ResponseTypes.ResetPasswordRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -79,9 +78,9 @@ public class AuthenticatedController {
         try {
             Language lang = Language.valueOf(targetLanguage.toUpperCase());
             userController.updateUserTargetLanguage(getUserID(token), Language.valueOf(targetLanguage.toUpperCase()));
-            return ResponseEntity.status(HttpStatus.OK).body(lang.name());
+            return ResponseEntity.ok().body(lang.name());
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Target Language did not match a valid language " + targetLanguage);
+            return ResponseEntity.badRequest().body("Target Language did not match a valid language " + targetLanguage);
         }
     }
 
@@ -90,9 +89,9 @@ public class AuthenticatedController {
         try {
             Language lang = Language.valueOf(targetLanguage.toUpperCase());
             userController.updateUserBaseLanguage(getUserID(token), Language.valueOf(targetLanguage.toUpperCase()));
-            return ResponseEntity.status(HttpStatus.OK).body(lang.name());
+            return ResponseEntity.ok().body(lang.name());
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Target Language did not match a valid language " + targetLanguage);
+            return ResponseEntity.badRequest().body("Target Language did not match a valid language " + targetLanguage);
         }
     }
 
