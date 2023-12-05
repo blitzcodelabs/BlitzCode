@@ -1,8 +1,10 @@
 package org.blitzcode.api.rest;
 
 import jakarta.validation.constraints.Email;
-import org.blitzcode.api.controller.ModuleController;
-import org.blitzcode.api.rest.ResponseTypes.*;
+import org.blitzcode.api.controller.UserController;
+import org.blitzcode.api.model.User;
+import org.blitzcode.api.rest.ResponseTypes.Language;
+import org.blitzcode.api.rest.ResponseTypes.LoginInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -16,10 +18,11 @@ import java.util.Map;
 @RequestMapping
 public class PublicController {
 
+    @Autowired
+    private UserController userController;
 
     @GetMapping("/languages")
     public Language[] getSupportedBaseLanguages() {
-
         return new Language[]{
                 new Language("Java"),
                 new Language("Python"),
@@ -31,6 +34,13 @@ public class PublicController {
     public ResponseEntity<String> signIn(@RequestBody @Validated LoginInfo userInfo) throws IOException, InterruptedException {
         var params = userInfo.identityToolkitParams();
         var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:signInWithPassword", params);
+        if (userController.getUserByID(Firebase.getUserID(googleResponse)) == null) {
+            var user = new User();
+            user.setId(Firebase.getUserID(googleResponse));
+            user.setEmail(userInfo.email());
+            user.setBaseLanguage(org.blitzcode.api.model.Language.JAVA);
+            userController.createUser(user);
+        }
         return Firebase.passThrough(googleResponse);
     }
 
@@ -39,6 +49,10 @@ public class PublicController {
         // TODO validation, error handling
         var params = userInfo.identityToolkitParams();
         var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:signUp", params);
+        var user = new User();
+        user.setId(Firebase.getUserID(googleResponse));
+        user.setEmail(userInfo.email());
+        userController.createUser(user);
         return Firebase.passThrough(googleResponse);
     }
 

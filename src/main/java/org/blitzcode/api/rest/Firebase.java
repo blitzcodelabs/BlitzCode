@@ -42,6 +42,10 @@ public class Firebase {
                 .build();
     }
 
+    public String getUserID(HttpResponse<String> response) throws IOException {
+        return jsonMapper.readTree(response.body()).get("localId").asText();
+    }
+
     public HttpResponse<String> send(String url, Object jsonBody) throws IOException, InterruptedException {
         @Cleanup var client = HttpClient.newHttpClient(); // TODO can this be shared globally?
         return client.send(request(url, jsonBody), HttpResponse.BodyHandlers.ofString());
