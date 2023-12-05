@@ -34,22 +34,16 @@ public class UserController {
         return userRepository.save(user);
     }
 
-    public User updateUserBaseLanguage(Long id, Language language) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()){
-            user.get().setBaseLanguage(language);
-            return userRepository.save(user.get());
-        }
-        throw new RuntimeException("User not found");
+    public User updateUserBaseLanguage(String id, Language language) {
+        User user = userRepository.findById(id);
+        user.setBaseLanguage(language);
+        return userRepository.save(user);
     }
 
-    public User updateUserTargetLanguage(Long id, Language language) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()){
-            user.get().setTargetLanguage(language);
-            return userRepository.save(user.get());
-        }
-        throw new RuntimeException("User not found");
+    public User updateUserTargetLanguage(String id, Language language) {
+        User user = userRepository.findById(id);
+        user.setTargetLanguage(language);
+        return userRepository.save(user);
     }
 
     public UserLessonProgress incrementUserProgress(long lessonID, String userID){
