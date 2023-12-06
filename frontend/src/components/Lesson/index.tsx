@@ -113,7 +113,7 @@ const Lesson = ({ params }: { params: { id: string } }) => {
                     <p>{index + 1}</p>
                     <code className="text-lg normal-case">{choice}</code>
                   </div>
-                  <code className="text-lg">js</code>
+                  <code className="text-lg">py</code>
                 </Button>
               ))}
             </form>
