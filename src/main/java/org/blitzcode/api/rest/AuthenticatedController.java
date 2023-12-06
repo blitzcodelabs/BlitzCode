@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -64,8 +66,11 @@ public class AuthenticatedController {
         ObjectMapper mapper = new ObjectMapper();
         try {
             // Adjust the file path as needed
-            File file = new File("/app/src/main/resources/JavaToPython/modules/Essentials/Printing.json");
-            List<QuestionItem> quizItems = mapper.readValue(file, new TypeReference<>() {});
+            InputStream inputStream = getClass().getResourceAsStream("/JavaToPython/modules/Essentials/Printing.json");
+            if (inputStream == null) {
+                throw new FileNotFoundException("Resource not found: /JavaToPython/modules/Essentials/Printing.json");
+            }
+            List<QuestionItem> quizItems = mapper.readValue(inputStream, new TypeReference<List<QuestionItem>>() {});
 
             Question[] questions = new Question[quizItems.size()];
             // Now you can use the quizItems list
