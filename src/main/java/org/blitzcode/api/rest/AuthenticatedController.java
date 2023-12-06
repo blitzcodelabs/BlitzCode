@@ -64,7 +64,7 @@ public class AuthenticatedController {
         ObjectMapper mapper = new ObjectMapper();
         try {
             // Adjust the file path as needed
-            File file = new File("src/main/resources/JavaToPython/modules/Essentials/Printing.json");
+            File file = new File("/app/src/main/resources/JavaToPython/modules/Essentials/Printing.json");
             List<QuestionItem> quizItems = mapper.readValue(file, new TypeReference<>() {});
 
             Question[] questions = new Question[quizItems.size()];
