@@ -49,7 +49,10 @@ public class AuthenticatedController {
         // TODO should it verify password?
         var params = Map.of("idToken", token.getToken().getTokenValue());
         var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:delete", params);
-        userController.deleteUser(userController.getUserByID(token));
+        var user = userController.getUserByID(token);
+        if (user != null) {
+            userController.deleteUser(user);
+        }
         return Firebase.passThrough(googleResponse);
     }
 

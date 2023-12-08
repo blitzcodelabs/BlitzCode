@@ -25,8 +25,6 @@ const CoursePicker = () => {
 
   const router = useRouter();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    // postWithAuth("/account/baseLanguage", data.baseLanguage);
-    // postWithAuth("/account/targetLanguage", data.targetLanguage);
     console.log(data);
     router.push(`get-started/?step=tutorial&baseLanguage=${data.baseLanguage}&targetLanguage=${data.targetLanguage}`);
   };

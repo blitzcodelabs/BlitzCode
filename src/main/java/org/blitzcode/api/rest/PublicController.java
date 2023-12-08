@@ -29,9 +29,9 @@ public class PublicController {
     @GetMapping("/languages")
     public Language[] getSupportedBaseLanguages() {
         return new Language[]{
-                new Language("Java"),
-                new Language("Python"),
-                new Language("JavaScript")
+                new Language("Java", "java"),
+                new Language("Python", "py"),
+                new Language("JavaScript", "js")
         };
     }
 

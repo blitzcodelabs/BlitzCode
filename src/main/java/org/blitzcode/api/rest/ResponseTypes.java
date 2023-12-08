@@ -35,7 +35,7 @@ public class ResponseTypes {
         };
     }
 
-    public record Language(String name) {}
+    public record Language(String name, String abbreviation) {}
 
     public record LoginInfo(@Email String email, @Size(min = 8) String password) {
         public Map<String, String> identityToolkitParams() {
