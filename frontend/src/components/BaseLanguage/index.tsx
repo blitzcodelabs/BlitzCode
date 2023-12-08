@@ -2,31 +2,30 @@
 
 import Button from "../ui/Button";
 import LanguageGroup from "../ui/LanguageGroup";
-import Link from "next/link";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { postWithAuth } from "@/lib/request";
 import { useRouter } from "next/navigation";
 
 interface Inputs {
-  coreLanguage: string;
+  baseLanguage: string;
 }
 
-const CoreLanguage = () => {
+const BaseLanguage = () => {
   const {
     handleSubmit,
     control,
     formState: { isDirty },
   } = useForm<Inputs>({
     mode: "onChange",
-    defaultValues: { coreLanguage: "" },
+    defaultValues: { baseLanguage: "" },
   });
 
   const router = useRouter();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    // TODO why is this not working 😭
-    postWithAuth("/account/baseLanguage", data.coreLanguage);
+    // TODO is it possible to hide this "baseLanguage" parameter
+    postWithAuth("/account/baseLanguage", JSON.stringify({id: data.baseLanguage.toUpperCase()} ));
     console.log(data);
-    router.push("settings");
+    router.push(`settings?baseLanguage=${data.baseLanguage}`);
   };
 
   return (
@@ -40,7 +39,7 @@ const CoreLanguage = () => {
         </label>
         <Controller
           control={control}
-          name="coreLanguage"
+          name="baseLanguage"
           rules={{
             required: true,
           }}
@@ -57,4 +56,4 @@ const CoreLanguage = () => {
   );
 };
 
-export default CoreLanguage;
+export default BaseLanguage;

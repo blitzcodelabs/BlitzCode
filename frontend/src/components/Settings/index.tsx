@@ -8,7 +8,7 @@ import Button from "../ui/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getidToken, logout } from "@/lib/auth";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 import { useEffect, useState } from "react";
 import { deleteWithAuth, getWithAuth, post, postWithAuth } from "@/lib/request";
 import {
@@ -18,10 +18,9 @@ import {
   Overlay,
   Portal,
   Root,
-  Title,
   Trigger,
 } from "@radix-ui/react-dialog";
-import { X } from "@phosphor-icons/react";
+import {Language} from "@/lib/types";
 
 const changePasswordSchema = z.object({
   email: z.string().email(),
@@ -48,14 +47,14 @@ const Settings = () => {
   const changeEmailError = changeEmailForm.formState.errors;
   const onSubmitChangeEmail: SubmitHandler<ChangeEmailSchema> = (data) =>
     postWithAuth("/account/resetemail", data.email);
-
-  const [baseLanguage, setBaseLanguage] = useState<string | null>(null);
+  const params = useSearchParams();
+  const [baseLanguage, setBaseLanguage] = useState(params.get("baseLanguage") || "Loading...");
   useEffect(() => {
     getWithAuth("/account/baseLanguage")
-      .then((res) => res?.text())
-      .then((data) => {
+      .then((res) => res?.json())
+      .then((data: Language) => {
         if (data) {
-          setBaseLanguage(data);
+          setBaseLanguage(data.fullName);
         }
       });
   }, []);
@@ -149,8 +148,8 @@ const Settings = () => {
             <div className="flex flex-col gap-32">
               <h1>Change core language</h1>
               <Button asChild>
-                <Link href="core-language">
-                  {baseLanguage ? baseLanguage : "Loading..."}
+                <Link href="base-language">
+                  {baseLanguage}
                 </Link>
               </Button>
             </div>

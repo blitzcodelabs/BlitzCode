@@ -17,7 +17,7 @@ public enum Language {
     }
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public static Language fromString(@JsonProperty("value") String value) {
-        return Language.valueOf(value);
+    public static Language fromString(@JsonProperty("id") String id) {
+        return Language.valueOf(id);
     }
 }

@@ -40,9 +40,9 @@ const SignUp = () => {
       const baseLanguage = params.get("baseLanguage");
       const targetLanguage = params.get("targetLanguage");
       if (baseLanguage)
-        postWithAuth("/account/baseLanguage", baseLanguage);
+        postWithAuth("/account/baseLanguage", JSON.stringify({id: baseLanguage.toUpperCase()} ));
       if (targetLanguage)
-        postWithAuth("/account/targetLanguage", targetLanguage);
+        postWithAuth("/account/targetLanguage", JSON.stringify({id: targetLanguage.toUpperCase()} ));
       push("dashboard");
     } else setError("root", { message: "Account already exists" });
   };

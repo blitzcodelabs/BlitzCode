@@ -7,6 +7,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { getWithAuth, postWithAuth } from "@/lib/request";
 import { useRouter } from "next/navigation";
 import { useQuery } from "react-query";
+import {Language} from "@/lib/types";
 
 interface Inputs {
   targetLanguage: string;
@@ -24,16 +25,15 @@ const Course = () => {
 
   const router = useRouter();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    postWithAuth("/account/targetLanguage", data.targetLanguage);
+    postWithAuth("/account/targetLanguage", JSON.stringify({id: data.targetLanguage.toUpperCase()} ));
     console.log(data);
     router.push("dashboard");
   };
 
   const baseLanguageQuery = useQuery("baseLanguage", async () => {
     const res = await getWithAuth("/account/baseLanguage");
-    const data = res?.text();
+    const data: Language = await res?.json();
     console.log(data);
-
     return data;
   });
 
@@ -49,7 +49,7 @@ const Course = () => {
           name="targetLanguage"
           rules={{
             required: true,
-            validate: (v) => v.toUpperCase() !== baseLanguageQuery.data,
+            validate: (v) => v.toUpperCase() !== baseLanguageQuery.data?.id,
           }}
           render={({ field }) => (
             <LanguageGroup onValueChange={field.onChange}></LanguageGroup>
