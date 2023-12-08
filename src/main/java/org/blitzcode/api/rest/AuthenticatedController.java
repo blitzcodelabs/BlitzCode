@@ -58,12 +58,12 @@ public class AuthenticatedController {
 
     @GetMapping(path = "/modules", produces = MediaType.APPLICATION_JSON_VALUE)
     public ModuleEntry[] getModules(JwtAuthenticationToken token) {
-        List<Module> modules =  moduleController.getAllModules();
+        List<Module> modules = moduleController.getAllModules();
         ModuleEntry[] moduleEntries = new ModuleEntry[modules.size()];
-        for(int i = 0; i< modules.size(); i++){
+        for (int i = 0; i < modules.size(); i++) {
             Module currentModule = modules.get(i);
             LessonEntry[] lessonEntries = new LessonEntry[currentModule.getLessons().size()];
-            for(int j = 0; j < lessonEntries.length; j++){
+            for (int j = 0; j < lessonEntries.length; j++) {
                 Lesson currentLesson = currentModule.getLessons().get(j);
                 lessonEntries[j] = new LessonEntry(currentLesson.getName(), currentLesson.getId().toString(), currentLesson.getPoints(), currentLesson.getPoints());
             }
@@ -74,7 +74,7 @@ public class AuthenticatedController {
 
     @GetMapping(path = "/updateJsonFiles")
     public void getQuestions(JwtAuthenticationToken token) {
-        // Commmenting these out becuase they need more testing before making it available
+        // Commenting these out becuase they need more testing before making it available
         return;
 //        ObjectMapper mapper = new ObjectMapper();
 //        try{
@@ -177,7 +177,7 @@ public class AuthenticatedController {
     public Question[] getQuestions(@PathVariable long lessonID) {
         List<org.blitzcode.api.model.Question> questions = moduleController.getQuestionsFromLessonID(lessonID);
         Question[] formattedQuestions = new Question[questions.size()];
-        for(int i = 0; i<questions.size(); i++){
+        for (int i = 0; i < questions.size(); i++) {
             org.blitzcode.api.model.Question question = questions.get(i);
             int answerIndex = insertStringAtRandomIndex(question.getWrongOptions(), question.getCorrectAnswer());
             String[] arr = question.getWrongOptions().toArray(new String[0]);
