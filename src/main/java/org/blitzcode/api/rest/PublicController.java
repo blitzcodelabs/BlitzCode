@@ -8,6 +8,8 @@ import org.blitzcode.api.model.User;
 import org.blitzcode.api.rest.ResponseTypes.Language;
 import org.blitzcode.api.rest.ResponseTypes.LoginInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +40,8 @@ public class PublicController {
     public ResponseEntity<String> signIn(@RequestBody @Validated LoginInfo userInfo) throws IOException, InterruptedException {
         var params = userInfo.identityToolkitParams();
         var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:signInWithPassword", params);
-        if (userController.getUserByID(Firebase.getUserID(googleResponse)) == null) {
+        if (HttpStatusCode.valueOf(googleResponse.statusCode()).is2xxSuccessful()
+                && userController.getUserByID(Firebase.getUserID(googleResponse)) == null) {
             var user = new User();
             user.setId(Firebase.getUserID(googleResponse));
             user.setEmail(userInfo.email());
@@ -53,6 +56,9 @@ public class PublicController {
         // TODO validation, error handling
         var params = userInfo.identityToolkitParams();
         var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:signUp", params);
+        if (HttpStatus.valueOf(googleResponse.statusCode()).is2xxSuccessful()) {
+            Firebase.verifyEmail(Firebase.getJwt(googleResponse));
+        }
         var user = new User();
         user.setId(Firebase.getUserID(googleResponse));
         user.setEmail(userInfo.email());
