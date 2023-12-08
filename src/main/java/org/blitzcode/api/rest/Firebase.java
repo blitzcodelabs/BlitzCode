@@ -13,6 +13,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Map;
 
 @UtilityClass
 public class Firebase {
@@ -46,9 +47,18 @@ public class Firebase {
         return jsonMapper.readTree(response.body()).get("localId").asText();
     }
 
+    public String getJwt(HttpResponse<String> response) throws IOException {
+        return jsonMapper.readTree(response.body()).get("idToken").asText();
+    }
+
     public HttpResponse<String> send(String url, Object jsonBody) throws IOException, InterruptedException {
         @Cleanup var client = HttpClient.newHttpClient(); // TODO can this be shared globally?
         return client.send(request(url, jsonBody), HttpResponse.BodyHandlers.ofString());
+    }
+
+    public HttpResponse<String> verifyEmail(String token) throws IOException, InterruptedException {
+        var params = Map.of("idToken", token, "requestType", "VERIFY_EMAIL");
+        return Firebase.send("identitytoolkit.googleapis.com/v1/accounts:sendOobCode", params);
     }
 
 }

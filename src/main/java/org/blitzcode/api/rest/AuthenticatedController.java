@@ -3,25 +3,19 @@ package org.blitzcode.api.rest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.constraints.Email;
-import lombok.Getter;
-import lombok.Setter;
 import org.blitzcode.api.controller.UserController;
 import org.blitzcode.api.model.Language;
 import org.blitzcode.api.rest.ResponseTypes.ModuleEntry;
 import org.blitzcode.api.rest.ResponseTypes.Question;
-import org.blitzcode.api.rest.ResponseTypes.ResetPasswordRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -44,15 +38,6 @@ public class AuthenticatedController {
         var params = Map.of("idToken", token.getToken().getTokenValue());
         var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:delete", params);
         userController.deleteUser(userController.getUserByID(token));
-        return Firebase.passThrough(googleResponse);
-    }
-
-    @PutMapping(path = "/account/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestBody @Validated ResetPasswordRequest request,
-                                                JwtAuthenticationToken token) throws IOException, InterruptedException {
-        // TODO verify old password
-        var params = Map.of("idToken", token.getToken().getTokenValue(), "password", request.newPassword(), "returnSecureToken", "true");
-        var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:update", params);
         return Firebase.passThrough(googleResponse);
     }
 
@@ -104,6 +89,9 @@ public class AuthenticatedController {
     public ResponseEntity<String> resetEmail(@RequestBody @Email String newEmail, JwtAuthenticationToken token) throws IOException, InterruptedException {
         var params = Map.of("idToken", token.getToken().getTokenValue(), "email", newEmail, "returnSecureToken", "false");
         var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:update", params);
+        if (HttpStatus.valueOf(googleResponse.statusCode()).is2xxSuccessful()) {
+            Firebase.verifyEmail(token.getToken().getTokenValue());
+        }
         return Firebase.passThrough(googleResponse);  // this returns passwordHash, is that ok?
     }
 
