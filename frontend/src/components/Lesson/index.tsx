@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import * as Progress from "@radix-ui/react-progress";
 import Link from "next/link";
 import { getWithAuth, postWithAuth } from "@/lib/request";
-import { Question } from "@/lib/types";
+import { Language, Question } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { X } from "@phosphor-icons/react";
 import LoadingScreen from "@/components/ui/LoadingScreen";
@@ -45,8 +45,8 @@ const Lesson = ({ params }: { params: { id: string } }) => {
 
   const abbreviationQuery = useQuery("language", async () => {
     const res = await getWithAuth("/account/targetLanguage");
-    const data = res?.text();
-    return data;
+    const data = (await res?.json()) as Language;
+    return data.abbreviation;
   });
 
   if (!questions) {
