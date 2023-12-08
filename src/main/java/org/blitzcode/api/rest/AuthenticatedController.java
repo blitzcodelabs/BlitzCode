@@ -215,35 +215,23 @@ public class AuthenticatedController {
     }
 
     @PostMapping(path = "/account/targetLanguage")
-    public ResponseEntity<String> setTargetLanguage(@RequestBody String targetLanguage, JwtAuthenticationToken token) {
-        try {
-            Language lang = Language.valueOf(targetLanguage.toUpperCase());
-            userController.updateUserTargetLanguage(getUserID(token), Language.valueOf(targetLanguage.toUpperCase()));
-            return ResponseEntity.ok(lang.name());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body("Target Language did not match a valid language " + targetLanguage);
-        }
+    public void setTargetLanguage(@RequestBody Language targetLanguage, JwtAuthenticationToken token) {
+        userController.updateUserTargetLanguage(getUserID(token), targetLanguage);
     }
 
     @PostMapping(path = "/account/baseLanguage")
-    public ResponseEntity<String> setBaseLanguage(@RequestBody String targetLanguage, JwtAuthenticationToken token) {
-        try {
-            Language lang = Language.valueOf(targetLanguage.toUpperCase());
-            userController.updateUserBaseLanguage(getUserID(token), Language.valueOf(targetLanguage.toUpperCase()));
-            return ResponseEntity.ok(lang.name());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body("Target Language did not match a valid language " + targetLanguage);
-        }
+    public void setBaseLanguage(@RequestBody Language targetLanguage, JwtAuthenticationToken token) {
+        userController.updateUserBaseLanguage(getUserID(token), targetLanguage);
     }
 
     @GetMapping(path = "/account/targetLanguage")
-    public String getTargetLanguage(JwtAuthenticationToken token) {
-        return userController.getUserByID(token).getTargetLanguage().toString();
+    public Language getTargetLanguage(JwtAuthenticationToken token) {
+        return userController.getUserByID(token).getTargetLanguage();
     }
 
     @GetMapping(path = "/account/baseLanguage")
-    public String getBaseLanguage(JwtAuthenticationToken token) {
-        return userController.getUserByID(token).getBaseLanguage().toString();
+    public Language getBaseLanguage(JwtAuthenticationToken token) {
+        return userController.getUserByID(token).getBaseLanguage();
     }
 
     private static String getUserID(JwtAuthenticationToken token) {

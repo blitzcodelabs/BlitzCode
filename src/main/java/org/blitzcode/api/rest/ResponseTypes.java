@@ -35,8 +35,6 @@ public class ResponseTypes {
         };
     }
 
-    public record Language(String name, String abbreviation) {}
-
     public record LoginInfo(@Email String email, @Size(min = 8) String password) {
         public Map<String, String> identityToolkitParams() {
             return Map.of("email", email, "password", password, "returnSecureToken", "true");

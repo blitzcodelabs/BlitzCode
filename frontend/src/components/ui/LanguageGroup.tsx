@@ -18,9 +18,9 @@ const LanguageGroup = forwardRef<
     <Root {...props} ref={forwardedRef} className="flex gap-32">
       {data?.map((lang) => (
         <LanguageCard
-          key={lang.name}
-          value={lang.name}
-          imageFile={lang.name.toLowerCase() + ".png"}
+          key={lang.fullName}
+          value={lang.fullName}
+          imageFile={lang.id.toLowerCase() + ".png"}
         ></LanguageCard>
       ))}
     </Root>

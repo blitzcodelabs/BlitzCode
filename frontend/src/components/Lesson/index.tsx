@@ -46,7 +46,7 @@ const Lesson = ({ params }: { params: { id: string } }) => {
   const abbreviationQuery = useQuery("language", async () => {
     const res = await getWithAuth("/account/targetLanguage");
     const data = (await res?.json()) as Language;
-    return data.abbreviation;
+    return data.shortName;
   });
 
   if (!questions) {

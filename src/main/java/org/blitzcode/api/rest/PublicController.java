@@ -3,8 +3,8 @@ package org.blitzcode.api.rest;
 import jakarta.validation.constraints.Email;
 import org.blitzcode.api.controller.ModuleController;
 import org.blitzcode.api.controller.UserController;
+import org.blitzcode.api.model.Language;
 import org.blitzcode.api.model.User;
-import org.blitzcode.api.rest.ResponseTypes.Language;
 import org.blitzcode.api.rest.ResponseTypes.LoginInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,11 +28,7 @@ public class PublicController {
 
     @GetMapping("/languages")
     public Language[] getSupportedBaseLanguages() {
-        return new Language[]{
-                new Language("Java", "java"),
-                new Language("Python", "py"),
-                new Language("JavaScript", "js")
-        };
+        return Language.values();
     }
 
     @PostMapping("/signin")
@@ -44,7 +40,7 @@ public class PublicController {
             var user = new User();
             user.setId(Firebase.getUserID(googleResponse));
             user.setEmail(userInfo.email());
-            user.setBaseLanguage(org.blitzcode.api.model.Language.JAVA);
+            user.setBaseLanguage(Language.JAVA);
             userController.createUser(user);
         }
         return Firebase.passThrough(googleResponse);

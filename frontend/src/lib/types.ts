@@ -18,8 +18,9 @@ interface Question {
 }
 
 interface Language {
-    name: string;
-    abbreviation: string;
+    fullName: string;
+    shortName: string;
+    id: string;
 }
 
 export type { Module, Lesson, Question, Language }
