@@ -1,0 +1,52 @@
+[
+{
+  "question": "int x = 5;",
+  "answer": "x = 5",
+  "wrongAnswers": ["x equals 5", "let x = 5", "x = int(5)"]
+},
+{
+  "question": "double y = 2.5;",
+  "answer": "y = 2.5",
+  "wrongAnswers": ["y equals 2.5", "let y = 2.5", "y = float(2.5)"]
+},
+{
+  "question": "char c = 'a';",
+  "answer": "c = 'a'",
+  "wrongAnswers": ["c equals 'a'", "let c equal 'a'", "c = char('a')"]
+},
+{
+  "question": "String str = \"Hello\";",
+  "answer": "str = 'Hello'",
+  "wrongAnswers": ["str equals 'Hello'", "let str = 'Hello'", "str = String('Hello')"]
+},
+{
+  "question": "boolean flag = true;",
+  "answer": "flag = True",
+  "wrongAnswers": ["flag equals True", "let flag = True", "flag = boolean(True)"]
+},
+{
+  "question": "byte b = 100;",
+  "answer": "b = 100",
+  "wrongAnswers": ["b equals 100", "let b equal 100", "b = byte(100)"]
+},
+{
+  "question": "short s = 32767;",
+  "answer": "s = 32767",
+  "wrongAnswers": ["s equals 32767", "let s equal 32767", "s = short(32767)"]
+},
+{
+  "question": "long l = 1000000000L;",
+  "answer": "l = 1000000000",
+  "wrongAnswers": ["l equals 1000000000", "let l = 1000000000", "l = long(1000000000)"]
+},
+{
+  "question": "float f = 3.14f;",
+  "answer": "f = 3.14",
+  "wrongAnswers": ["f equals 3.14", "let f equal 3.14", "f = float(3.14)"]
+},
+{
+  "question": "double d = 10.6d;",
+  "answer": "d = 10.6",
+  "wrongAnswers": ["d equals 10.6", "let d equal 10.6", "d = double(10.6)"]
+}
+]
