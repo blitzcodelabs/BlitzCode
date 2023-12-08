@@ -62,36 +62,25 @@ public class AuthenticatedController {
     }
 
     @GetMapping(path = "/questions/{lessonID}")
-    public Question[] getQuestions(@PathVariable String lessonID, JwtAuthenticationToken token) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            // Adjust the file path as needed
-            InputStream inputStream = getClass().getResourceAsStream("/JavaToPython/modules/Essentials/Printing.json");
-            if (inputStream == null) {
-                throw new FileNotFoundException("Resource not found: /JavaToPython/modules/Essentials/Printing.json");
-            }
-            List<QuestionItem> quizItems = mapper.readValue(inputStream, new TypeReference<List<QuestionItem>>() {});
-
-            Question[] questions = new Question[quizItems.size()];
-            // Now you can use the quizItems list
-            for (int i = 0; i < questions.length; i++) {
-                QuestionItem item = quizItems.get(i);
-                int answerIndex = insertStringAtRandomIndex(item.wrongAnswers, item.answer);
-                String[] arr = item.wrongAnswers.toArray(new String[0]);
-                questions[i] = new Question(item.question, answerIndex, arr);
-            }
-
-            return questions;
-
-        } catch (IOException e) {
-            e.printStackTrace();
+    public Question[] getQuestions(@PathVariable String lessonID, JwtAuthenticationToken token) throws IOException {
+        var mapper = new ObjectMapper();
+        // Adjust the file path as needed
+        var inputStream = getClass().getResourceAsStream("/JavaToPython/modules/Essentials/Printing.json");
+        if (inputStream == null) {
+            throw new FileNotFoundException("Resource not found: /JavaToPython/modules/Essentials/Printing.json");
         }
-        return new Question[]{
-                new Question("int x = 5;", 2, "const x = 5;", "int x = 5;", "let x = 5;"),
-                new Question("String message = \"Hello\";", 1, "String message = \"Hello\";", "let message = \"Hello\";", "var message = \"Hello\";"),
-                new Question("double price = 19.99;", 0, "let price = 19.99;", "const price = 19.99;", "double price = 19.99;"),
-                new Question("boolean isValid = true;", 2, "const isValid = true;", "boolean isValid = true;", "let isValid = true;")
-        };
+        List<QuestionItem> quizItems = mapper.readValue(inputStream, new TypeReference<>() {});
+
+        var questions = new Question[quizItems.size()];
+        // Now you can use the quizItems list
+        for (int i = 0; i < questions.length; i++) {
+            QuestionItem item = quizItems.get(i);
+            int answerIndex = insertStringAtRandomIndex(item.wrongAnswers, item.answer);
+            String[] arr = item.wrongAnswers.toArray(new String[0]);
+            questions[i] = new Question(item.question, answerIndex, arr);
+        }
+
+        return questions;
     }
 
     public static int insertStringAtRandomIndex(List<String> stringList, String stringToInsert) {
@@ -102,17 +91,7 @@ public class AuthenticatedController {
         return insertIndex;
     }
 
-    @Getter
-    @Setter
-    private static class QuestionItem
-    {
-        private String question;
-        private String answer;
-        @JsonProperty("wrongAnswers")
-        private List<String> wrongAnswers;
-
-        // getters and setters
-    }
+    private record QuestionItem(String question, String answer, List<String> wrongAnswers) {}
 
     @PostMapping(path = "/questions/completed/{lessonID}")
     public Map<String, Integer> sectionCompleted(@PathVariable String lessonID, @RequestBody Question[] questions,
