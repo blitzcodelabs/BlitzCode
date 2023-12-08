@@ -26,7 +26,14 @@ public class ResponseTypes {
 
     public record LessonEntry(String name, String id, int sectionsCompleted, int sectionsTotal) {}
 
-    public record Question(String prompt, int answerIndex, String... choices) {}
+    public record Question(String prompt, int answerIndex, String... choices) {
+        public static final Question[] sample = new Question[]{
+                new Question("int x = 5;", 2, "const x = 5;", "int x = 5;", "let x = 5;"),
+                new Question("String message = \"Hello\";", 1, "String message = \"Hello\";", "let message = \"Hello\";", "var message = \"Hello\";"),
+                new Question("double price = 19.99;", 0, "let price = 19.99;", "const price = 19.99;", "double price = 19.99;"),
+                new Question("boolean isValid = true;", 2, "const isValid = true;", "boolean isValid = true;", "let isValid = true;")
+        };
+    }
 
     public record ResetPasswordRequest(String oldPassword, @Size(min = 8) String newPassword) {}
 
