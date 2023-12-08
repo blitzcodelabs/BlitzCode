@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 
 interface Inputs {
   baseLanguage: string;
-  languageToLearn: string;
+  targetLanguage: string;
 }
 
 const CoursePicker = () => {
@@ -20,15 +20,15 @@ const CoursePicker = () => {
     formState: { isDirty, isValid },
   } = useForm<Inputs>({
     mode: "onChange",
-    defaultValues: { baseLanguage: "", languageToLearn: "" },
+    defaultValues: { baseLanguage: "", targetLanguage: "" },
   });
 
   const router = useRouter();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    postWithAuth("/account/baseLanguage", data.baseLanguage);
-    postWithAuth("/account/targetLanguage", data.languageToLearn);
+    // postWithAuth("/account/baseLanguage", data.baseLanguage);
+    // postWithAuth("/account/targetLanguage", data.targetLanguage);
     console.log(data);
-    router.push("get-started/?step=tutorial");
+    router.push(`get-started/?step=tutorial&baseLanguage=${data.baseLanguage}&targetLanguage=${data.targetLanguage}`);
   };
 
   return (
@@ -45,7 +45,7 @@ const CoursePicker = () => {
           name="baseLanguage"
           rules={{
             required: true,
-            validate: (v) => v !== getValues("languageToLearn"),
+            validate: (v) => v !== getValues("targetLanguage"),
           }}
           render={({ field }) => (
             <LanguageGroup onValueChange={field.onChange}></LanguageGroup>
@@ -58,7 +58,7 @@ const CoursePicker = () => {
         <label htmlFor="I want to learn...">I want to learn...</label>
         <Controller
           control={control}
-          name="languageToLearn"
+          name="targetLanguage"
           rules={{
             required: true,
             validate: (v) => v !== getValues("baseLanguage"),

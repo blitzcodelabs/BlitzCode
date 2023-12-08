@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "react-query";
 
 interface Inputs {
-  languageToLearn: string;
+  targetLanguage: string;
 }
 
 const Course = () => {
@@ -19,12 +19,12 @@ const Course = () => {
     formState: { isDirty, isValid },
   } = useForm<Inputs>({
     mode: "onChange",
-    defaultValues: { languageToLearn: "" },
+    defaultValues: { targetLanguage: "" },
   });
 
   const router = useRouter();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    postWithAuth("/account/targetLanguage", data.languageToLearn);
+    postWithAuth("/account/targetLanguage", data.targetLanguage);
     console.log(data);
     router.push("dashboard");
   };
@@ -46,7 +46,7 @@ const Course = () => {
         <label htmlFor="I want to learn...">I want to learn...</label>
         <Controller
           control={control}
-          name="languageToLearn"
+          name="targetLanguage"
           rules={{
             required: true,
             validate: (v) => v.toUpperCase() !== baseLanguageQuery.data,

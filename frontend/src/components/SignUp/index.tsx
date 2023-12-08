@@ -7,9 +7,10 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import TextField from "../ui/TextField";
 import ErrorSlot from "../ui/ErrorSlot";
-import { useRouter } from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 import { signUp } from "@/lib/auth";
 import Link from "next/link";
+import {postWithAuth} from "@/lib/request";
 
 const signUpSchema = z
   .object({
@@ -33,9 +34,17 @@ const SignUp = () => {
   } = useForm<SignUpSchema>({ resolver: zodResolver(signUpSchema) });
 
   const { push } = useRouter();
+  const params = useSearchParams();
   const onSubmit = async (data: SignUpSchema) => {
-    if (await signUp(data)) push("dashboard");
-    else setError("root", { message: "Account already exists" });
+    if (await signUp(data)) {
+      const baseLanguage = params.get("baseLanguage");
+      const targetLanguage = params.get("targetLanguage");
+      if (baseLanguage)
+        postWithAuth("/account/baseLanguage", baseLanguage);
+      if (targetLanguage)
+        postWithAuth("/account/targetLanguage", targetLanguage);
+      push("dashboard");
+    } else setError("root", { message: "Account already exists" });
   };
 
   return (
