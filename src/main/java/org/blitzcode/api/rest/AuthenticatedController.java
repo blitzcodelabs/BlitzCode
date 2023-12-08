@@ -8,6 +8,7 @@ import org.blitzcode.api.model.Language;
 import org.blitzcode.api.rest.ResponseTypes.ModuleEntry;
 import org.blitzcode.api.rest.ResponseTypes.Question;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -88,6 +89,9 @@ public class AuthenticatedController {
     public ResponseEntity<String> resetEmail(@RequestBody @Email String newEmail, JwtAuthenticationToken token) throws IOException, InterruptedException {
         var params = Map.of("idToken", token.getToken().getTokenValue(), "email", newEmail, "returnSecureToken", "false");
         var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:update", params);
+        if (HttpStatus.valueOf(googleResponse.statusCode()).is2xxSuccessful()) {
+            Firebase.verifyEmail(token.getToken().getTokenValue());
+        }
         return Firebase.passThrough(googleResponse);  // this returns passwordHash, is that ok?
     }
 
