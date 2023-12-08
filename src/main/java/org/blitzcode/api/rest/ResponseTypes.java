@@ -35,8 +35,6 @@ public class ResponseTypes {
         };
     }
 
-    public record ResetPasswordRequest(String oldPassword, @Size(min = 8) String newPassword) {}
-
     public record Language(String name) {}
 
     public record LoginInfo(@Email String email, @Size(min = 8) String password) {

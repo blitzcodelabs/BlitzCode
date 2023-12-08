@@ -7,12 +7,10 @@ import org.blitzcode.api.controller.UserController;
 import org.blitzcode.api.model.Language;
 import org.blitzcode.api.rest.ResponseTypes.ModuleEntry;
 import org.blitzcode.api.rest.ResponseTypes.Question;
-import org.blitzcode.api.rest.ResponseTypes.ResetPasswordRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.FileNotFoundException;
@@ -39,15 +37,6 @@ public class AuthenticatedController {
         var params = Map.of("idToken", token.getToken().getTokenValue());
         var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:delete", params);
         userController.deleteUser(userController.getUserByID(token));
-        return Firebase.passThrough(googleResponse);
-    }
-
-    @PutMapping(path = "/account/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestBody @Validated ResetPasswordRequest request,
-                                                JwtAuthenticationToken token) throws IOException, InterruptedException {
-        // TODO verify old password
-        var params = Map.of("idToken", token.getToken().getTokenValue(), "password", request.newPassword(), "returnSecureToken", "true");
-        var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:update", params);
         return Firebase.passThrough(googleResponse);
     }
 
