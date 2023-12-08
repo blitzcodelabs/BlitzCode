@@ -1,10 +1,10 @@
 name: CI
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
-  build:
-    name: Build
+  backend:
+    name: Build Backend
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -33,3 +33,20 @@ jobs:
         with:
           name: failure
           path: build/reports/
+  frontend:
+    name: Build Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: frontend
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./frontend
+      - name: Build
+        run: npm run build
+        working-directory: ./frontend
