@@ -166,7 +166,7 @@ const Settings = () => {
                     <Overlay className="fixed inset-0 bg-background"></Overlay>
                     <Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                       <div className="flex flex-col gap-64">
-                        <Description>
+                        <Description asChild>
                           <h1>Are you sure you want to delete your account?</h1>
                         </Description>
                         <div className="flex flex-col items-center gap-16">
