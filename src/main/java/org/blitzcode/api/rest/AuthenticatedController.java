@@ -122,8 +122,10 @@ public class AuthenticatedController {
     }
 
     @PostMapping(path = "/account/resetemail")
-    public String resetEmail(@RequestBody @Email String newEmail, JwtAuthenticationToken token) {
-        throw new UnsupportedOperationException();
+    public ResponseEntity<String> resetEmail(@RequestBody @Email String newEmail, JwtAuthenticationToken token) throws IOException, InterruptedException {
+        var params = Map.of("idToken", token.getToken().getTokenValue(), "email", newEmail, "returnSecureToken", "false");
+        var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:update", params);
+        return Firebase.passThrough(googleResponse);  // this returns passwordHash, is that ok?
     }
 
     @PostMapping(path = "/account/targetLanguage")
