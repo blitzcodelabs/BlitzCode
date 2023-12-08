@@ -1,10 +1,8 @@
 package org.blitzcode.api.model;
 
 import jakarta.persistence.Entity;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.*;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -17,6 +15,7 @@ import org.blitzcode.api.model.UserLessonProgress;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"id", "progressList"})
 public class User implements Serializable {
 
     @Id
@@ -26,11 +25,11 @@ public class User implements Serializable {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Language baseLanguage;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Language targetLanguage;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

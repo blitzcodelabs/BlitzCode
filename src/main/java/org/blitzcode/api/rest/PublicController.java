@@ -40,23 +40,22 @@ public class PublicController {
             var user = new User();
             user.setId(Firebase.getUserID(googleResponse));
             user.setEmail(userInfo.email());
-            user.setBaseLanguage(Language.JAVA);
             userController.createUser(user);
         }
         return Firebase.passThrough(googleResponse);
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signUp(@RequestBody @Validated LoginInfo userInfo) throws IOException, InterruptedException {
+    public ResponseEntity<String> signUp(@RequestBody @Validated LoginInfo userInfo,
+                                         @RequestParam Language baseLanguage,
+                                         @RequestParam Language targetLanguage) throws IOException, InterruptedException {
         // TODO validation, error handling
         var params = userInfo.identityToolkitParams();
         var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:signUp", params);
         if (HttpStatus.valueOf(googleResponse.statusCode()).is2xxSuccessful()) {
             Firebase.verifyEmail(Firebase.getJwt(googleResponse));
         }
-        var user = new User();
-        user.setId(Firebase.getUserID(googleResponse));
-        user.setEmail(userInfo.email());
+        var user = new User(Firebase.getUserID(googleResponse), userInfo.email(), baseLanguage, targetLanguage, null);
         userController.createUser(user);
         return Firebase.passThrough(googleResponse);
     }

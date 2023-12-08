@@ -22,8 +22,8 @@ export const get = async (path: PublicGetPath) => {
     return await (await fetch(getURL() + path)).json();
 }
 
-export const post = async (path: PublicPostPath, data: BodyInit) => {
-    return await fetch(getURL() + path, {
+export const post = async (path: PublicPostPath, data: BodyInit, query?: string) => {
+    return await fetch(`${getURL()}${path}${query ? `${query}` : ""}`, {
         method: "POST",
         body: data,
         headers: {

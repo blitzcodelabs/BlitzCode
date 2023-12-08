@@ -20,8 +20,8 @@ export const login = async (credentials: LoginSchema) => {
     return res.ok;
 }
 
-export const signUp = async (credentials: SignUpSchema) => {
-    const res = await post("/signup", JSON.stringify(credentials))
+export const signUp = async (credentials: SignUpSchema, baseLanguage: string, targetLanguage: string) => {
+    const res = await post("/signup", JSON.stringify(credentials),`?baseLanguage=${baseLanguage}&targetLanguage=${targetLanguage}`)
     if (res.ok) {
         const {idToken, refreshToken} = await res.json();
         updateTokens(idToken, refreshToken);
