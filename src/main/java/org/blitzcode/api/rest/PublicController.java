@@ -82,14 +82,14 @@ public class PublicController {
         return Firebase.passThrough(googleResponse);
     }
 
-    @PutMapping("/createModule")
-    public ResponseEntity<String> createModule(@RequestBody Module module){
-        try{
+    /*@PutMapping("/createModule")
+    public ResponseEntity<String> createModule(@RequestBody Module module) {
+        try {
             moduleController.createModule(module);
             return ResponseEntity.ok(module.toString());
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-    }
+    }*/
 
 }
