@@ -10,7 +10,8 @@ const styles = cva(
       intent: {
         primary: "bg-primary",
         accent: "bg-accent ",
-        secondary: "bg-secondary hover:bg-background hover:text-secondary"
+        secondary: "bg-secondary hover:bg-background hover:text-secondary",
+        danger: "bg-fail hover:bg-fail"
       },
       size: {
         full: "w-512",

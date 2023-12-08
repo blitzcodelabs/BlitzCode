@@ -3,7 +3,7 @@ import { getidToken } from "@/lib/auth";
 const publicGetPaths = ["/languages"] as const;
 const publicPostPaths = ["/signin", "/signup", "/refresh-token", "/send-reset-password-email"] as const;
 const authGetPaths = ["/test", "/modules", "/questions", "/account/baseLanguage", "/account/targetLanguage"] as const;
-const authPostPaths = ["/questions/completed", "/account/baseLanguage", "/account/targetLanguage"] as const;
+const authPostPaths = ["/questions/completed", "/account/baseLanguage", "/account/targetLanguage", "/account/resetemail"] as const;
 type PublicGetPath = typeof publicGetPaths[number];
 type PublicPostPath = typeof publicPostPaths[number]
 type AuthGetPath = typeof authGetPaths[number];

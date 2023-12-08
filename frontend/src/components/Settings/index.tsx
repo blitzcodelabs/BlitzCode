@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { type SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import ErrorSlot from "../ui/ErrorSlot";
 import TextField from "../ui/TextField";
@@ -10,16 +10,11 @@ import { getidToken, logout } from "@/lib/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getWithAuth } from "@/lib/request";
+import { getWithAuth, post, postWithAuth } from "@/lib/request";
 
-const changePasswordSchema = z
-  .object({
-    oldPassword: z.string().min(8),
-    newPassword: z.string().min(8),
-  })
-  .refine((data) => data.oldPassword === data.newPassword, {
-    message: "Passwords must match",
-  });
+const changePasswordSchema = z.object({
+  email: z.string().email(),
+});
 
 const changeEmailSchema = z.object({
   email: z.string().email(),
@@ -33,19 +28,15 @@ const Settings = () => {
     resolver: zodResolver(changePasswordSchema),
   });
   const changePasswordError = changePasswordForm.formState.errors;
-  const onSubmitChangePassword = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    changePasswordForm.reset();
-  };
+  const onSubmitChangePassword: SubmitHandler<ChangePasswordSchema> = (data) =>
+    post("/send-reset-password-email", data.email);
 
   const changeEmailForm = useForm<ChangeEmailSchema>({
     resolver: zodResolver(changeEmailSchema),
   });
   const changeEmailError = changeEmailForm.formState.errors;
-  const onSubmitChangeEmail = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    changeEmailForm.reset();
-  };
+  const onSubmitChangeEmail: SubmitHandler<ChangeEmailSchema> = (data) =>
+    postWithAuth("/account/resetemail", data.email);
 
   const [baseLanguage, setBaseLanguage] = useState<string | null>(null);
   useEffect(() => {
@@ -57,6 +48,7 @@ const Settings = () => {
         }
       });
   }, []);
+
   useEffect(() => {
     getidToken().then((token) => {
       if (!token) {
@@ -70,6 +62,8 @@ const Settings = () => {
     logout();
     push("/");
   };
+
+  const onDeleteAccount = async () => {};
 
   return (
     <>
@@ -86,35 +80,28 @@ const Settings = () => {
               <h1>Change password</h1>
               <div className="flex flex-col gap-8">
                 <TextField
-                  {...changePasswordForm.register("oldPassword")}
-                  type="password"
-                  placeholder="Password"
-                  autoComplete="new-password" // TODO: is this right?
+                  {...changePasswordForm.register("email")}
+                  placeholder="Current Email"
                 />
-                <TextField
-                  {...changePasswordForm.register("newPassword")}
-                  type="password"
-                  placeholder="Confirm Password"
-                  autoComplete="new-password"
-                />
-                {Object.values(changePasswordError).length !== 0 && (
-                  <ErrorSlot>
-                    <p>Passwords do not match</p>
-                  </ErrorSlot>
-                )}
+                <Button
+                  disabled={
+                    changePasswordForm.formState.isSubmitSuccessful ||
+                    changePasswordForm.formState.isSubmitting
+                  }
+                  type="submit"
+                >
+                  change password
+                </Button>
+                <ErrorSlot>
+                  <p>{changePasswordError.email?.message}</p>
+                </ErrorSlot>
                 {changePasswordForm.formState.isSubmitSuccessful &&
                   !changePasswordForm.formState.isDirty && (
                     <ErrorSlot>
-                      <p>Your password has been changed</p>
+                      <p>Please check your inbox</p>
                     </ErrorSlot>
                   )}
               </div>
-              <Button
-                disabled={changePasswordForm.formState.isSubmitting}
-                type="submit"
-              >
-                save
-              </Button>
             </form>
             <form
               onSubmit={changeEmailForm.handleSubmit(onSubmitChangeEmail)}
@@ -124,26 +111,27 @@ const Settings = () => {
               <div className="flex flex-col gap-8">
                 <TextField
                   {...changeEmailForm.register("email")}
-                  placeholder="Email"
+                  placeholder="Current Email"
                 />
-                {changeEmailError.email && (
-                  <ErrorSlot>
-                    <p>{changeEmailError.email.message}</p>
-                  </ErrorSlot>
-                )}
+                <Button
+                  disabled={
+                    changeEmailForm.formState.isSubmitSuccessful ||
+                    changeEmailForm.formState.isSubmitting
+                  }
+                  type="submit"
+                >
+                  change email
+                </Button>
+                <ErrorSlot>
+                  <p>{changeEmailError.email?.message}</p>
+                </ErrorSlot>
                 {changeEmailForm.formState.isSubmitSuccessful &&
                   !changeEmailForm.formState.isDirty && (
                     <ErrorSlot>
-                      <p>Your email has been changed</p>
+                      <p>Please check your inbox</p>
                     </ErrorSlot>
                   )}
               </div>
-              <Button
-                disabled={changeEmailForm.formState.isSubmitting}
-                type="submit"
-              >
-                save
-              </Button>
             </form>
           </div>
           <div className="flex flex-col gap-64">
@@ -155,8 +143,14 @@ const Settings = () => {
                 </Link>
               </Button>
             </div>
-            <div className="flex justify-center">
-              <Button onClick={onLogout} size="half">logout</Button>
+            <div className="flex flex-col gap-32">
+              <h1>Change account</h1>
+              <div className=" flex flex-col gap-16">
+                <Button onClick={onLogout}>logout</Button>
+                <Button onClick={onDeleteAccount} intent="danger">
+                  delete account
+                </Button>
+              </div>
             </div>
           </div>
         </div>
