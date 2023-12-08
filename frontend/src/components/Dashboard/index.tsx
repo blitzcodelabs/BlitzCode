@@ -18,7 +18,7 @@ const Dashboard = () => {
       .then((res) => res?.json())
       .then((data) => {
         if (!data) {
-          push("");
+          push("/");
           return;
         }
         setModules(data);

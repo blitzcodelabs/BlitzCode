@@ -73,7 +73,11 @@ const Settings = () => {
     push("/");
   };
 
-  const onDeleteAccount = async () => await deleteWithAuth("/account");
+  const onDeleteAccount = async () => {
+    await deleteWithAuth("/account");
+    logout()
+    push("/");
+  };
 
   return (
     <>
