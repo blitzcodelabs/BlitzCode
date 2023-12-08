@@ -10,7 +10,18 @@ import { getidToken, logout } from "@/lib/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getWithAuth, post, postWithAuth } from "@/lib/request";
+import { deleteWithAuth, getWithAuth, post, postWithAuth } from "@/lib/request";
+import {
+  Close,
+  Content,
+  Description,
+  Overlay,
+  Portal,
+  Root,
+  Title,
+  Trigger,
+} from "@radix-ui/react-dialog";
+import { X } from "@phosphor-icons/react";
 
 const changePasswordSchema = z.object({
   email: z.string().email(),
@@ -63,7 +74,7 @@ const Settings = () => {
     push("/");
   };
 
-  const onDeleteAccount = async () => {};
+  const onDeleteAccount = async () => await deleteWithAuth("/account");
 
   return (
     <>
@@ -81,7 +92,7 @@ const Settings = () => {
               <div className="flex flex-col gap-8">
                 <TextField
                   {...changePasswordForm.register("email")}
-                  placeholder="Current Email"
+                  placeholder="Email"
                 />
                 <Button
                   disabled={
@@ -111,7 +122,7 @@ const Settings = () => {
               <div className="flex flex-col gap-8">
                 <TextField
                   {...changeEmailForm.register("email")}
-                  placeholder="Current Email"
+                  placeholder="New Email"
                 />
                 <Button
                   disabled={
@@ -128,7 +139,7 @@ const Settings = () => {
                 {changeEmailForm.formState.isSubmitSuccessful &&
                   !changeEmailForm.formState.isDirty && (
                     <ErrorSlot>
-                      <p>Please check your inbox</p>
+                      <p>Your email has been updated</p>
                     </ErrorSlot>
                   )}
               </div>
@@ -147,14 +158,34 @@ const Settings = () => {
               <h1>Change account</h1>
               <div className=" flex flex-col gap-16">
                 <Button onClick={onLogout}>logout</Button>
-                <Button onClick={onDeleteAccount} intent="danger">
-                  delete account
-                </Button>
+                <Root>
+                  <Trigger asChild>
+                    <Button intent="danger">delete account</Button>
+                  </Trigger>
+                  <Portal>
+                    <Overlay className="fixed inset-0 bg-background"></Overlay>
+                    <Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                      <div className="flex flex-col gap-64">
+                        <Description>
+                          <h1>Are you sure you want to delete your account?</h1>
+                        </Description>
+                        <div className="flex flex-col items-center gap-16">
+                          <Button intent="danger" onClick={onDeleteAccount}>
+                            yes, delete my account
+                          </Button>
+                          <Close asChild>
+                            <Button className="hov">nevermind</Button>
+                          </Close>
+                        </div>
+                      </div>
+                    </Content>
+                  </Portal>
+                </Root>
               </div>
             </div>
           </div>
         </div>
-        <div className="w-full py-128 flex justify-center">
+        <div className="py-128 flex justify-center">
           <Button size="half" asChild>
             <Link href="dashboard">back</Link>
           </Button>

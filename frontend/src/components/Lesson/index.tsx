@@ -6,11 +6,12 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import * as Progress from "@radix-ui/react-progress";
 import Link from "next/link";
-import {getWithAuth, postWithAuth} from "@/lib/request";
+import { getWithAuth, postWithAuth } from "@/lib/request";
 import { Question } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { X } from "@phosphor-icons/react";
 import LoadingScreen from "@/components/ui/LoadingScreen";
+import { useQuery } from "react-query";
 
 interface Inputs {
   selectedIndex: number;
@@ -41,6 +42,13 @@ const Lesson = ({ params }: { params: { id: string } }) => {
         setQuestions(data);
       });
   }, [params.id, push]);
+
+  const abbreviationQuery = useQuery("language", async () => {
+    const res = await getWithAuth("/account/targetLanguage");
+    const data = res?.text();
+    return data;
+  });
+
   if (!questions) {
     return <LoadingScreen />;
   }
@@ -49,10 +57,10 @@ const Lesson = ({ params }: { params: { id: string } }) => {
   const onSubmit: SubmitHandler<Inputs> = () => {
     if (questionIndex + 1 === questions.length) {
       postWithAuth("/questions/completed", JSON.stringify(questions), params.id)
-          .then((res) => res?.json())
-          .then(({ sectionsCompleted, sectionsTotal }) => {
-            setLessonCompletion((100 * sectionsCompleted) / sectionsTotal);
-          });
+        .then((res) => res?.json())
+        .then(({ sectionsCompleted, sectionsTotal }) => {
+          setLessonCompletion((100 * sectionsCompleted) / sectionsTotal);
+        });
     }
     const timer = setTimeout(() => {
       setQuestionIndex(questionIndex + 1);
@@ -111,9 +119,11 @@ const Lesson = ({ params }: { params: { id: string } }) => {
                 >
                   <div className="flex gap-16">
                     <p>{index + 1}</p>
-                    <code className="text-lg normal-case">{choice}</code>
+                    <code className="text-lg normal-case text-left">
+                      {choice}
+                    </code>
                   </div>
-                  <code className="text-lg">py</code>
+                  <code className="text-lg">{abbreviationQuery.data}</code>
                 </Button>
               ))}
             </form>
@@ -133,10 +143,12 @@ const Lesson = ({ params }: { params: { id: string } }) => {
             </Button>
 
             <Button size="half" className="m-128" asChild>
-              <Link href="dashboard">back</Link>
+              <Link href="/dashboard">back</Link>
             </Button>
           </div>
-        ) : <LoadingScreen />}
+        ) : (
+          <LoadingScreen />
+        )}
       </main>
     </>
   );

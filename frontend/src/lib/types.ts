@@ -19,6 +19,7 @@ interface Question {
 
 interface Language {
     name: string;
+    abbreviation: string;
 }
 
 export type { Module, Lesson, Question, Language }

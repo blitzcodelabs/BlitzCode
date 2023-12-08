@@ -9,6 +9,8 @@ type PublicPostPath = typeof publicPostPaths[number]
 type AuthGetPath = typeof authGetPaths[number];
 type AuthPostPath = typeof authPostPaths[number];
 
+type AuthDeletePath = "/account"
+
 const getURL = () => {
     if (window.location.hostname.toLowerCase() === "blitzcode.org") {
         return "https://api.blitzcode.org";
@@ -55,4 +57,16 @@ export const postWithAuth = async (path: AuthPostPath, data: BodyInit, query?: s
         });
     }
     return null; // TODO: redirect to login page
+}
+
+export const deleteWithAuth = async (path: AuthDeletePath) => {
+    const idToken = await getidToken();
+    if (idToken) {
+        return await fetch(`${getURL()}/auth${path}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + idToken
+            }
+        });
+    }
 }

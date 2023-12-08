@@ -4,8 +4,9 @@ import Button from "../ui/Button";
 import LanguageGroup from "../ui/LanguageGroup";
 import Link from "next/link";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { postWithAuth } from "@/lib/request";
+import { getWithAuth, postWithAuth } from "@/lib/request";
 import { useRouter } from "next/navigation";
+import { useQuery } from "react-query";
 
 interface Inputs {
   languageToLearn: string;
@@ -15,7 +16,7 @@ const Course = () => {
   const {
     handleSubmit,
     control,
-    formState: { isDirty },
+    formState: { isDirty, isValid },
   } = useForm<Inputs>({
     mode: "onChange",
     defaultValues: { languageToLearn: "" },
@@ -27,6 +28,14 @@ const Course = () => {
     console.log(data);
     router.push("dashboard");
   };
+
+  const baseLanguageQuery = useQuery("baseLanguage", async () => {
+    const res = await getWithAuth("/account/baseLanguage");
+    const data = res?.text();
+    console.log(data);
+
+    return data;
+  });
 
   return (
     <form
@@ -40,6 +49,7 @@ const Course = () => {
           name="languageToLearn"
           rules={{
             required: true,
+            validate: (v) => v.toUpperCase() !== baseLanguageQuery.data,
           }}
           render={({ field }) => (
             <LanguageGroup onValueChange={field.onChange}></LanguageGroup>
@@ -47,7 +57,11 @@ const Course = () => {
         ></Controller>
       </div>
 
-      <Button type="submit" disabled={!isDirty} size="half">
+      <Button
+        type="submit"
+        disabled={!isDirty || !isValid || baseLanguageQuery.isFetching}
+        size="half"
+      >
         save
       </Button>
     </form>
