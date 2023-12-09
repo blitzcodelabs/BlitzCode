@@ -36,15 +36,15 @@ const SignUp = () => {
   const { push } = useRouter();
   const params = useSearchParams();
   const onSubmit = async (data: SignUpSchema) => {
-    if (await signUp(data)) {
-      const baseLanguage = params.get("baseLanguage");
-      const targetLanguage = params.get("targetLanguage");
-      if (baseLanguage)
-        postWithAuth("/account/baseLanguage", JSON.stringify({id: baseLanguage.toUpperCase()} ));
-      if (targetLanguage)
-        postWithAuth("/account/targetLanguage", JSON.stringify({id: targetLanguage.toUpperCase()} ));
+    const baseLanguage = params.get("baseLanguage")?.toUpperCase();
+    const targetLanguage = params.get("targetLanguage")?.toUpperCase();
+    if (!baseLanguage || !targetLanguage) {
+      setError("root", { message: "Languages not set. Please navigate to sign up from the 'Get Started' page" });
+    } else if (await signUp(data, baseLanguage, targetLanguage)) {
       push("dashboard");
-    } else setError("root", { message: "Account already exists" });
+    } else {
+      setError("root", { message: "Account already exists" });
+    }
   };
 
   return (
