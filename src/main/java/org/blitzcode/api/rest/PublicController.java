@@ -23,8 +23,6 @@ public class PublicController {
 
     @Autowired
     private UserController userController;
-    @Autowired
-    private ModuleController moduleController;
 
     @GetMapping("/languages")
     public Language[] getSupportedBaseLanguages() {
@@ -75,15 +73,5 @@ public class PublicController {
         var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:sendOobCode", params);
         return Firebase.passThrough(googleResponse);
     }
-
-    /*@PutMapping("/createModule")
-    public ResponseEntity<String> createModule(@RequestBody Module module) {
-        try {
-            moduleController.createModule(module);
-            return ResponseEntity.ok(module.toString());
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }*/
 
 }
