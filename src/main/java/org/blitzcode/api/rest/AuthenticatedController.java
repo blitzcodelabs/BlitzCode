@@ -24,22 +24,44 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * This class handles all authenticated requests.
+ * Authenticated means the user has a valid JWT token.
+ * Any user that is authenticated can access these endpoints.
+ */
 @RestController
 @RequestMapping("/auth")
 public class AuthenticatedController {
 
+    @Autowired private UserController userController;
+    @Autowired private ModuleController moduleController;
 
-    @Autowired
-    private UserController userController;
-
-    @Autowired
-    private ModuleController moduleController;
-
+    /**
+     * @return the user id and the token passed in
+     */
     @GetMapping(path = "/test")
     public Map<String, String> test(JwtAuthenticationToken token) {
         return Map.of("user id", getUserID(token), "token", token.getToken().getTokenValue());
     }
 
+    /**
+     * Change the user's email and send a verification email to the new address.
+     * <a href="https://firebase.google.com/docs/reference/rest/auth#section-change-email">Docs</a>
+     */
+    @PostMapping(path = "/account/resetemail")
+    public ResponseEntity<String> resetEmail(@RequestBody @Email String newEmail, JwtAuthenticationToken token) throws IOException, InterruptedException {
+        var params = Map.of("idToken", token.getToken().getTokenValue(), "email", newEmail, "returnSecureToken", "false");
+        var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:update", params);
+        if (HttpStatus.valueOf(googleResponse.statusCode()).is2xxSuccessful()) {
+            Firebase.verifyEmail(token.getToken().getTokenValue());
+        }
+        return Firebase.passThrough(googleResponse);  // this returns passwordHash, is that ok?
+    }
+
+    /**
+     * Delete the user's account from Firebase and the Database.
+     * <a href="https://firebase.google.com/docs/reference/rest/auth#section-delete-account">Docs</a>
+     */
     @DeleteMapping(path = "/account")
     public ResponseEntity<String> deleteAccount(JwtAuthenticationToken token) throws IOException, InterruptedException {
         // TODO should it verify password?
@@ -52,6 +74,9 @@ public class AuthenticatedController {
         return Firebase.passThrough(googleResponse);
     }
 
+    /**
+     * Get modules with the user's completion data
+     */
     @GetMapping(path = "/modules", produces = MediaType.APPLICATION_JSON_VALUE)
     public ModuleEntry[] getModules(JwtAuthenticationToken token) {
         List<Module> modules = moduleController.getAllModules();
@@ -68,6 +93,9 @@ public class AuthenticatedController {
         return moduleEntries;
     }
 
+    /**
+     * Get questions for a particular lesson
+     */
     @GetMapping(path = "/questions/{lessonID}")
     public Question[] getQuestions(@PathVariable long lessonID) {
         List<org.blitzcode.api.model.Question> questions = moduleController.getQuestionsFromLessonID(lessonID);
@@ -82,28 +110,22 @@ public class AuthenticatedController {
     }
 
     public static int insertStringAtRandomIndex(List<String> stringList, String stringToInsert) {
-        Random random = new Random();
+        var random = new Random();
         int insertIndex = random.nextInt(stringList.size() + 1);
 
         stringList.add(insertIndex, stringToInsert);
         return insertIndex;
     }
 
+    /**
+     * The user has completed a set of questions for a lesson,
+     * and the server needs to save the results.
+     */
     @PostMapping(path = "/questions/completed/{lessonID}")
     public Map<String, Integer> sectionCompleted(@PathVariable String lessonID, @RequestBody Question[] questions,
                                                  JwtAuthenticationToken token) {
         // TODO: save to database and fetch # of sections completed
         return Map.of("sectionsCompleted", 25, "sectionsTotal", 100);
-    }
-
-    @PostMapping(path = "/account/resetemail")
-    public ResponseEntity<String> resetEmail(@RequestBody @Email String newEmail, JwtAuthenticationToken token) throws IOException, InterruptedException {
-        var params = Map.of("idToken", token.getToken().getTokenValue(), "email", newEmail, "returnSecureToken", "false");
-        var googleResponse = Firebase.send("identitytoolkit.googleapis.com/v1/accounts:update", params);
-        if (HttpStatus.valueOf(googleResponse.statusCode()).is2xxSuccessful()) {
-            Firebase.verifyEmail(token.getToken().getTokenValue());
-        }
-        return Firebase.passThrough(googleResponse);  // this returns passwordHash, is that ok?
     }
 
     @PostMapping(path = "/account/targetLanguage")

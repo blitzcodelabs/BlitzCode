@@ -15,19 +15,24 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.Map;
 
-// TODO: rate limit this endpoint
+/**
+ * This class handles all requests not requiring authentication.
+ */
 @RestController
 @RequestMapping
 public class PublicController {
 
-    @Autowired
-    private UserController userController;
+    @Autowired private UserController userController;
 
     @GetMapping("/languages")
     public Language[] getSupportedBaseLanguages() {
         return Language.values();
     }
 
+    /**
+     * Sign in with email/password.
+     * <a href="https://firebase.google.com/docs/reference/rest/auth#section-sign-in-email-password">Docs</a>
+     */
     @PostMapping("/signin")
     public ResponseEntity<String> signIn(@RequestBody @Validated LoginInfo userInfo) throws IOException, InterruptedException {
         var params = userInfo.identityToolkitParams();
@@ -42,6 +47,10 @@ public class PublicController {
         return Firebase.passThrough(googleResponse);
     }
 
+    /**
+     * Sign up with email/password, language preferences, then send verification email.
+     * <a href="https://firebase.google.com/docs/reference/rest/auth#section-create-email-password">Docs</a>
+     */
     @PostMapping("/signup")
     public ResponseEntity<String> signUp(@RequestBody @Validated LoginInfo userInfo,
                                          @RequestParam Language baseLanguage,
@@ -57,6 +66,10 @@ public class PublicController {
         return Firebase.passThrough(googleResponse);
     }
 
+    /**
+     * Refresh the user's JWT token.
+     * <a href="https://firebase.google.com/docs/reference/rest/auth#section-refresh-token">Docs</a>
+     */
     // refresh token
     @PostMapping("/refresh-token")
     public ResponseEntity<String> refreshToken(@RequestBody String refreshToken) throws IOException, InterruptedException {
@@ -65,6 +78,10 @@ public class PublicController {
         return Firebase.passThrough(googleResponse);
     }
 
+    /**
+     * Send a password reset email.
+     * <a href="https://firebase.google.com/docs/reference/rest/auth#section-send-password-reset-email">Docs</a>
+     */
     // send reset email
     @PostMapping("/send-reset-password-email")
     public ResponseEntity<String> sendResetPasswordEmail(@RequestBody @Email String email) throws IOException, InterruptedException {

@@ -14,6 +14,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 public class WebSecurityConfiguration {
 
+    /**
+     * Configures Spring Security to require JWT authentication for all requests to /auth/**
+     */
     @Bean
     @SuppressWarnings("Convert2MethodRef")
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -26,6 +29,9 @@ public class WebSecurityConfiguration {
                 .build();
     }
 
+    /**
+     * <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">CORS</a>
+     */
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
