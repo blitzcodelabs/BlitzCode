@@ -21,15 +21,6 @@ public class Firebase {
     public final String FIREBASE_API_KEY = System.getenv("FIREBASE_API_KEY");
     private final ObjectMapper jsonMapper = Jackson2ObjectMapperBuilder.json().build();
 
-//    public void initialize() {
-//        FirebaseApp.initializeApp(FirebaseOptions.builder()
-//                .setCredentials(ServiceAccountCredentials.fromStream()));
-//    }
-
-//    public FirebaseAuth auth() {
-//        return FirebaseAuth.getInstance();
-//    }
-
     public ResponseEntity<String> passThrough(HttpResponse<String> response) {
         return ResponseEntity.status(response.statusCode())
                 .contentType(MediaType.valueOf(response.headers().map().get("content-type").getFirst()))

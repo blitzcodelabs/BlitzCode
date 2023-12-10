@@ -1,7 +1,6 @@
 package org.blitzcode.api.rest;
 
 import jakarta.validation.constraints.Email;
-import org.blitzcode.api.controller.ModuleController;
 import org.blitzcode.api.controller.UserController;
 import org.blitzcode.api.model.Language;
 import org.blitzcode.api.model.User;
