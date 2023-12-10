@@ -1,0 +1,52 @@
+[
+{
+  "question": "String str = \"Hello World\"; \nString[] words = str.split(\" \");",
+  "answer": "str = \"Hello World\"\nwords = str.split()",
+  "wrongAnswers": ["str = \"Hello World\"\nwords = str.split(\" \")", "str = \"Hello World\"\nwords = str.split(' ')", "str = \"Hello World\"\nwords = str.split(', ')"]
+},
+{
+  "question": "String str = \"Python is fun\";\nint index = str.indexOf(\"is\");",
+  "answer": "str = \"Python is fun\"\nindex = str.index(\"is\")",
+  "wrongAnswers": ["str = \"Python is fun\"\nindex = str.indexOf(\"is\")", "str = \"Python is fun\"\nindex = str.indexof(\"is\")", "str = \"Python is fun\"\nindex = str.indexOf('is')"]
+},
+{
+  "question": "String str = \"Hello, World\";\nboolean startsWithHello = str.startsWith(\"Hello\");",
+  "answer": "str = \"Hello, World\"\nstartsWithHello = str.startswith(\"Hello\")",
+  "wrongAnswers": ["str = \"Hello, World\"\nstartsWithHello = str.startsWith(\"Hello\")", "str = \"Hello, World\"\nstartsWithHello = str.startswith(\"Hello,\")", "str = \"Hello, World\"\nstartsWithHello = str.startswith('Hello')"]
+},
+{
+  "question": "String str = \"Programming is cool\";\nboolean endsWithCool = str.endsWith(\"cool\");",
+  "answer": "str = \"Programming is cool\"\nendsWithCool = str.endswith(\"cool\")",
+  "wrongAnswers": ["str = \"Programming is cool\"\nendsWithCool = str.endsWith(\"cool\")", "str = \"Programming is cool\"\nendsWithCool = str.endswith(\"Cool\")", "str = \"Programming is cool\"\nendsWithCool = str.endswith('cool')"]
+},
+{
+  "question": "String str = \"Hello, World\";\nint length = str.length();",
+  "answer": "str = \"Hello, World\"\nlength = len(str)",
+  "wrongAnswers": ["str = \"Hello, World\"\nlength = str.length()", "str = \"Hello, World\"\nlength = len(str) + 1", "str = \"Hello, World\"\nlength = length(str)"]
+},
+{
+  "question": "String str = \"Python\";\nchar firstChar = str.charAt(0);",
+  "answer": "str = \"Python\"\nfirstChar = str[0]",
+  "wrongAnswers": ["str = \"Python\"\nfirstChar = str.charAt(0)", "str = \"Python\"\nfirstChar = str.substring(0, 1)", "str = \"Python\"\nfirstChar = str[firstChar]"]
+},
+{
+  "question": "String str = \"Hello World\";\nString subString = str.substring(6);",
+  "answer": "str = \"Hello World\"\nsubString = str[6:]",
+  "wrongAnswers": ["str = \"Hello World\"\nsubString = str.substring(6)", "str = \"Hello World\"\nsubString = str.substring(6, str.length())", "str = \"Hello World\"\nsubString = str[6:10]"]
+},
+{
+  "question": "String str = \"Python is cool!\";\nboolean containsIs = str.contains(\"is\");",
+  "answer": "str = \"Python is cool!\"\ncontainsIs = \"is\" in str",
+  "wrongAnswers": ["str = \"Python is cool!\"\ncontainsIs = str.contains(\"is\")", "str = \"Python is cool!\"\ncontainsIs = str.contains('is')", "str = \"Python is cool!\"\ncontainsIs = (\"is\" in str)"]
+},
+{
+  "question": "String str = \"Java Programming\";\nString replacedStr = str.replace(\"Java\", \"Python\");",
+  "answer": "str = \"Java Programming\"\nreplacedStr = str.replace(\"Java\", \"Python\")",
+  "wrongAnswers": ["str = \"Java Programming\"\nreplacedStr = str.replace('Java', 'Python')", "str = \"Java Programming\"\nreplacedStr = str.replaceAll(\"Java\", \"Python\")", "str = \"Java Programming\"\nreplacedStr = str.replaceFirst(\"Java\", \"Python\")"]
+},
+{
+  "question": "String str = \"   Python   \";\nString trimmedStr = str.trim();",
+  "answer": "str = \"   Python   \"\ntrimmedStr = str.strip()",
+  "wrongAnswers": ["str = \"   Python   \"\ntrimmedStr = str.trim()", "str = \"   Python   \"\ntrimmedStr = str.strip()", "str = \"   Python   \"\ntrimmedStr = str.trimming()"]
+}
+]

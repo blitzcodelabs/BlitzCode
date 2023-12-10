@@ -1,0 +1,35 @@
+[{
+  "question": "Stack<Integer> stack = new Stack<>();",
+  "answer": "stack = []",
+  "wrongAnswers": ["stack = {}", "stack = [Integer]", "stack = Stack()"]
+},
+{
+  "question": "stack.push(5);",
+  "answer": "stack.append(5)",
+  "wrongAnswers": ["stack.push(5)", "stack.add(5)", "stack.insert(0, 5)"]
+},
+{
+  "question": "int topElement = stack.peek();",
+  "answer": "topElement = stack[-1]",
+  "wrongAnswers": ["topElement = stack.peek()", "topElement = stack.get(top)", "topElement = stack(0)"]
+},
+{
+  "question": "int stackSize = stack.size();",
+  "answer": "stackSize = len(stack)",
+  "wrongAnswers": ["stackSize = stack.size()", "stackSize = stack.getSize()", "stackSize = size(stack)"]
+},
+{
+  "question": "boolean isEmpty = stack.isEmpty();",
+  "answer": "isEmpty = len(stack) == 0",
+  "wrongAnswers": ["isEmpty = stack.isEmpty()", "isEmpty = stack.empty()", "isEmpty = stack.size() == 0"]
+},
+{
+  "question": "int poppedElement = stack.pop();",
+  "answer": "poppedElement = stack.pop()",
+  "wrongAnswers": ["poppedElement = stack.remove()", "poppedElement = stack.popleft()", "poppedElement = stack.get(0)"]
+},
+{
+  "question": "stack.push(\"hello\");",
+  "answer": "stack.append(\"hello\")",
+  "wrongAnswers": ["stack.push(\"hello\")", "stack.add(\"hello\")", "stack.insert(0, \"hello\")"]
+}]

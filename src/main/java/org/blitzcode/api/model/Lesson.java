@@ -6,6 +6,10 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * A lesson is a subsection of a Module. Every lesson has a list of questions it keeps track of.
+ * Lessons also keep a relation to the user lesson progress, which tracks every user's progress of the lesson.
+ */
 @Entity
 @Table(name = "lessons")
 @Getter

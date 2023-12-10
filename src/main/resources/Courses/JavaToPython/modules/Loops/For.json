@@ -1,0 +1,50 @@
+[{
+  "question": "for(int i=0; i<5; i++)",
+  "answer": "for i in range(5):",
+  "wrongAnswers": ["for i in range(0, 5, 1):", "for i in range(0, 6):", "for(int i=0; i<=4; i++)"]
+},
+{
+  "question": "for(int i=10; i>=0; i--)",
+  "answer": "for i in range(10, -1, -1):",
+  "wrongAnswers": ["for i in range(11):", "for i in range(10, 0, -1):", "for(int i=0; i>=-10; i--)"]
+},
+{
+  "question": "for(int i=1; i<=20; i+=2)",
+  "answer": "for i in range(1, 21, 2):",
+  "wrongAnswers": ["for i in range(1, 22, 2):", "for(int i=2; i<=20; i+=2)", "for i in range(20, 1, -2):"]
+},
+{
+  "question": "for(int i=10; i<=50; i+=10)",
+  "answer": "for i in range(10, 51, 10):",
+  "wrongAnswers": ["for(int i=10; i<50; i+=10)", "for i in range(10, 60, 10):", "for i in range(50, 10, -10):"]
+},
+{
+  "question": "for(int i=0; i<3; i++)",
+  "answer": "for i in range(3):",
+  "wrongAnswers": ["for i in range(1, 4):", "for(int i=0; i<4; i++)", "for i in range(0, 3, 1):"]
+},
+{
+  "question": "for(int i=5; i>=1; i--)",
+  "answer": "for i in range(5, 0, -1):",
+  "wrongAnswers": ["for i in range(0, 6):", "for(int i=1; i<=5; i++)", "for(int i=5; i>0; i--)"]
+},
+{
+  "question": "for(int i=0; i<=100; i+=10)",
+  "answer": "for i in range(0, 101, 10):",
+  "wrongAnswers": ["for(int i=10; i<=100; i+=10)", "for i in range(11, 101, 10):", "for(int i=0; i<=110; i+=10)"]
+},
+{
+  "question": "for(int i=10; i>=-10; i-=5)",
+  "answer": "for i in range(10, -11, -5):",
+  "wrongAnswers": ["for i in range(5, -11, -5):", "for(int i=10; i>-10; i-=5)", "for(int i=10; i>=-15; i-=5)"]
+},
+{
+  "question": "for(int i=1; i<=100; i*=2)",
+  "answer": "for i in range(1, 101, 2):",
+  "wrongAnswers": ["for int i=1; i<=100; i*2", "for i in range(0, 101, 2):", "for i in range(1, 100, 2):"]
+},
+{
+  "question": "for(int i=100; i>=1; i/=10)",
+  "answer": "for i in range(100, 0, -10):",
+  "wrongAnswers": ["for int i=100; i>=0; i-=10", "for i in range(10, 101, 10):", "for i in range(100, 0, -5):"]
+}]

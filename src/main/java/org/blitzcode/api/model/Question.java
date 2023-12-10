@@ -7,6 +7,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Questions have text field to keep the question, a list of wrong options that will be shown.
+ * The correct answer is inserted randomly when the question is served to the frontend.
+ * Every Question object is specific to the base/target language combination.
+ */
 @Entity
 @Table(name = "questions")
 @Getter

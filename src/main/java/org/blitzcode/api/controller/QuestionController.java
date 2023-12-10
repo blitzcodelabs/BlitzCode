@@ -9,11 +9,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Used to interact with the Question model and repository.
+ */
 @Service
 public class QuestionController {
     @Autowired
     private LessonRepository lessonRepository;
 
+    /**
+     * Retrieve a list of questions belonging to a lesson
+     * @param id lesson id
+     * @return list of questions
+     */
     public List<Question> getQuestionsFromLessonID(Long id) {
         Optional<Lesson> lessonOptional = lessonRepository.findById(id);
         if(lessonOptional.isEmpty()){

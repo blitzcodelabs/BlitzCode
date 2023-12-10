@@ -5,6 +5,9 @@ import lombok.*;
 
 import java.io.Serializable;
 
+/**
+ * Keeps track of a lesson-user pair, and stores the number of times the user completed a set of questions.
+ */
 @Entity
 @Table(name = "user_lesson_progress")
 @Getter

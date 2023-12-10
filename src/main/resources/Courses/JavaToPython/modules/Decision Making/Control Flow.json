@@ -1,0 +1,52 @@
+[
+  {
+    "question": "int x = 5; if (x > 0) { System.out.println(\"Positive\"); } else { System.out.println(\"Negative\"); }",
+    "answer": "x = 5\nif x > 0:\n    print(\"Positive\")\nelse:\n    print(\"Negative\")",
+    "wrongAnswers": ["x = 5\nif x > 0:\n    print(\"Positive\")\nprint(\"Negative\")", "x = 5\nif x > 0:\n    print(\"Positive\")\nelif x < 0:\n    print(\"Negative\")", "x = 5\nif x > 0:\n    print(\"Positive\")\nif x < 0:\n    print(\"Negative\")"]
+  },
+  {
+    "question": "int choice = 2; switch (choice) { case 1: System.out.println(\"One\"); break; case 2: System.out.println(\"Two\"); break; default: System.out.println(\"Invalid Choice\"); }",
+    "answer": "choice = 2\nif choice == 1:\n    print(\"One\")\nelif choice == 2:\n    print(\"Two\")\nelse:\n    print(\"Invalid Choice\")",
+    "wrongAnswers": ["choice = 2\nif choice == 1:\n    print(\"One\")\nif choice == 2:\n    print(\"Two\")\nelse:\n    print(\"Invalid Choice\")", "choice = 2\nif choice == 1:\n    print(\"One\")\nif choice == 2:\n    print(\"Two\")\nif choice != 1 and choice != 2:\n    print(\"Invalid Choice\")", "choice = 2\nif choice == 1:\n    print(\"One\")\nif choice == 2:\n    print(\"Two\")\nif choice > 2 or choice < 1:\n    print(\"Invalid Choice\")"]
+  },
+  {
+    "question": "for (int i = 1; i <= 5; i++) { System.out.println(i); }",
+    "answer": "for i in range(1, 6):\n    print(i)",
+    "wrongAnswers": ["for i in range(1, 6):\n    print(\"i\")", "for i in range(1, 6, 1):\n    print(i)", "for i in range(5, 0, -1):\n    print(i)"]
+  },
+  {
+    "question": "int i = 0; while (i < 5) { System.out.println(i); i++; }",
+    "answer": "i = 0\nwhile i < 5:\n    print(i)\n    i += 1",
+    "wrongAnswers": ["i = 0\nwhile i < 5:\n    print(i)\n    i++", "i = 0\nwhile i < 5:\n    print(i)\n    i = i + 1", "i = 0\nwhile i != 5:\n    print(i)\n    i++"]
+  },
+  {
+    "question": "int[] numbers = {1, 2, 3, 4, 5}; for (int number : numbers) { System.out.println(number); }",
+    "answer": "numbers = [1, 2, 3, 4, 5]\nfor number in numbers:\n    print(number)",
+    "wrongAnswers": ["numbers = (1, 2, 3, 4, 5)\nfor number in numbers:\n    print(number)", "numbers = [1, 2, 3, 4, 5]\nfor i in range(len(numbers)):\n    print(numbers[i])", "numbers = [1, 2, 3, 4, 5]\nfor i in numbers:\n    print(i)"]
+  },
+  {
+    "question": "int age = 18; if (age >= 18) { System.out.println(\"Adult\"); } else { System.out.println(\"Child\"); }",
+    "answer": "age = 18\nif age >= 18:\n    print(\"Adult\")\nelse:\n    print(\"Child\")",
+    "wrongAnswers": ["age = 18\nif age >= 18:\n    print(\"Adult\")", "age = 18\nif age <= 18:\n    print(\"Child\")\nelse:\n    print(\"Adult\")", "age = 18\nif age > 18:\n    print(\"Adult\")\nelse:\n    print(\"Child\")"]
+  },
+  {
+    "question": "boolean flag = false; if (flag) { System.out.println(\"True\"); } else { System.out.println(\"False\"); }",
+    "answer": "flag = False\nif flag:\n    print(\"True\")\nelse:\n    print(\"False\")",
+    "wrongAnswers": ["flag = False\nif not flag:\n    print(\"True\")\nelse:\n    print(\"False\")", "flag = False\nif flag == 0:\n    print(\"True\")\nelse:\n    print(\"False\")", "flag = False\nif flag is True:\n    print(\"True\")\nelse:\n    print(\"False\")"]
+  },
+  {
+    "question": "int x = 10; int y = 5; if (x > y) { System.out.println(\"x is greater than y\"); } else { System.out.println(\"y is greater than x\"); }",
+    "answer": "x = 10\ny = 5\nif x > y:\n    print(\"x is greater than y\")\nelse:\n    print(\"y is greater than x\")",
+    "wrongAnswers": ["x = 10\ny = 5\nif x < y:\n    print(\"x is greater than y\")\nelse:\n    print(\"y is greater than x\")", "x = 10\ny = 5\nif y > x:\n    print(\"x is greater than y\")\nelse:\n    print(\"y is greater than x\")", "x = 10\ny = 5\nif x >= y:\n    print(\"x is greater than y\")\nelse:\n    print(\"y is greater than x\")"]
+  },
+  {
+    "question": "boolean condition1 = true; boolean condition2 = false; if (condition1 && condition2) { System.out.println(\"Both conditions are true\"); } else { System.out.println(\"At least one condition is false\"); }",
+    "answer": "condition1 = True\ncondition2 = False\nif condition1 and condition2:\n    print(\"Both conditions are true\")\nelse:\n    print(\"At least one condition is false\")",
+    "wrongAnswers": ["condition1 = True\ncondition2 = False\nif condition1 or condition2:\n    print(\"Both conditions are true\")\nelse:\n    print(\"At least one condition is false\")", "condition1 = True\ncondition2 = False\nif condition1 & condition2:\n    print(\"Both conditions are true\")\nelse:\n    print(\"At least one condition is false\")", "condition1 = True\ncondition2 = False\nif not condition1 and not condition2:\n    print(\"Both conditions are true\")\nelse:\n    print(\"At least one condition is false\")"]
+  },
+  {
+    "question": "int number = 7; if (number % 2 == 0) { System.out.println(\"Even\"); } else { System.out.println(\"Odd\"); }",
+    "answer": "number = 7\nif number % 2 == 0:\n    print(\"Even\")\nelse:\n    print(\"Odd\")",
+    "wrongAnswers": ["number = 7\nif number % 2 != 0:\n    print(\"Even\")\nelse:\n    print(\"Odd\")", "number = 7\nif number % 2 == 1:\n    print(\"Odd\")\nelse:\n    print(\"Even\")", "number = 7\nif number / 2 == 0:\n    print(\"Even\")\nelse:\n    print(\"Odd\")"]
+  }
+]

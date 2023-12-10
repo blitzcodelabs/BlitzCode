@@ -1,0 +1,52 @@
+[
+{
+  "question": "List<Integer> myList = new ArrayList<>();",
+  "answer": "myList = []",
+  "wrongAnswers": ["myList = list()", "myList = {}", "myList = ()"]
+},
+{
+  "question": "myList.add(5);",
+  "answer": "myList.append(5)",
+  "wrongAnswers": ["myList.add(5)", "myList.extend(5)", "myList.insert(5)"]
+},
+{
+  "question": "int size = myList.size();",
+  "answer": "size = len(myList)",
+  "wrongAnswers": ["size = myList.length()", "size = myList.size", "size = myList.length"]
+},
+{
+  "question": "myList.get(2);",
+  "answer": "myList[2]",
+  "wrongAnswers": ["myList.get(2)", "myList(2)", "myList[(2)]"]
+},
+{
+  "question": "myList.remove(3);",
+  "answer": "myList.remove(3)",
+  "wrongAnswers": ["myList.delete(3)", "myList.remove(2)", "myList.pop(3)"]
+},
+{
+  "question": "myList.clear();",
+  "answer": "myList.clear()",
+  "wrongAnswers": ["myList.removeAll()", "myList.deleteAll()", "myList.empty()"]
+},
+{
+  "question": "boolean containsValue = myList.contains(7);",
+  "answer": "containsValue = 7 in myList",
+  "wrongAnswers": ["containsValue = myList.contains(7)", "containsValue = 7 not in myList", "containsValue = myList.has(7)"]
+},
+{
+  "question": "int index = myList.indexOf(9);",
+  "answer": "index = myList.index(9)",
+  "wrongAnswers": ["index = myList.indexOf(9)", "index = myList.find(9)", "index = myList.search(9)"]
+},
+{
+  "question": "myList.set(1, 6);",
+  "answer": "myList[1] = 6",
+  "wrongAnswers": ["myList.set(1, 6)", "myList[6] = 1", "myList.update(1, 6)"]
+},
+{
+  "question": "int count = myList.size();",
+  "answer": "count = len(myList)",
+  "wrongAnswers": ["count = myList.size()", "count = len(myList)", "count = myList.length"]
+}
+]

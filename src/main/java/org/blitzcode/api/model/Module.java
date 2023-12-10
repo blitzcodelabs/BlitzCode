@@ -6,6 +6,9 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Modules contain a list of lessons and a name to better organize lessons in the frontend.
+ */
 @Entity
 @Table(name = "modules")
 @Getter

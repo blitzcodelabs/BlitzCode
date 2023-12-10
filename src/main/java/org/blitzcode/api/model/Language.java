@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ *  Enum to track Languages in the database and in the frontend.
+ */
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum Language {
     JAVA("Java", "Java"), PYTHON("py", "Python"), JAVASCRIPT("JS", "JavaScript");

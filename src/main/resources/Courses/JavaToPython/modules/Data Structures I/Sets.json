@@ -1,0 +1,52 @@
+[
+{
+  "question": "HashSet<String> set = new HashSet<String>();",
+  "answer": "set = set{}",
+  "wrongAnswers": ["set = []", "set = {null}", "set = ()"]
+},
+{
+  "question": "set.add(5);",
+  "answer": "set.add(5)",
+  "wrongAnswers": ["set.add[5]", "set.add{5}", "set.add(5,)"]
+},
+{
+  "question": "set.remove('a');",
+  "answer": "set.remove('a')",
+  "wrongAnswers": ["set.remove['a']", "set.remove{'a'}", "set.remove('a',)"]
+},
+{
+  "question": "set.contains(\"value\");",
+  "answer": "'value' in set",
+  "wrongAnswers": ["set.contains('value')", "set.includes('value')", "'value' in (set,)"]
+},
+{
+  "question": "int size = set.size();",
+  "answer": "size = len(set)",
+  "wrongAnswers": ["size = set.length()", "size = set.size", "size = count(set)"]
+},
+{
+  "question": "Set<Integer> unionSet = new HashSet<Integer>(set1);",
+  "answer": "unionSet = set(set1)",
+  "wrongAnswers": ["unionSet = set(set1)", "unionSet = list(set1)", "unionSet = dict(set1)"]
+},
+{
+  "question": "set1.addAll(set2);",
+  "answer": "set1.update(set2)",
+  "wrongAnswers": ["set1.add(set2)", "set1.merge(set2)", "set1.append(set2)"]
+},
+{
+  "question": "boolean isEmpty = set.isEmpty();",
+  "answer": "isEmpty = len(set) == 0",
+  "wrongAnswers": ["isEmpty = set.isEmpty", "isEmpty = set.length == 0", "isEmpty = count(set) == 0"]
+},
+{
+  "question": "Iterator<String> iterator = set.iterator();",
+  "answer": "iterator = iter(set)",
+  "wrongAnswers": ["iterator = set.iter()", "iterator = set.iterator", "iterator = set.iter"]
+},
+{
+  "question": "set.clear();",
+  "answer": "set.clear()",
+  "wrongAnswers": ["set = set()", "set = set([])", "set = set({})"]
+}
+]

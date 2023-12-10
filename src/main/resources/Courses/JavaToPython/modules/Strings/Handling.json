@@ -1,0 +1,52 @@
+[
+{
+  "question": "String str = \"Hello World\";",
+  "answer": "str = \"Hello World\"",
+  "wrongAnswers": ["str = 'Hello World'", "str = Hello World;", "String str = 'Hello World';"]
+},
+{
+  "question": "int length = str.length();",
+  "answer": "length = len(str)",
+  "wrongAnswers": ["length = str.length", "int length = len(str)", "length = len(str.length)"]
+},
+{
+  "question": "String upper = str.toUpperCase();",
+  "answer": "upper = str.upper()",
+  "wrongAnswers": ["upper = upper(str)", "String upper = str.upper()", "upper = str.toUpperCase"]
+},
+{
+  "question": "String lower = str.toLowerCase();",
+  "answer": "lower = str.lower()",
+  "wrongAnswers": ["String lower = lower(str)", "lower = str.toLowerCase()", "lower = str.lower"]
+},
+{
+  "question": "String sub = str.substring(6);",
+  "answer": "sub = str[6:]",
+  "wrongAnswers": ["sub = str.substring(6)", "String sub = str[6:]", "sub = str.sub(6)"]
+},
+{
+  "question": "boolean contains = str.contains(\"World\");",
+  "answer": "contains = \"World\" in str",
+  "wrongAnswers": ["contains = str.contains(\"World\")", "boolean contains = \"World\" in str", "contains = str.contains('World')"]
+},
+{
+  "question": "String[] words = str.split(\" \");",
+  "answer": "words = str.split(\" \")",
+  "wrongAnswers": ["String words = str.split(\" \")", "words = str.split()", "words = split(str, \" \")"]
+},
+{
+  "question": "String replaced = str.replace(\"Hello\", \"Hi\");",
+  "answer": "replaced = str.replace(\"Hello\", \"Hi\")",
+  "wrongAnswers": ["String replaced = str.replace(\"Hello\", \"Hi\")", "replaced = str.replace(\"Hello\", \"Hi\")", "replaced = str.replace(str, \"Hello\", \"Hi\")"]
+},
+{
+  "question": "boolean startsWith = str.startsWith(\"Hello\");",
+  "answer": "startsWith = str.startswith(\"Hello\")",
+  "wrongAnswers": ["startsWith = str.startswith(\"Hello\")", "boolean startsWith = str.startswith(\"Hello\")", "startsWith = str.startsWith(\"Hello\")"]
+},
+{
+  "question": "boolean endsWith = str.endsWith(\"World\");",
+  "answer": "endsWith = str.endswith(\"World\")",
+  "wrongAnswers": ["endsWith = str.endswith(\"World\")", "boolean endsWith = str.endswith(\"World\")", "endsWith = str.endsWith(\"World\")"]
+}
+]
