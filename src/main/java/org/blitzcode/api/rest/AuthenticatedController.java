@@ -154,7 +154,7 @@ public class AuthenticatedController {
      * @param token JWT token
      * @return User email, target lang, base lang, list of lesson progress
      */
-    @GetMapping(path = "/accoount/data")
+    @GetMapping(path = "/account/data")
     public ResponseTypes.UserData getAccountData(JwtAuthenticationToken token) {
         User user = userController.getUserByID(token);
         return new ResponseTypes.UserData(user.getEmail(), user.getBaseLanguage().toString(), user.getTargetLanguage().toString(), userController.getAllProgressByUser(user));
