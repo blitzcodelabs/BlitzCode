@@ -151,4 +151,8 @@ public class UserController {
         usp.getLesson().getUserProgressList().remove(usp);
         userLessonProgressRepo.delete(usp);
     }
+
+    public List<UserLessonProgress> getAllProgressByUser(User user){
+        return userLessonProgressRepo.findByUser(user);
+    }
 }

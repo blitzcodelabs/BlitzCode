@@ -3,8 +3,7 @@ package org.blitzcode.api.rest;
 import jakarta.validation.constraints.Email;
 import org.blitzcode.api.controller.ModuleController;
 import org.blitzcode.api.controller.UserController;
-import org.blitzcode.api.model.Language;
-import org.blitzcode.api.model.Lesson;
+import org.blitzcode.api.model.*;
 import org.blitzcode.api.model.Module;
 import org.blitzcode.api.rest.ResponseTypes.LessonEntry;
 import org.blitzcode.api.rest.ResponseTypes.ModuleEntry;
@@ -122,9 +121,11 @@ public class AuthenticatedController {
      * and the server needs to save the results.
      */
     @PostMapping(path = "/questions/completed/{lessonID}")
-    public Map<String, Integer> sectionCompleted(@PathVariable String lessonID, @RequestBody Question[] questions,
+    public Map<String, Integer> sectionCompleted(@PathVariable Long lessonID, @RequestBody Question[] questions,
                                                  JwtAuthenticationToken token) {
         // TODO: save to database and fetch # of sections completed
+        User user = userController.getUserByID(token);
+
         return Map.of("sectionsCompleted", 25, "sectionsTotal", 100);
     }
 
@@ -146,6 +147,17 @@ public class AuthenticatedController {
     @GetMapping(path = "/account/baseLanguage")
     public Language getBaseLanguage(JwtAuthenticationToken token) {
         return userController.getUserByID(token).getBaseLanguage();
+    }
+
+    /**
+     * Retrieves all information stored about a User. Used for "request my data"
+     * @param token JWT token
+     * @return User email, target lang, base lang, list of lesson progress
+     */
+    @GetMapping(path = "/accoount/data")
+    public ResponseTypes.UserData getAccountData(JwtAuthenticationToken token) {
+        User user = userController.getUserByID(token);
+        return new ResponseTypes.UserData(user.getEmail(), user.getBaseLanguage().toString(), user.getTargetLanguage().toString(), userController.getAllProgressByUser(user));
     }
 
     private static String getUserID(JwtAuthenticationToken token) {

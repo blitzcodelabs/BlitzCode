@@ -2,7 +2,9 @@ package org.blitzcode.api.rest;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
+import org.blitzcode.api.model.UserLessonProgress;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,4 +49,6 @@ public class ResponseTypes {
             return Map.of("email", email, "password", password, "returnSecureToken", "true");
         }
     }
+
+    public record UserData(String email, String baseLanguage, String targetLanguage, List<UserLessonProgress> userLessonProgressList){}
 }
