@@ -65,7 +65,7 @@ public class AuthenticatedController {
             LessonEntry[] lessonEntries = new LessonEntry[currentModule.getLessons().size()];
             for (int j = 0; j < lessonEntries.length; j++) {
                 Lesson currentLesson = currentModule.getLessons().get(j);
-                lessonEntries[j] = new LessonEntry(currentLesson.getName(), currentLesson.getId().toString(), currentLesson.getPoints(), currentLesson.getPoints());
+                lessonEntries[j] = new LessonEntry(currentLesson.getName(), currentLesson.getId().toString(), 0, currentLesson.getPoints());
             }
             moduleEntries[i] = new ModuleEntry(currentModule.getName(), currentModule.getId().toString(), lessonEntries);
         }
@@ -201,7 +201,7 @@ public class AuthenticatedController {
     public Map<String, Integer> sectionCompleted(@PathVariable String lessonID, @RequestBody Question[] questions,
                                                  JwtAuthenticationToken token) {
         // TODO: save to database and fetch # of sections completed
-        return Map.of("sectionsCompleted", (int) (Math.random() * 100), "sectionsTotal", 100);
+        return Map.of("sectionsCompleted", 25, "sectionsTotal", 100);
     }
 
     @PostMapping(path = "/account/resetemail")
