@@ -31,7 +31,10 @@ const Lesson = ({ params }: { params: { id: string } }) => {
   const [lessonCompletion, setLessonCompletion] = useState<number>();
 
   const { push } = useRouter();
+  const [refreshCount, setRefreshCount] = useState(0);
   useEffect(() => {
+    setQuestions(null);
+    setQuestionIndex(0);
     getWithAuth("/questions", params.id)
       .then((res) => res?.json())
       .then((data) => {
@@ -41,7 +44,7 @@ const Lesson = ({ params }: { params: { id: string } }) => {
         }
         setQuestions(data);
       });
-  }, [params.id, push]);
+  }, [params.id, push, refreshCount]);
 
   const abbreviationQuery = useQuery("language", async () => {
     const res = await getWithAuth("/account/targetLanguage");
@@ -138,7 +141,7 @@ const Lesson = ({ params }: { params: { id: string } }) => {
               of lesson completed.
             </h1>
 
-            <Button size="half" onClick={() => setQuestionIndex(0)}>
+            <Button size="half" onClick={() => { setRefreshCount(refreshCount + 1) }}>
               keep going!
             </Button>
 
