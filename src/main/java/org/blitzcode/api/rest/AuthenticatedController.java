@@ -14,10 +14,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * This class handles all authenticated requests.
@@ -123,11 +120,15 @@ public class AuthenticatedController {
             String[] arr = question.getWrongOptions().toArray(new String[0]);
             formattedQuestions[i] = new QuestionJSON(question.getText(), answerIndex, arr);
         }
-
         if (userLessonProgress == null || userLessonProgress.getCompletedPoints() == 0) {
-            return Arrays.copyOf(formattedQuestions, formattedQuestions.length / 2);
+            formattedQuestions = Arrays.copyOf(formattedQuestions, formattedQuestions.length / 2);
+            Collections.shuffle(Arrays.asList(formattedQuestions));
         } else if (userLessonProgress.getCompletedPoints() == 1) {
-            return Arrays.copyOfRange(formattedQuestions, formattedQuestions.length / 2, Integer.MAX_VALUE);
+            formattedQuestions = Arrays.copyOfRange(formattedQuestions, formattedQuestions.length / 2, Integer.MAX_VALUE);
+            Collections.shuffle(Arrays.asList(formattedQuestions));
+        } else {
+            Collections.shuffle(Arrays.asList(formattedQuestions));
+            formattedQuestions = Arrays.copyOfRange(formattedQuestions, 0, formattedQuestions.length / 2);
         }
         return formattedQuestions;
     }
