@@ -101,7 +101,7 @@ const Lesson = ({ params }: { params: { id: string } }) => {
             </div>
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="flex flex-col gap-16"
+              className="flex flex-col gap-16 items-stretch"
             >
               {questions[questionIndex].choices.map((choice, index) => (
                 <Button
@@ -117,12 +117,12 @@ const Lesson = ({ params }: { params: { id: string } }) => {
                     isSubmitted &&
                       index === getValues().selectedIndex &&
                       "disabled:opacity-100",
-                    "p-16 flex justify-between"
+                    "p-16 flex justify-between w-full"
                   )}
                 >
                   <div className="flex gap-16">
                     <p>{index + 1}</p>
-                    <code className="text-lg normal-case text-left">
+                    <code className="text-base normal-case whitespace-pre text-left">
                       {choice}
                     </code>
                   </div>

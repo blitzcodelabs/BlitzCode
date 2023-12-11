@@ -26,7 +26,7 @@ const config: Config = {
     },
     fontFamily: {
       sans: ['var(--font-rubik)'],
-      mono: ['var(--font-jetbrains-mono)'],
+      mono: ['var(--font-space-mono)'],
     },
     spacing: {
       0: "0px",

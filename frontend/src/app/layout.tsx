@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Rubik, JetBrains_Mono } from "next/font/google";
+import { Rubik, Space_Mono } from "next/font/google";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 
 import "./globals.css";
@@ -10,9 +10,10 @@ const rubik = Rubik({
   variable: "--font-rubik",
 });
 
-const jetbrains_mono = JetBrains_Mono({
+const space_mono = Space_Mono({
   subsets: ["latin"],
-  variable: "--font-jetbrains-mono",
+  variable: "--font-space-mono",
+  weight: "400"
 });
 
 export const metadata: Metadata = {
@@ -26,7 +27,7 @@ export default function RootLayout({
 }) {
   return (
       <html lang="en">
-        <body className={`${rubik.variable} ${jetbrains_mono.variable}`}>
+        <body className={`${rubik.variable} ${space_mono.variable}`}>
           <ReactQueryProvider>{children}</ReactQueryProvider>
         </body>
       </html>
