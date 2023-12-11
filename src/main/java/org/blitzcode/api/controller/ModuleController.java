@@ -111,4 +111,14 @@ public class ModuleController {
         return module.orElse(null);
     }
 
+    /**
+     * Finds a module by its ID.
+     * @param id the ID of the module.
+     * @return the module with the specified ID, or null if not found.
+     */
+    public Lesson getLessonByID(long id){
+        Optional<Lesson> lesson = lessonRepository.findById(id);
+        return lesson.orElse(null);
+    }
+
 }

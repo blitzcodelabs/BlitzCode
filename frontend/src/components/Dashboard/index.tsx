@@ -57,8 +57,8 @@ const Dashboard = () => {
                         <Link href={`lesson/${lesson.id}`}>
                           <p>{lesson.name}</p>
                           <p>{`${
-                            (100 * lesson.sectionsCompleted) /
-                            lesson.sectionsTotal
+                              Math.floor((100 * lesson.sectionsCompleted) /
+                            lesson.sectionsTotal)
                           }%`}</p>
                         </Link>
                       </Button>

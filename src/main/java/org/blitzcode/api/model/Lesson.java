@@ -33,7 +33,7 @@ public class Lesson implements Serializable {
     private List<Question> questions;
 
     @Column(name = "points", nullable = false)
-    private Integer points;
+    private Integer sectionsTotal;
 
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserLessonProgress> userProgressList;

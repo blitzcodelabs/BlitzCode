@@ -12,7 +12,6 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Optional;
 
 /**
@@ -105,14 +104,10 @@ public class UserController {
             throw new RuntimeException("Could not find user by id " + userID);
         }
 
-        ArrayList<UserLessonProgress> userProgress = (ArrayList<UserLessonProgress>) userRepository.findById(userID).getProgressList();
-        for (UserLessonProgress i : userProgress) {
-            if (i.getId() == lessonID) {
-                if (!i.getCompletedPoints().equals(lesson.get().getPoints())) {
-                    i.setCompletedPoints(i.getCompletedPoints() + 1);
-                    return userLessonProgressRepo.save(i);
-                }
-            }
+        UserLessonProgress userLessonProgress = getProgressByUserAndLesson(user, lesson.get());
+        if (userLessonProgress != null && !userLessonProgress.getCompletedPoints().equals(lesson.get().getSectionsTotal())) {
+            userLessonProgress.setCompletedPoints(userLessonProgress.getCompletedPoints() + 1);
+            return userLessonProgressRepo.save(userLessonProgress);
         }
         UserLessonProgress newProgress = new UserLessonProgress();
         newProgress.setUser(user);
@@ -154,5 +149,15 @@ public class UserController {
 
     public List<UserLessonProgress> getAllProgressByUser(User user){
         return userLessonProgressRepo.findByUser(user);
+    }
+
+    /**
+     * Get UserLessonProgress by User and Lesson
+     * @param user User
+     * @param lesson Lesson
+     * @return UserLessonProgress
+     */
+    public UserLessonProgress getProgressByUserAndLesson(User user, Lesson lesson){
+        return userLessonProgressRepo.findByUserAndLesson(user, lesson);
     }
 }
