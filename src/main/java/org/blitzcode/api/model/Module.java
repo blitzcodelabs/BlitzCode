@@ -24,6 +24,6 @@ public class Module implements Serializable {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Lesson> lessons;
 }

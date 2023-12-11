@@ -32,6 +32,7 @@ public class AuthenticatedController {
     @Autowired private UserController userController;
     @Autowired private ModuleController moduleController;
 
+
     /**
      * @return the user id and the token passed in
      */
@@ -78,12 +79,14 @@ public class AuthenticatedController {
         List<Module> modules = moduleController.getAllModules();
         ModuleEntry[] moduleEntries = new ModuleEntry[modules.size()];
         User user = userController.getUserByID(token);
+        List<UserLessonProgress> userLessonProgressList = userController.getAllProgressByUser(user);
+
         for (int i = 0; i < modules.size(); i++) {
             Module currentModule = modules.get(i);
             LessonEntry[] lessonEntries = new LessonEntry[currentModule.getLessons().size()];
             for (int j = 0; j < lessonEntries.length; j++) {
                 Lesson currentLesson = currentModule.getLessons().get(j);
-                UserLessonProgress userLessonProgress = userController.getProgressByUserAndLesson(user, currentLesson);
+                UserLessonProgress userLessonProgress = findUserLessonProgress(currentLesson, userLessonProgressList);
                 int sectionsCompleted;
                 if (userLessonProgress == null) {
                     sectionsCompleted = 0;
@@ -95,6 +98,15 @@ public class AuthenticatedController {
             moduleEntries[i] = new ModuleEntry(currentModule.getName(), currentModule.getId().toString(), lessonEntries);
         }
         return moduleEntries;
+    }
+
+    private UserLessonProgress findUserLessonProgress(Lesson lesson, List<UserLessonProgress> userLessonProgressList){
+        for(UserLessonProgress usp: userLessonProgressList){
+            if(usp.getLesson().getId().equals(lesson.getId())){
+                return usp;
+            }
+        }
+        return null;
     }
 
     /**
