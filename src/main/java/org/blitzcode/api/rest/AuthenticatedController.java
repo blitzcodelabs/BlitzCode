@@ -121,10 +121,10 @@ public class AuthenticatedController {
             formattedQuestions[i] = new QuestionJSON(question.getText(), answerIndex, arr);
         }
         if (userLessonProgress == null || userLessonProgress.getCompletedPoints() == 0) {
-            formattedQuestions = Arrays.copyOf(formattedQuestions, formattedQuestions.length / 2);
+            formattedQuestions = Arrays.copyOfRange(formattedQuestions, 0, formattedQuestions.length / 2);
             Collections.shuffle(Arrays.asList(formattedQuestions));
         } else if (userLessonProgress.getCompletedPoints() == 1) {
-            formattedQuestions = Arrays.copyOfRange(formattedQuestions, formattedQuestions.length / 2, Integer.MAX_VALUE);
+            formattedQuestions = Arrays.copyOfRange(formattedQuestions, formattedQuestions.length / 2, formattedQuestions.length);
             Collections.shuffle(Arrays.asList(formattedQuestions));
         } else {
             Collections.shuffle(Arrays.asList(formattedQuestions));
