@@ -108,12 +108,15 @@ public class UserController {
         if (userLessonProgress != null && !userLessonProgress.getCompletedPoints().equals(lesson.get().getSectionsTotal())) {
             userLessonProgress.setCompletedPoints(userLessonProgress.getCompletedPoints() + 1);
             return userLessonProgressRepo.save(userLessonProgress);
+        }else if(userLessonProgress != null){
+            return userLessonProgress;
+        }else{
+            UserLessonProgress newProgress = new UserLessonProgress();
+            newProgress.setUser(user);
+            newProgress.setLesson(lesson.get());
+            newProgress.setCompletedPoints(1);
+            return addUserProgress(newProgress);
         }
-        UserLessonProgress newProgress = new UserLessonProgress();
-        newProgress.setUser(user);
-        newProgress.setLesson(lesson.get());
-        newProgress.setCompletedPoints(1);
-        return addUserProgress(newProgress);
     }
 
     /**
