@@ -5,9 +5,7 @@ import org.blitzcode.api.controller.ModuleController;
 import org.blitzcode.api.controller.UserController;
 import org.blitzcode.api.model.*;
 import org.blitzcode.api.model.Module;
-import org.blitzcode.api.rest.ResponseTypes.LessonEntry;
-import org.blitzcode.api.rest.ResponseTypes.ModuleEntry;
-import org.blitzcode.api.rest.ResponseTypes.Question;
+import org.blitzcode.api.rest.ResponseTypes.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,6 +14,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -31,7 +30,6 @@ public class AuthenticatedController {
 
     @Autowired private UserController userController;
     @Autowired private ModuleController moduleController;
-
 
     /**
      * @return the user id and the token passed in
@@ -100,9 +98,9 @@ public class AuthenticatedController {
         return moduleEntries;
     }
 
-    private UserLessonProgress findUserLessonProgress(Lesson lesson, List<UserLessonProgress> userLessonProgressList){
-        for(UserLessonProgress usp: userLessonProgressList){
-            if(usp.getLesson().getId().equals(lesson.getId())){
+    private UserLessonProgress findUserLessonProgress(Lesson lesson, List<UserLessonProgress> userLessonProgressList) {
+        for (UserLessonProgress usp : userLessonProgressList) {
+            if (usp.getLesson().getId().equals(lesson.getId())) {
                 return usp;
             }
         }
@@ -113,30 +111,23 @@ public class AuthenticatedController {
      * Get questions for a particular lesson
      */
     @GetMapping(path = "/questions/{lessonID}")
-    public Question[] getQuestions(@PathVariable long lessonID, JwtAuthenticationToken token) {
+    public QuestionJSON[] getQuestions(@PathVariable long lessonID, JwtAuthenticationToken token) {
         User user = userController.getUserByID(token);
         UserLessonProgress userLessonProgress = userController.getProgressByUserAndLesson(user, moduleController.getLessonByID(lessonID));
 
-        List<org.blitzcode.api.model.Question> questions = moduleController.getQuestionsFromLessonID(lessonID);
-        Question[] formattedQuestions = new Question[questions.size()];
+        List<Question> questions = moduleController.getQuestionsFromLessonID(lessonID);
+        QuestionJSON[] formattedQuestions = new QuestionJSON[questions.size()];
         for (int i = 0; i < questions.size(); i++) {
-            org.blitzcode.api.model.Question question = questions.get(i);
+            Question question = questions.get(i);
             int answerIndex = insertStringAtRandomIndex(question.getWrongOptions(), question.getCorrectAnswer());
             String[] arr = question.getWrongOptions().toArray(new String[0]);
-            formattedQuestions[i] = new Question(question.getText(), answerIndex, arr);
+            formattedQuestions[i] = new QuestionJSON(question.getText(), answerIndex, arr);
         }
 
         if (userLessonProgress == null || userLessonProgress.getCompletedPoints() == 0) {
-            // Return the first half of the formatted questions
-            Question[] halfFormattedQuestions = new Question[formattedQuestions.length / 2];
-            System.arraycopy(formattedQuestions, 0, halfFormattedQuestions, 0, formattedQuestions.length / 2);
-            return halfFormattedQuestions;
-        } else {
-            if (userLessonProgress.getCompletedPoints() == 1) {
-                Question[] halfFormattedQuestions = new Question[formattedQuestions.length / 2];
-                System.arraycopy(formattedQuestions, formattedQuestions.length/2, halfFormattedQuestions, 0, formattedQuestions.length / 2);
-                return halfFormattedQuestions;
-            }
+            return Arrays.copyOf(formattedQuestions, formattedQuestions.length / 2);
+        } else if (userLessonProgress.getCompletedPoints() == 1) {
+            return Arrays.copyOfRange(formattedQuestions, formattedQuestions.length / 2, Integer.MAX_VALUE);
         }
         return formattedQuestions;
     }
@@ -154,8 +145,9 @@ public class AuthenticatedController {
      * and the server needs to save the results.
      */
     @PostMapping(path = "/questions/completed/{lessonID}")
-    public Map<String, Integer> sectionCompleted(@PathVariable Long lessonID, @RequestBody Question[] questions,
-                                                 JwtAuthenticationToken token) {
+    public Map<String, Integer> markQuestionsCompleted(@PathVariable Long lessonID,
+                                                       @RequestBody QuestionJSON[] questions,
+                                                       JwtAuthenticationToken token) {
         // TODO: save to database and fetch # of sections completed
         userController.incrementUserProgress(lessonID, getUserID(token));
         Lesson lesson = moduleController.getLessonByID(lessonID);
@@ -190,9 +182,9 @@ public class AuthenticatedController {
      * @return User email, target lang, base lang, list of lesson progress
      */
     @GetMapping(path = "/account/data")
-    public ResponseTypes.UserData getAccountData(JwtAuthenticationToken token) {
+    public UserData getAccountData(JwtAuthenticationToken token) {
         User user = userController.getUserByID(token);
-        return new ResponseTypes.UserData(user.getEmail(), user.getBaseLanguage().toString(), user.getTargetLanguage().toString(), userController.getAllProgressByUser(user));
+        return new UserData(user.getEmail(), user.getBaseLanguage().toString(), user.getTargetLanguage().toString(), userController.getAllProgressByUser(user));
     }
 
     /**
