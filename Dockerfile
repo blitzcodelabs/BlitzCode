@@ -15,20 +15,29 @@ COPY src/main src/main
 
 # Give execute permission to Gradlew
 RUN chmod +x ./gradlew
-RUN ./gradlew bootJar
 
-FROM azul/zulu-openjdk-debian:21-jre
+# Build the application with Gradle, using no-daemon to free up memory after the build
+RUN ./gradlew bootJar --no-daemon
+
+# Use a slim base image for the runtime
+FROM azul/zulu-openjdk-debian:21-jre-headless
 
 WORKDIR /app
 
+# Copy only the necessary files from the build stage
 COPY --from=build /app/build/libs/BlitzCode.jar BlitzCode.jar
 
+# Set environment variables
 ENV DB_PASSWORD=${DB_PASSWORD}
 ENV DB_URL=${DB_URL}
 ENV DB_USERNAME=${DB_USERNAME}
 ENV FIREBASE_API_KEY=${FIREBASE_API_KEY}
 
-EXPOSE 8080:8080
+# Expose the application port
+EXPOSE 8080
 
-# Run the application
+# Set JVM options for memory efficiency
+ENV JAVA_OPTS="-XX:+UseG1GC -XX:+UseStringDeduplication"
+
+# Run the application with memory-efficient JVM options
 ENTRYPOINT ["java", "-jar", "BlitzCode.jar"]
